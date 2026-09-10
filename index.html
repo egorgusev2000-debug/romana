@@ -12,8 +12,9 @@
   секцию курса или новый профессиональный набор — значит дописать данные,
   не трогая ничего другого.
 
-  ЧЕГО ПОКА НЕТ: прогресс не сохраняется между запусками. Место, куда
-  встанет сохранение, помечено в коде: SAVE / LOAD.
+  ЧЕГО ПОКА НЕТ: аккаунтов. Прогресс сохраняется (см. STORAGE_KEY), но
+  только в браузере на этом устройстве — на другом телефоне или компьютере
+  его не будет.
 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -221,6 +222,18 @@
   .entry-ro { font-family: Newsreader, Georgia, serif; font-size: 18px; }
   .entry-ru { color: var(--muted); font-size: 14px; margin-top: 1px; }
   .entry-text { flex: 1; min-width: 0; }
+  .entry-alt { color: var(--muted); font-size: 0.85em; }
+
+  .swatch {
+    width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    border: 1px solid var(--line);
+  }
+  .num-badge {
+    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: var(--paper); border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 600; font-size: 14px;
+  }
 
   .setcard {
     display: block; width: 100%; text-align: left;
@@ -461,6 +474,7 @@ const SETS = [
 
   {
     id: "survival",
+    group: "work",
     name: "Когда не понимаешь",
     sub: "Самое нужное с первого дня",
     words: [
@@ -486,6 +500,7 @@ const SETS = [
 
   {
     id: "logistics",
+    group: "work",
     name: "Логистика и склад",
     sub: "Груз, доставка, документы",
     words: [
@@ -531,6 +546,7 @@ const SETS = [
 
   {
     id: "food",
+    group: "work",
     name: "Общественное питание",
     sub: "Официант, повар, бармен",
     words: [
@@ -586,6 +602,7 @@ const SETS = [
 
   {
     id: "docs",
+    group: "work",
     name: "Документы и госуслуги",
     sub: "Примэрия, справки, окошко",
     words: [
@@ -618,6 +635,7 @@ const SETS = [
 
   {
     id: "med",
+    group: "work",
     name: "Медицина и аптека",
     sub: "У врача, в аптеке",
     words: [
@@ -653,6 +671,7 @@ const SETS = [
 
   {
     id: "build",
+    group: "work",
     name: "Стройка и ремонт",
     sub: "Инструмент, материалы, объект",
     words: [
@@ -691,6 +710,7 @@ const SETS = [
 
   {
     id: "shop",
+    group: "work",
     name: "Магазин и торговля",
     sub: "Продавец, касса, товар",
     words: [
@@ -735,6 +755,7 @@ const SETS = [
 
   {
     id: "taxi",
+    group: "work",
     name: "Транспорт и такси",
     sub: "Маршрут, адрес, оплата",
     words: [
@@ -778,6 +799,7 @@ const SETS = [
 
   {
     id: "beauty",
+    group: "work",
     name: "Салон красоты",
     sub: "Парикмахер, маникюр, запись",
     words: [
@@ -817,6 +839,7 @@ const SETS = [
 
   {
     id: "school",
+    group: "work",
     name: "Школа и садик",
     sub: "Для родителей",
     words: [
@@ -856,6 +879,7 @@ const SETS = [
 
   {
     id: "bank",
+    group: "work",
     name: "Банк и деньги",
     sub: "Счёт, карта, перевод",
     words: [
@@ -891,6 +915,7 @@ const SETS = [
 
   {
     id: "clean",
+    group: "work",
     name: "Уборка и клининг",
     sub: "Инвентарь, помещения",
     words: [
@@ -931,6 +956,7 @@ const SETS = [
 
   {
     id: "agro",
+    group: "work",
     name: "Село и виноделие",
     sub: "Поле, урожай, погреб",
     words: [
@@ -972,6 +998,148 @@ const SETS = [
       { ro: "Vinul este în beci.",           ru: "Вино в погребе." },
       { ro: "Trebuie udată grădina.",        ru: "Нужно полить огород." }
     ]
+  },
+
+  /* ------------------------------------------------------------------------
+     Бытовые темы (group: "topic"). В отличие от наборов выше, эти слова
+     не связаны с профессией — цвета, числа, дни, месяцы, семья.
+
+     НЕПРОВЕРЕНО НОСИТЕЛЕМ: все слова в наборах ниже подобраны Claude без
+     участия носителя румынского (verified: false на уровне набора — целиком,
+     а не по каждому слову, потому что каждый набор целиком новый и целиком
+     ждёт проверки). Когда носитель проверит набор, просто убери у него поле
+     verified или поставь verified: true. Искать по всему файлу: verified: false
+     ------------------------------------------------------------------------ */
+
+  {
+    id: "colors",
+    group: "topic",
+    verified: false,
+    icon: "🎨",
+    name: "Цвета",
+    sub: "Основные цвета, мужской и женский род",
+    words: [
+      { hex: "#D32F2F", ro: "roșu",       roF: "roșie",     ru: "красный",    ruF: "красная" },
+      { hex: "#1565C0", ro: "albastru",   roF: "albastră",  ru: "синий",      ruF: "синяя" },
+      { hex: "#2E7D32", ro: "verde",      roF: "verde",     ru: "зелёный",    ruF: "зелёная" },
+      { hex: "#F9A825", ro: "galben",     roF: "galbenă",   ru: "жёлтый",     ruF: "жёлтая" },
+      { hex: "#212121", ro: "negru",      roF: "neagră",    ru: "чёрный",     ruF: "чёрная" },
+      { hex: "#FAFAFA", ro: "alb",        roF: "albă",      ru: "белый",      ruF: "белая" },
+      { hex: "#EF6C00", ro: "portocaliu", roF: "portocalie", ru: "оранжевый", ruF: "оранжевая" },
+      { hex: "#757575", ro: "gri",        roF: "gri",       ru: "серый",      ruF: "серая" },
+      { hex: "#EC407A", ro: "roz",        roF: "roz",       ru: "розовый",    ruF: "розовая" },
+      { hex: "#6D4C41", ro: "maro",       roF: "maro",      ru: "коричневый", ruF: "коричневая" },
+      { hex: "#7B1FA2", ro: "violet",     roF: "violetă",   ru: "фиолетовый", ruF: "фиолетовая" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "numbers",
+    group: "topic",
+    verified: false,
+    icon: "🔢",
+    name: "Числа 0–20",
+    sub: "Считаем от нуля до двадцати",
+    words: [
+      { n: 0,  ro: "zero",          ru: "ноль" },
+      { n: 1,  ro: "unu / una",     ru: "один / одна" },
+      { n: 2,  ro: "doi / două",    ru: "два / две" },
+      { n: 3,  ro: "trei",          ru: "три" },
+      { n: 4,  ro: "patru",         ru: "четыре" },
+      { n: 5,  ro: "cinci",         ru: "пять" },
+      { n: 6,  ro: "șase",          ru: "шесть" },
+      { n: 7,  ro: "șapte",         ru: "семь" },
+      { n: 8,  ro: "opt",           ru: "восемь" },
+      { n: 9,  ro: "nouă",          ru: "девять" },
+      { n: 10, ro: "zece",          ru: "десять" },
+      { n: 11, ro: "unsprezece",    ru: "одиннадцать" },
+      { n: 12, ro: "doisprezece",   ru: "двенадцать" },
+      { n: 13, ro: "treisprezece",  ru: "тринадцать" },
+      { n: 14, ro: "paisprezece",   ru: "четырнадцать" },
+      { n: 15, ro: "cincisprezece", ru: "пятнадцать" },
+      { n: 16, ro: "șaisprezece",   ru: "шестнадцать" },
+      { n: 17, ro: "șaptesprezece", ru: "семнадцать" },
+      { n: 18, ro: "optsprezece",   ru: "восемнадцать" },
+      { n: 19, ro: "nouăsprezece",  ru: "девятнадцать" },
+      { n: 20, ro: "douăzeci",      ru: "двадцать" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "days",
+    group: "topic",
+    verified: false,
+    icon: "📆",
+    name: "Дни недели",
+    sub: "От понедельника до воскресенья",
+    words: [
+      { ro: "luni",      ru: "понедельник" },
+      { ro: "marți",     ru: "вторник" },
+      { ro: "miercuri",  ru: "среда" },
+      { ro: "joi",       ru: "четверг" },
+      { ro: "vineri",    ru: "пятница" },
+      { ro: "sâmbătă",   ru: "суббота" },
+      { ro: "duminică",  ru: "воскресенье" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "seasons",
+    group: "topic",
+    verified: false,
+    icon: "🍂",
+    name: "Месяцы и времена года",
+    sub: "Календарь на весь год",
+    words: [
+      { ro: "ianuarie",   ru: "январь" },
+      { ro: "februarie",  ru: "февраль" },
+      { ro: "martie",     ru: "март" },
+      { ro: "aprilie",    ru: "апрель" },
+      { ro: "mai",        ru: "май" },
+      { ro: "iunie",      ru: "июнь" },
+      { ro: "iulie",      ru: "июль" },
+      { ro: "august",     ru: "август" },
+      { ro: "septembrie", ru: "сентябрь" },
+      { ro: "octombrie",  ru: "октябрь" },
+      { ro: "noiembrie",  ru: "ноябрь" },
+      { ro: "decembrie",  ru: "декабрь" },
+      { ro: "primăvară",  ru: "весна" },
+      { ro: "vară",       ru: "лето" },
+      { ro: "toamnă",     ru: "осень" },
+      { ro: "iarnă",      ru: "зима" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "family",
+    group: "topic",
+    verified: false,
+    icon: "👪",
+    name: "Семья",
+    sub: "Родственники и близкие",
+    words: [
+      { ro: "mamă",     ru: "мама" },
+      { ro: "tată",     ru: "папа" },
+      { ro: "părinți",  ru: "родители" },
+      { ro: "frate",    ru: "брат" },
+      { ro: "soră",     ru: "сестра" },
+      { ro: "soț",      ru: "муж" },
+      { ro: "soție",    ru: "жена" },
+      { ro: "fiu",      ru: "сын" },
+      { ro: "fiică",    ru: "дочь" },
+      { ro: "copil",    ru: "ребёнок" },
+      { ro: "bunic",    ru: "дедушка" },
+      { ro: "bunică",   ru: "бабушка" },
+      { ro: "unchi",    ru: "дядя" },
+      { ro: "mătușă",   ru: "тётя" },
+      { ro: "nepot",    ru: "внук, племянник" },
+      { ro: "nepoată",  ru: "внучка, племянница" }
+    ],
+    phrases: []
   }
 ];
 
@@ -1464,7 +1632,8 @@ function renderDict() {
     <div class="head"><h1 class="ro">Словарь</h1></div>
     <div class="tabs">
       <button class="tab" data-tab="course" aria-selected="${state.tab === "course"}">Слова курса</button>
-      <button class="tab" data-tab="work"   aria-selected="${state.tab === "work"}">Для работы</button>
+      <button class="tab" data-tab="topic"  aria-selected="${state.tab === "topic"}">Темы</button>
+      <button class="tab" data-tab="work"   aria-selected="${state.tab === "work"}">Работа</button>
     </div>
     <div id="dict-body"></div>
   `;
@@ -1475,7 +1644,7 @@ function renderDict() {
 
   const body = screens.dict.querySelector("#dict-body");
   if (state.tab === "course") renderCourseWords(body);
-  else renderSetList(body);
+  else renderSetList(body, state.tab);
 }
 
 function renderCourseWords(body) {
@@ -1511,18 +1680,19 @@ function renderCourseWords(body) {
   paint();
 }
 
-function renderSetList(body) {
+function renderSetList(body, group) {
   body.innerHTML = "";
-  SETS.forEach(set => {
+  SETS.filter(set => set.group === group).forEach(set => {
     const btn = document.createElement("button");
     btn.className = "setcard";
     btn.dataset.soon = set.soon ? "1" : "0";
     btn.disabled = !!set.soon;
     const count = set.soon ? "скоро"
       : (set.words.length + (set.phrases ? set.phrases.length : 0)) + " слов";
+    const icon = set.icon ? `${set.icon} ` : "";
     btn.innerHTML = `
       <span class="setcard-count">${count}</span>
-      <div class="setcard-name">${set.name}</div>
+      <div class="setcard-name">${icon}${set.name}</div>
       <div class="setcard-sub">${set.sub}</div>
     `;
     btn.onclick = () => { state.openSet = set; state.query = ""; renderDict(); };
@@ -1577,10 +1747,19 @@ function renderSet(set) {
 function entryRow(w) {
   const row = document.createElement("div");
   row.className = "entry";
+
+  // цвета несут hex-код, числа несут n — по ним и отличаем оформление
+  const badge = w.hex ? `<span class="swatch" style="background:${w.hex}"></span>`
+              : typeof w.n === "number" ? `<span class="num-badge">${w.n}</span>`
+              : "";
+  const roLine = w.roF && w.roF !== w.ro ? `${w.ro} <span class="entry-alt">${w.roF}</span>` : w.ro;
+  const ruLine = w.ruF && w.ruF !== w.ru ? `${w.ru} <span class="entry-alt">${w.ruF}</span>` : w.ru;
+
   row.innerHTML = `
+    ${badge}
     <div class="entry-text">
-      <div class="entry-ro">${w.ro}</div>
-      <div class="entry-ru">${w.ru}</div>
+      <div class="entry-ro">${roLine}</div>
+      <div class="entry-ru">${ruLine}</div>
     </div>
     <button class="icon-btn" aria-label="Прослушать">🔊</button>
   `;
