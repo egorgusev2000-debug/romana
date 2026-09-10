@@ -21,20 +21,29 @@
 <title>Româna — румынский с нуля</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --deep:    #131C33;   /* тёмный фон вводного экрана и итога */
-    --ink:     #17203A;
-    --paper:   #F0F1F3;
+    /* один яркий основной цвет (действия) и один дополнительный (акценты) */
+    --primary:      #FF5A2E;   /* тёплый насыщенный оранжевый */
+    --primary-dark: #D8420E;   /* тень снизу у толстых кнопок */
+    --secondary:    #5B3FCC;   /* насыщенный фиолетовый — акцент */
+    --secondary-dark: #4429A8;
+
+    --deep:    #241A42;   /* тёмный фон вводного экрана и итога, в тон фиолетовому */
+    --ink:     #241E1C;
+    --paper:   #FBF6EE;   /* светлый тёплый фон, не белый и не серый */
     --card:    #FFFFFF;
-    --muted:   #6C7A89;
-    --line:    #D7DCE2;
-    --brick:   #A8402D;   /* акцент: мотив, действия */
-    --gold:    #C0912F;
-    --correct: #2E7D5B;
-    --wrong:   #A8402D;
+    --muted:   #8C8177;
+    --line:    #EDE3D3;
+
+    --correct:      #17A863;   /* яркий зелёный только для «верно» */
+    --correct-dark: #0F8A4E;
+    --wrong:        #F0334E;   /* яркий красный только для «неверно» */
+    --wrong-dark:   #C41F38;
+
+    --shadow-card: 0 3px 4px rgba(36,26,20,.05), 0 8px 20px rgba(36,26,20,.08);
   }
 
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -44,7 +53,7 @@
     min-height: 100vh;
     background: var(--paper);
     color: var(--ink);
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-family: Nunito, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 16px;
     line-height: 1.5;
   }
@@ -57,28 +66,42 @@
 
   button { font: inherit; color: inherit; cursor: pointer; }
 
-  .ro { font-family: Newsreader, Georgia, serif; letter-spacing: -0.01em; }
+  .ro { font-weight: 700; letter-spacing: -0.01em; }
 
-  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+  .card { background: var(--card); border-radius: 18px; box-shadow: var(--shadow-card); }
 
+  /* ---- толстая кнопка: тень снизу, «проседает» при нажатии ---- */
   .primary {
-    width: 100%; font-weight: 500; color: #fff;
-    background: var(--ink); border: none; border-radius: 10px; padding: 15px;
+    width: 100%; font-weight: 800; font-size: 16px; color: #fff;
+    background: var(--primary); border: none; border-radius: 16px; padding: 15px;
+    box-shadow: 0 5px 0 var(--primary-dark), 0 8px 16px rgba(255,90,46,.25);
+    transform: translateY(0); transition: transform .08s ease, box-shadow .08s ease;
+  }
+  .primary:active:not(:disabled) {
+    transform: translateY(5px);
+    box-shadow: 0 0 0 var(--primary-dark), 0 2px 6px rgba(255,90,46,.2);
   }
 
-  .primary.brick { background: var(--brick); }
-  .primary:disabled { background: var(--line); color: var(--muted); cursor: default; }
+  .primary:disabled {
+    background: var(--line); color: var(--muted); cursor: default;
+    box-shadow: 0 5px 0 #DCD0BA;
+  }
 
-  .primary:focus-visible, .option:focus-visible, .unit:focus-visible,
+  .primary:focus-visible, .option:focus-visible, .path-item:focus-visible,
   .chip:focus-visible, .icon-btn:focus-visible, .navbtn:focus-visible,
-  .setcard:focus-visible, .tab:focus-visible {
-    outline: 2px solid var(--brick); outline-offset: 2px;
+  .setcard:focus-visible, .tab:focus-visible, .match-item:focus-visible,
+  .sound-toggle:focus-visible {
+    outline: 3px solid var(--secondary); outline-offset: 2px;
   }
 
   .hidden { display: none !important; }
 
-  /* мотив: ромбы из народной вышивки */
-  .motif { display: block; width: 100%; height: 14px; color: var(--brick); opacity: .55; }
+  /* мотив: ромбы из народной вышивки — ярче основного текста.
+     currentColor внутри <pattern> берёт цвет места ОПРЕДЕЛЕНИЯ узора,
+     а не места его использования — поэтому цвет задаём узору напрямую. */
+  .motif { display: block; width: 100%; height: 16px; opacity: .95; }
+  #rhomb .rhomb-outline { stroke: var(--primary); }
+  #rhomb .rhomb-fill { fill: var(--secondary); }
 
   /* ============ Вводный экран ============ */
 
@@ -92,97 +115,167 @@
   .welcome-inner { max-width: 400px; width: 100%; }
 
   .welcome-title {
-    font-family: Newsreader, Georgia, serif;
-    font-size: 56px; font-weight: 600; line-height: 1;
+    font-size: 58px; font-weight: 900; line-height: 1;
     margin: 0 0 6px; letter-spacing: -0.02em;
   }
 
-  .welcome-sub { color: #A6B0C4; margin: 0 0 26px; font-size: 17px; }
+  .welcome-sub { color: #C7BEE0; margin: 0 0 26px; font-size: 17px; }
 
-  #screen-welcome .motif { opacity: .8; margin-bottom: 26px; }
+  #screen-welcome .motif { opacity: .9; margin-bottom: 26px; }
 
   .welcome-list { list-style: none; padding: 0; margin: 0 0 32px; }
 
   .welcome-list li {
     display: flex; gap: 12px; align-items: baseline;
-    padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.1);
+    padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.12);
   }
 
   .welcome-list li:last-child { border-bottom: none; }
-  .welcome-list b { font-weight: 500; }
-  .welcome-list span { color: #A6B0C4; font-size: 15px; display: block; margin-top: 2px; }
-  .welcome-num { font-family: Newsreader, Georgia, serif; color: var(--gold); font-size: 19px; }
+  .welcome-list b { font-weight: 700; }
+  .welcome-list span { color: #C7BEE0; font-size: 15px; display: block; margin-top: 2px; }
+  .welcome-num { font-weight: 900; color: var(--primary); font-size: 19px; }
 
-  .welcome-foot { text-align: center; color: #7E8AA0; font-size: 13px; margin: 14px 0 0; }
+  .welcome-foot { text-align: center; color: #9C90BD; font-size: 13px; margin: 14px 0 0; }
 
   /* ============ Шапка ============ */
 
   .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
-  .head h1 { font-family: Newsreader, Georgia, serif; font-size: 27px; font-weight: 600; margin: 0; }
-  .streak { font-size: 14px; color: var(--gold); font-weight: 500; }
+  .head h1 { font-size: 28px; font-weight: 900; margin: 0; }
+  .streak { font-size: 14px; color: var(--secondary); font-weight: 700; }
 
-  .section-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; }
+  .section-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; font-weight: 700; }
 
-  /* ============ Юниты ============ */
+  /* ============ Юниты: дорожка ============ */
 
-  .unit {
-    display: block; width: 100%; text-align: left;
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+  .path { position: relative; padding: 4px 0 8px; }
+  .path::before {
+    content: ""; position: absolute; top: 30px; bottom: 30px; left: 30px;
+    width: 4px; background: var(--line); border-radius: 2px; z-index: 0;
   }
 
-  .unit[data-state="locked"] { opacity: .4; cursor: default; }
-  .unit[data-state="done"] { border-color: var(--correct); }
-  .unit-name { font-weight: 500; }
+  .path-item {
+    position: relative; z-index: 1; display: flex; align-items: center;
+    gap: 14px; width: 100%; background: none; border: none;
+    text-align: left; padding: 0; margin-bottom: 18px;
+  }
+  .path-item.side-right { padding-left: 15%; }
+
+  .path-node {
+    width: 60px; height: 60px; border-radius: 50%; flex-shrink: 0;
+    background: var(--card); box-shadow: var(--shadow-card);
+    border: 4px solid var(--primary);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 22px; color: var(--primary);
+    transition: transform .08s ease;
+  }
+  .path-item:active:not(:disabled) .path-node { transform: scale(.94); }
+
+  .path-item[data-state="done"] .path-node {
+    background: var(--correct); border-color: var(--correct); color: #fff;
+  }
+  .path-item[data-state="locked"] .path-node {
+    background: var(--card); border-color: var(--line); color: var(--muted);
+  }
+  .path-item[data-state="locked"] { opacity: .55; cursor: default; }
+
+  .path-card {
+    flex: 1; min-width: 0; background: var(--card); border-radius: 16px;
+    padding: 12px 16px; box-shadow: var(--shadow-card);
+  }
+  .path-item[data-state="locked"] .path-card { box-shadow: none; }
+  .unit-name { font-weight: 800; }
   .unit-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
-  .unit-mark { float: right; font-size: 13px; color: var(--correct); }
+  .unit-mark { float: right; font-size: 13px; color: var(--correct); font-weight: 700; }
 
   /* ============ Грамматика ============ */
 
-  .note { padding: 24px 22px; margin-bottom: 18px; border-left: 3px solid var(--gold); }
-  .note h2 { font-family: Newsreader, Georgia, serif; font-size: 22px; font-weight: 600; margin: 0 0 14px; }
+  .note { padding: 24px 22px; margin-bottom: 18px; border-left: 5px solid var(--secondary); }
+  .note h2 { font-size: 22px; font-weight: 800; margin: 0 0 14px; }
   .note p { margin: 0 0 12px; }
   .note p:last-of-type { margin-bottom: 0; }
-  .note b { font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: 17px; }
+  .note b { font-weight: 800; font-size: 17px; color: var(--secondary); }
   .note table { width: 100%; border-collapse: collapse; margin: 16px 0 4px; font-size: 15px; }
   .note td { padding: 7px 0; border-bottom: 1px solid var(--line); }
-  .note td:first-child { font-family: Newsreader, Georgia, serif; font-size: 17px; }
+  .note td:first-child { font-weight: 700; font-size: 17px; }
   .note td:last-child { color: var(--muted); text-align: right; }
   .note tr:last-child td { border-bottom: none; }
 
   /* ============ Урок ============ */
 
   .top { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
-  .track { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-  .fill { height: 100%; width: 0; background: var(--brick); border-radius: 3px; transition: width .3s ease; }
+  .track { flex: 1; height: 10px; background: var(--line); border-radius: 6px; overflow: hidden; }
+  .fill { height: 100%; width: 0; background: var(--primary); border-radius: 6px; transition: width .3s ease; }
   .quit { background: none; border: none; color: var(--muted); font-size: 24px; line-height: 1; padding: 0 4px; }
+  .sound-toggle { background: none; border: none; color: var(--muted); font-size: 19px; line-height: 1; padding: 0 4px; }
 
   .prompt { padding: 30px 22px 26px; text-align: center; margin-bottom: 20px; }
-  .task { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
-  .subject { font-size: 38px; line-height: 1.15; margin: 0; }
+  .task { font-size: 13px; color: var(--muted); margin: 0 0 16px; font-weight: 700; }
+  .subject { font-size: 38px; line-height: 1.15; margin: 0; font-weight: 800; }
   .subject.small { font-size: 26px; }
   .icon-btn { background: none; border: none; color: var(--muted); font-size: 20px; padding: 4px 8px; }
 
+  /* ---- Найди пары ---- */
+  .match-row { display: flex; gap: 10px; margin-bottom: 20px; }
+  .match-col { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+  .match-item {
+    background: var(--card); border: none; border-radius: 12px;
+    padding: 13px 8px; text-align: center; font-weight: 700; font-size: 15px;
+    box-shadow: 0 3px 0 var(--line), 0 4px 8px rgba(36,26,20,.06);
+    transition: transform .08s ease, box-shadow .08s ease, background .1s ease;
+  }
+  .match-item.selected { background: var(--secondary); color: #fff; box-shadow: 0 3px 0 var(--secondary-dark); }
+  .match-item.matched { background: var(--correct); color: #fff; box-shadow: 0 3px 0 var(--correct-dark); opacity: .85; }
+  .match-item.is-wrong { background: var(--wrong); color: #fff; box-shadow: 0 3px 0 var(--wrong-dark); animation: shake .3s ease; }
+  .match-item:disabled { cursor: default; }
+
   .options { display: grid; gap: 10px; margin: 0 0 20px; padding: 0; list-style: none; }
-  .option { width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; }
-  .option:hover:not(:disabled) { border-color: var(--ink); }
+  .option {
+    width: 100%; text-align: left; background: var(--card); border: none;
+    border-radius: 14px; padding: 15px 18px; font-weight: 700;
+    box-shadow: 0 4px 0 var(--line), 0 6px 12px rgba(36,26,20,.06);
+    transform: translateY(0); transition: transform .08s ease, box-shadow .08s ease, background .1s ease;
+  }
+  .option:hover:not(:disabled) { background: #FFF3EC; }
+  .option:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 var(--line); }
   .option:disabled { cursor: default; }
-  .option.is-correct { border-color: var(--correct); background: #EDF6F1; color: var(--correct); font-weight: 500; }
-  .option.is-wrong { border-color: var(--wrong); background: #FAEEEC; color: var(--wrong); }
+  .option.is-correct {
+    background: var(--correct); color: #fff;
+    box-shadow: 0 4px 0 var(--correct-dark);
+    animation: pop .3s ease;
+  }
+  .option.is-wrong {
+    background: var(--wrong); color: #fff;
+    box-shadow: 0 4px 0 var(--wrong-dark);
+    animation: shake .3s ease;
+  }
+
+  @keyframes pop { 0% { transform: scale(1); } 40% { transform: scale(1.04); } 100% { transform: scale(1); } }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .option.is-correct, .option.is-wrong { animation: none; }
+  }
 
   .slot { min-height: 56px; border-bottom: 2px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; padding: 6px 0 10px; margin-bottom: 18px; }
   .bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; min-height: 44px; }
-  .chip { font-family: Newsreader, Georgia, serif; font-size: 17px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 9px 14px; }
+  .chip {
+    font-weight: 700; font-size: 17px; background: var(--card); border: none;
+    border-radius: 10px; padding: 9px 14px;
+    box-shadow: 0 3px 0 var(--line), 0 4px 8px rgba(36,26,20,.06);
+  }
   .chip.used { visibility: hidden; }
 
   .answer-input {
-    width: 100%; font: inherit; font-family: Newsreader, Georgia, serif;
+    width: 100%; font: inherit; font-weight: 700;
     font-size: 20px; color: inherit; background: var(--card);
-    border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
+    border: 2px solid var(--line); border-radius: 14px; padding: 14px 16px; margin-bottom: 16px;
   }
-  .answer-input:focus { outline: none; border-color: var(--brick); }
+  .answer-input:focus { outline: none; border-color: var(--primary); }
 
-  .feedback { min-height: 44px; font-size: 15px; margin-bottom: 12px; }
+  .feedback { min-height: 44px; font-size: 16px; margin-bottom: 12px; font-weight: 700; }
   .feedback.ok { color: var(--correct); }
   .feedback.bad { color: var(--wrong); }
   .feedback .ro { font-size: 17px; }
@@ -191,35 +284,48 @@
 
   .result {
     background: var(--deep); color: #EFEAE3;
-    border-radius: 16px; padding: 44px 24px 32px; text-align: center; margin-top: 12px;
+    border-radius: 22px; padding: 44px 24px 32px; text-align: center; margin-top: 12px;
+    position: relative; overflow: hidden;
   }
-  .result .motif { opacity: .7; margin-bottom: 24px; }
-  .score { font-family: Newsreader, Georgia, serif; font-size: 62px; line-height: 1; margin: 0 0 6px; }
-  .result p { color: #A6B0C4; margin: 0 0 28px; }
-  .result .primary { background: var(--brick); }
+  .result .motif { opacity: .85; margin-bottom: 24px; }
+  .score { font-size: 64px; font-weight: 900; line-height: 1; margin: 0 0 6px; }
+  .result p { color: #C7BEE0; margin: 0 0 28px; font-weight: 700; }
+
+  .confetti {
+    position: absolute; top: -10px; width: 10px; height: 10px;
+    background: var(--primary); opacity: 0;
+    animation: fall 1.6s ease-in forwards;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(340px) rotate(340deg); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .confetti { animation: none; display: none; } }
 
   /* ============ Словарь ============ */
 
   .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
   .tab {
-    flex: 1; background: none; border: 1px solid var(--line);
-    border-radius: 999px; padding: 9px; font-size: 14px; color: var(--muted);
+    flex: 1; background: var(--card); border: none;
+    border-radius: 999px; padding: 10px; font-size: 14px; font-weight: 700; color: var(--muted);
+    box-shadow: 0 2px 6px rgba(36,26,20,.05);
   }
-  .tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .tab[aria-selected="true"] { background: var(--secondary); color: #fff; box-shadow: 0 3px 0 var(--secondary-dark); }
 
   .search {
     width: 100%; font: inherit; color: inherit; background: var(--card);
-    border: 1px solid var(--line); border-radius: 10px;
+    border: 2px solid var(--line); border-radius: 14px;
     padding: 12px 14px; margin-bottom: 16px;
   }
-  .search:focus { outline: none; border-color: var(--brick); }
+  .search:focus { outline: none; border-color: var(--primary); }
 
   .entry {
     display: flex; align-items: center; gap: 12px;
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+    background: var(--card); border: none;
+    border-radius: 14px; padding: 12px 14px; margin-bottom: 8px;
+    box-shadow: var(--shadow-card);
   }
-  .entry-ro { font-family: Newsreader, Georgia, serif; font-size: 18px; }
+  .entry-ro { font-weight: 700; font-size: 18px; }
   .entry-ru { color: var(--muted); font-size: 14px; margin-top: 1px; }
   .entry-text { flex: 1; min-width: 0; }
   .entry-alt { color: var(--muted); font-size: 0.85em; }
@@ -229,28 +335,37 @@
     border: 1px solid var(--line);
   }
   .num-badge {
-    width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
-    background: var(--paper); border: 1px solid var(--line);
+    min-width: 28px; height: 28px; border-radius: 8px; flex-shrink: 0;
+    background: var(--paper); border: 1px solid var(--line); padding: 0 4px;
     display: flex; align-items: center; justify-content: center;
-    font-weight: 600; font-size: 14px;
+    font-weight: 700; font-size: 14px;
   }
+
+  .set-rule { padding: 18px 20px; margin-bottom: 18px; border-left: 5px solid var(--secondary); }
+  .set-rule h2 { font-size: 18px; font-weight: 800; margin: 0 0 10px; }
+  .set-rule p { margin: 0 0 8px; font-size: 15px; }
+  .set-rule p:last-child { margin-bottom: 0; }
+  .set-rule b { color: var(--secondary); }
 
   .setcard {
     display: block; width: 100%; text-align: left;
-    background: var(--card); border: 1px solid var(--line);
-    border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+    background: var(--card); border: none;
+    border-radius: 18px; padding: 16px 18px; margin-bottom: 12px;
+    box-shadow: var(--shadow-card);
+    transition: transform .08s ease, box-shadow .08s ease;
   }
-  .setcard[data-soon="1"] { opacity: .45; cursor: default; }
-  .setcard-name { font-weight: 500; }
+  .setcard:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 6px rgba(36,26,20,.08); }
+  .setcard[data-soon="1"] { opacity: .45; cursor: default; box-shadow: none; }
+  .setcard-name { font-weight: 800; }
   .setcard-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
   .setcard-count { float: right; font-size: 13px; color: var(--muted); }
 
   .back {
     background: none; border: none; color: var(--muted);
-    padding: 0; margin-bottom: 14px; font-size: 15px;
+    padding: 0; margin-bottom: 14px; font-size: 15px; font-weight: 700;
   }
 
-  .group-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; }
+  .group-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; font-weight: 700; }
 
   .empty { color: var(--muted); text-align: center; padding: 30px 0; }
 
@@ -258,15 +373,15 @@
 
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
-    background: var(--card); border-top: 1px solid var(--line);
+    background: var(--card); box-shadow: 0 -2px 12px rgba(36,26,20,.08);
     display: flex; padding: 8px 0 22px;
   }
 
   .navbtn {
     flex: 1; background: none; border: none;
-    color: var(--muted); font-size: 13px; padding: 6px 0;
+    color: var(--muted); font-size: 13px; padding: 6px 0; font-weight: 700;
   }
-  .navbtn[aria-current="page"] { color: var(--brick); font-weight: 500; }
+  .navbtn[aria-current="page"] { color: var(--primary); }
   .navbtn .glyph { display: block; font-size: 19px; margin-bottom: 2px; }
 
   @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
@@ -276,8 +391,8 @@
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
     <pattern id="rhomb" width="18" height="14" patternUnits="userSpaceOnUse">
-      <path d="M9 1 L17 7 L9 13 L1 7 Z" fill="none" stroke="currentColor" stroke-width="1"/>
-      <path d="M9 4.6 L12.4 7 L9 9.4 L5.6 7 Z" fill="currentColor"/>
+      <path class="rhomb-outline" d="M9 1 L17 7 L9 13 L1 7 Z" fill="none" stroke-width="1.5"/>
+      <path class="rhomb-fill" d="M9 4.6 L12.4 7 L9 9.4 L5.6 7 Z"/>
     </pattern>
   </defs>
 </svg>
@@ -1037,32 +1152,55 @@ const SETS = [
   {
     id: "numbers",
     group: "topic",
-    verified: false,
+    // Числа 0–20, десятки и примеры сверены с госучебником A1 — источник
+    // указан прямо в записи (source). Только 35 и 99 достроены нами по
+    // тому же образцу (десяток + «și» + единица) и помечены verified: false —
+    // сама модель предсказуема, но её никто не проверил на живом носителе.
     icon: "🔢",
-    name: "Числа 0–20",
-    sub: "Считаем от нуля до двадцати",
+    name: "Числа 0–100",
+    sub: "От нуля до ста, с примерами составных чисел",
+    rule: {
+      title: "Числа после двадцати",
+      body: [
+        "Десятки складываются с единицами через <b>și</b> («и»): <b>douăzeci și trei</b> — двадцать и три, то есть двадцать три.",
+        "Только у чисел на 1 и 2 в конце появляется женская форма: <b>douăzeci și unu / una</b>, <b>douăzeci și doi / două</b>.",
+        "Перед существительным у чисел от 20 и выше добавляется <b>de</b>, а у чисел до 20 — нет: <b>12 ani</b> (12 лет), но <b>31 de ani</b> (31 год)."
+      ]
+    },
     words: [
-      { n: 0,  ro: "zero",          ru: "ноль" },
-      { n: 1,  ro: "unu / una",     ru: "один / одна" },
-      { n: 2,  ro: "doi / două",    ru: "два / две" },
-      { n: 3,  ro: "trei",          ru: "три" },
-      { n: 4,  ro: "patru",         ru: "четыре" },
-      { n: 5,  ro: "cinci",         ru: "пять" },
-      { n: 6,  ro: "șase",          ru: "шесть" },
-      { n: 7,  ro: "șapte",         ru: "семь" },
-      { n: 8,  ro: "opt",           ru: "восемь" },
-      { n: 9,  ro: "nouă",          ru: "девять" },
-      { n: 10, ro: "zece",          ru: "десять" },
-      { n: 11, ro: "unsprezece",    ru: "одиннадцать" },
-      { n: 12, ro: "doisprezece",   ru: "двенадцать" },
-      { n: 13, ro: "treisprezece",  ru: "тринадцать" },
-      { n: 14, ro: "paisprezece",   ru: "четырнадцать" },
-      { n: 15, ro: "cincisprezece", ru: "пятнадцать" },
-      { n: 16, ro: "șaisprezece",   ru: "шестнадцать" },
-      { n: 17, ro: "șaptesprezece", ru: "семнадцать" },
-      { n: 18, ro: "optsprezece",   ru: "восемнадцать" },
-      { n: 19, ro: "nouăsprezece",  ru: "девятнадцать" },
-      { n: 20, ro: "douăzeci",      ru: "двадцать" }
+      { n: 0,   ro: "zero",                    ru: "ноль",              source: "госучебник A1" },
+      { n: 1,   ro: "unu / una",               ru: "один / одна",       source: "госучебник A1" },
+      { n: 2,   ro: "doi / două",              ru: "два / две",         source: "госучебник A1" },
+      { n: 3,   ro: "trei",                    ru: "три",               source: "госучебник A1" },
+      { n: 4,   ro: "patru",                   ru: "четыре",            source: "госучебник A1" },
+      { n: 5,   ro: "cinci",                   ru: "пять",              source: "госучебник A1" },
+      { n: 6,   ro: "șase",                    ru: "шесть",             source: "госучебник A1" },
+      { n: 7,   ro: "șapte",                   ru: "семь",              source: "госучебник A1" },
+      { n: 8,   ro: "opt",                     ru: "восемь",            source: "госучебник A1" },
+      { n: 9,   ro: "nouă",                    ru: "девять",            source: "госучебник A1" },
+      { n: 10,  ro: "zece",                    ru: "десять",            source: "госучебник A1" },
+      { n: 11,  ro: "unsprezece",              ru: "одиннадцать",       source: "госучебник A1" },
+      { n: 12,  ro: "doisprezece / douăsprezece", ru: "двенадцать",     source: "госучебник A1" },
+      { n: 13,  ro: "treisprezece",            ru: "тринадцать",        source: "госучебник A1" },
+      { n: 14,  ro: "paisprezece",             ru: "четырнадцать",      source: "госучебник A1" },
+      { n: 15,  ro: "cincisprezece",           ru: "пятнадцать",        source: "госучебник A1" },
+      { n: 16,  ro: "șaisprezece",             ru: "шестнадцать",       source: "госучебник A1" },
+      { n: 17,  ro: "șaptesprezece",           ru: "семнадцать",        source: "госучебник A1" },
+      { n: 18,  ro: "optsprezece",             ru: "восемнадцать",      source: "госучебник A1" },
+      { n: 19,  ro: "nouăsprezece",            ru: "девятнадцать",      source: "госучебник A1" },
+      { n: 20,  ro: "douăzeci",                ru: "двадцать",          source: "госучебник A1" },
+      { n: 21,  ro: "douăzeci și unu / una",   ru: "двадцать один / одна", source: "госучебник A1" },
+      { n: 22,  ro: "douăzeci și doi / două",  ru: "двадцать два / две",   source: "госучебник A1" },
+      { n: 30,  ro: "treizeci",                ru: "тридцать",          source: "госучебник A1" },
+      { n: 35,  ro: "treizeci și cinci",       ru: "тридцать пять",     verified: false },
+      { n: 40,  ro: "patruzeci",               ru: "сорок",             source: "госучебник A1" },
+      { n: 50,  ro: "cincizeci",               ru: "пятьдесят",         source: "госучебник A1" },
+      { n: 60,  ro: "șaizeci",                 ru: "шестьдесят",        source: "госучебник A1" },
+      { n: 70,  ro: "șaptezeci",               ru: "семьдесят",         source: "госучебник A1" },
+      { n: 80,  ro: "optzeci",                 ru: "восемьдесят",       source: "госучебник A1" },
+      { n: 90,  ro: "nouăzeci",                ru: "девяносто",         source: "госучебник A1" },
+      { n: 99,  ro: "nouăzeci și nouă",        ru: "девяносто девять",  verified: false },
+      { n: 100, ro: "o sută",                  ru: "сто",               source: "госучебник A1" }
     ],
     phrases: []
   },
@@ -1150,7 +1288,8 @@ const SETS = [
 const state = {
   done: [], streak: 0, lastDay: null,
   current: null, step: 0, score: 0, answered: false,
-  tab: "course", query: "", openSet: null
+  tab: "course", query: "", openSet: null,
+  sound: true
 };
 
 /* ---------- Сохранение прогресса ----------
@@ -1249,6 +1388,44 @@ function speak(text) {
   speechSynthesis.speak(u);
 }
 
+/* ---------- Звук ответа ----------
+   Два коротких сигнала синтезируются на лету через Web Audio — без
+   аудиофайлов, чтобы приложение оставалось одним файлом. Настройка
+   «звук выключен» хранится отдельно от прогресса и переживает сброс. */
+
+const SOUND_KEY = "romana:sound";
+
+function loadSoundPref() {
+  try { state.sound = localStorage.getItem(SOUND_KEY) !== "off"; }
+  catch (e) { state.sound = true; }
+}
+
+function toggleSound() {
+  state.sound = !state.sound;
+  try { localStorage.setItem(SOUND_KEY, state.sound ? "on" : "off"); }
+  catch (e) {}
+}
+
+let audioCtx = null;
+function tone(freq, start, dur, gain) {
+  if (!state.sound) return;
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    const vol = audioCtx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = freq;
+    vol.gain.value = gain;
+    vol.gain.setTargetAtTime(0, audioCtx.currentTime + start + dur, 0.03);
+    osc.connect(vol); vol.connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime + start);
+    osc.stop(audioCtx.currentTime + start + dur + 0.1);
+  } catch (e) { /* Web Audio недоступен — молча без звука */ }
+}
+
+function playCorrect() { tone(523.25, 0, .1, .12); tone(783.99, .1, .16, .12); }
+function playWrong()   { tone(196, 0, .18, .12); }
+
 function unitIndex(id) { return COURSE.units.findIndex(u => u.id === id); }
 function isUnlocked(i) { return i === 0 || state.done.includes(COURSE.units[i - 1].id); }
 
@@ -1273,7 +1450,16 @@ function buildLesson(unit) {
   shuffle(oldWords).slice(0, 2).forEach(w =>
     tasks.push({ type: "choice", dir: "ro-ru", word: w, pool: allWords }));
 
-  return shuffle(tasks).slice(0, 12);
+  // «Найди пары» — своё место гарантировано: остальные задания зажимаем
+  // до 11, чтобы после добавления пары итог остался ровно 12.
+  const picked = shuffle(tasks).slice(0, 11);
+
+  const matchPool = unit.words.length >= 5 ? unit.words
+    : unit.words.concat(oldWords).filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i);
+  const matchWords = shuffle(matchPool).slice(0, 5);
+  if (matchWords.length === 5) picked.push({ type: "match", words: matchWords });
+
+  return shuffle(picked);
 }
 
 /* ==========================================================================
@@ -1337,7 +1523,7 @@ function renderWelcome() {
           <span>Общепит, документы, стройка, аптека — отдельным словарём</span>
         </div></li>
       </ul>
-      <button class="primary brick" id="start">Начать</button>
+      <button class="primary" id="start">Начать</button>
       <p class="welcome-foot">${totalWords} слов и фраз · без регистрации</p>
     </div>
   `;
@@ -1359,8 +1545,8 @@ function renderHome() {
     </div>
     ${MOTIF}
     <p class="section-title">Секция 1 · ${COURSE.title} · ${done} из ${total}</p>
-    <div id="unit-list"></div>
-    ${done ? '<button class="back" id="reset" style="margin-top:18px">Сбросить прогресс</button>' : ""}
+    <div class="path" id="unit-list"></div>
+    ${done ? '<button class="back" id="reset" style="margin-top:6px">Сбросить прогресс</button>' : ""}
   `;
 
   const reset = screens.home.querySelector("#reset");
@@ -1373,17 +1559,23 @@ function renderHome() {
 
   const list = screens.home.querySelector("#unit-list");
 
+  // Юниты — дорожкой: кружок-веха слева/справа по очереди, карточка с
+  // названием рядом. Соединяющая линия — фон .path, задаётся в CSS.
   COURSE.units.forEach((unit, i) => {
     const unlocked = isUnlocked(i);
     const finished = state.done.includes(unit.id);
     const btn = document.createElement("button");
-    btn.className = "unit";
+    btn.className = "path-item" + (i % 2 ? " side-right" : "");
     btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
     btn.disabled = !unlocked;
+    const nodeContent = finished ? "✓" : unlocked ? String(i + 1) : "🔒";
     btn.innerHTML = `
-      ${finished ? '<span class="unit-mark">пройден</span>' : ""}
-      <div class="unit-name">${unit.name}</div>
-      <div class="unit-sub">${unit.sub}</div>
+      <span class="path-node">${nodeContent}</span>
+      <span class="path-card">
+        ${finished ? '<span class="unit-mark">пройден</span>' : ""}
+        <div class="unit-name">${unit.name}</div>
+        <div class="unit-sub">${unit.sub}</div>
+      </span>
     `;
     btn.onclick = () => startUnit(unit);
     list.appendChild(btn);
@@ -1434,6 +1626,7 @@ function renderTask() {
     <div class="top">
       <button class="quit" id="quit" aria-label="Выйти из урока">&times;</button>
       <div class="track"><div class="fill" style="width:${state.step / tasks.length * 100}%"></div></div>
+      <button class="sound-toggle" id="sound" aria-label="Звук">${state.sound ? "🔊" : "🔇"}</button>
     </div>
     <div id="body"></div>
     <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
@@ -1442,12 +1635,17 @@ function renderTask() {
 
   screens.lesson.querySelector("#quit").onclick = () => { renderHome(); show("home"); };
   screens.lesson.querySelector("#next").onclick = nextTask;
+  screens.lesson.querySelector("#sound").onclick = e => {
+    toggleSound();
+    e.target.textContent = state.sound ? "🔊" : "🔇";
+  };
 
   const body = screens.lesson.querySelector("#body");
   if (task.type === "choice")   renderChoice(body, task);
   if (task.type === "gap")      renderGap(body, task);
   if (task.type === "assemble") renderAssemble(body, task);
   if (task.type === "input")    renderInput(body, task);
+  if (task.type === "match")    renderMatch(body, task);
 }
 
 function renderChoice(body, task) {
@@ -1581,6 +1779,76 @@ function renderInput(body, task) {
   input.onkeydown = e => { if (e.key === "Enter") submit(); };
 }
 
+function renderMatch(body, task) {
+  const words = task.words;
+
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Найдите пары</p>
+      <p class="subject small">Румынское слово — русский перевод</p>
+    </div>
+    <div class="match-row">
+      <div class="match-col" id="col-ro"></div>
+      <div class="match-col" id="col-ru"></div>
+    </div>
+  `;
+
+  const colRo = body.querySelector("#col-ro");
+  const colRu = body.querySelector("#col-ru");
+  let matchedCount = 0;
+  let selected = null;   // { key, btn } — текущий выбранный элемент любой колонки
+  let busy = false;      // блокирует клики на время показа ошибки
+
+  function makeItem(key, label, ro) {
+    const btn = document.createElement("button");
+    btn.className = "match-item" + (ro ? " ro" : "");
+    btn.textContent = label;
+    btn.onclick = () => pick(key, btn);
+    return btn;
+  }
+
+  shuffle(words).forEach(w => colRo.appendChild(makeItem(w.ro, w.ro, true)));
+  shuffle(words).forEach(w => colRu.appendChild(makeItem(w.ro, w.ru, false)));
+
+  function pick(key, btn) {
+    if (state.answered || busy || btn.disabled) return;
+
+    if (!selected) {
+      selected = { key, btn };
+      btn.classList.add("selected");
+      return;
+    }
+    if (selected.btn === btn) {
+      selected.btn.classList.remove("selected");
+      selected = null;
+      return;
+    }
+
+    if (selected.key === key) {
+      selected.btn.classList.add("matched");
+      btn.classList.add("matched");
+      selected.btn.disabled = true;
+      btn.disabled = true;
+      selected.btn.classList.remove("selected");
+      selected = null;
+      matchedCount++;
+      if (matchedCount === words.length) finishTask(true);
+    } else {
+      busy = true;
+      const prevBtn = selected.btn;
+      prevBtn.classList.remove("selected");
+      prevBtn.classList.add("is-wrong");
+      btn.classList.add("is-wrong");
+      selected = null;
+      setTimeout(() => {
+        prevBtn.classList.remove("is-wrong");
+        btn.classList.remove("is-wrong");
+        busy = false;
+      }, 400);
+    }
+  }
+}
+
 function finishTask(ok, correctAnswer, spellNote) {
   state.answered = true;
   const fb = screens.lesson.querySelector("#feedback");
@@ -1590,9 +1858,11 @@ function finishTask(ok, correctAnswer, spellNote) {
     state.score++;
     fb.className = "feedback ok";
     fb.innerHTML = spellNote ? `Верно · <span class="ro">${spellNote}</span>` : "Верно";
+    playCorrect();
   } else {
     fb.className = "feedback bad";
     fb.innerHTML = `Правильно: <span class="ro">${correctAnswer}</span>`;
+    playWrong();
   }
   next.disabled = false;
   next.focus();
@@ -1620,7 +1890,24 @@ function renderResult() {
     </div>
   `;
   screens.result.querySelector("#back").onclick = () => { renderHome(); show("home"); };
+  spawnConfetti(screens.result.querySelector(".result"));
   show("result");
+}
+
+// Праздничный экран: ромбы того же мотива падают и гаснут. Своя мини-анимация
+// вместо библиотеки конфетти — приложение остаётся одним файлом без зависимостей.
+function spawnConfetti(container) {
+  if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const colors = ["var(--primary)", "var(--secondary)", "var(--correct)"];
+  for (let i = 0; i < 26; i++) {
+    const piece = document.createElement("span");
+    piece.className = "confetti";
+    piece.style.left = Math.random() * 100 + "%";
+    piece.style.background = colors[i % colors.length];
+    piece.style.animationDelay = (Math.random() * .4) + "s";
+    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    container.appendChild(piece);
+  }
 }
 
 /* ---------- Словарь ---------- */
@@ -1701,9 +1988,17 @@ function renderSetList(body, group) {
 }
 
 function renderSet(set) {
+  const rule = set.rule ? `
+    <div class="card set-rule">
+      <h2>${set.rule.title}</h2>
+      ${set.rule.body.map(p => `<p>${p}</p>`).join("")}
+    </div>
+  ` : "";
+
   screens.dict.innerHTML = `
     <button class="back" id="back">← Все наборы</button>
     <div class="head"><h1 class="ro">${set.name}</h1></div>
+    ${rule}
     <input class="search" id="q" placeholder="Поиск в наборе"
            autocomplete="off" spellcheck="false" value="${state.query}">
     <div id="list"></div>
@@ -1772,6 +2067,7 @@ function entryRow(w) {
    ========================================================================== */
 
 const saved = loadProgress();
+loadSoundPref();
 
 if (saved && state.done.length) {
   // Человек уже занимался — вводный экран ему не нужен, сразу к урокам.
