@@ -1,0 +1,1605 @@
+<!--
+  РУМЫНСКИЙ ДЛЯ РУССКОЯЗЫЧНЫХ — веб-версия
+  ============================================================
+
+    ЧАСТЬ 1. СОДЕРЖАНИЕ КУРСА       — слова, фразы, грамматика уроков
+    ЧАСТЬ 2. СЛОВАРЬ И ПРОФЕССИИ    — тематические наборы лексики
+    ЧАСТЬ 3. ДВИЖОК                 — как из данных собирается урок
+    ЧАСТЬ 4. ЭКРАНЫ                 — что видит пользователь
+    ЧАСТЬ 5. ЗАПУСК
+
+  Содержание (части 1-2) отделено от кода (части 3-5). Добавить новую
+  секцию курса или новый профессиональный набор — значит дописать данные,
+  не трогая ничего другого.
+
+  ЧЕГО ПОКА НЕТ: прогресс не сохраняется между запусками. Место, куда
+  встанет сохранение, помечено в коде: SAVE / LOAD.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Româna — румынский с нуля</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --deep:    #131C33;   /* тёмный фон вводного экрана и итога */
+    --ink:     #17203A;
+    --paper:   #F0F1F3;
+    --card:    #FFFFFF;
+    --muted:   #6C7A89;
+    --line:    #D7DCE2;
+    --brick:   #A8402D;   /* акцент: мотив, действия */
+    --gold:    #C0912F;
+    --correct: #2E7D5B;
+    --wrong:   #A8402D;
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  main {
+    max-width: 460px;
+    margin: 0 auto;
+    padding: 18px 16px 96px;
+  }
+
+  button { font: inherit; color: inherit; cursor: pointer; }
+
+  .ro { font-family: Newsreader, Georgia, serif; letter-spacing: -0.01em; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 14px; }
+
+  .primary {
+    width: 100%; font-weight: 500; color: #fff;
+    background: var(--ink); border: none; border-radius: 10px; padding: 15px;
+  }
+
+  .primary.brick { background: var(--brick); }
+  .primary:disabled { background: var(--line); color: var(--muted); cursor: default; }
+
+  .primary:focus-visible, .option:focus-visible, .unit:focus-visible,
+  .chip:focus-visible, .icon-btn:focus-visible, .navbtn:focus-visible,
+  .setcard:focus-visible, .tab:focus-visible {
+    outline: 2px solid var(--brick); outline-offset: 2px;
+  }
+
+  .hidden { display: none !important; }
+
+  /* мотив: ромбы из народной вышивки */
+  .motif { display: block; width: 100%; height: 14px; color: var(--brick); opacity: .55; }
+
+  /* ============ Вводный экран ============ */
+
+  #screen-welcome {
+    position: fixed; inset: 0; z-index: 20;
+    background: var(--deep); color: #EFEAE3;
+    display: flex; align-items: center; justify-content: center;
+    padding: 32px 24px; overflow-y: auto;
+  }
+
+  .welcome-inner { max-width: 400px; width: 100%; }
+
+  .welcome-title {
+    font-family: Newsreader, Georgia, serif;
+    font-size: 56px; font-weight: 600; line-height: 1;
+    margin: 0 0 6px; letter-spacing: -0.02em;
+  }
+
+  .welcome-sub { color: #A6B0C4; margin: 0 0 26px; font-size: 17px; }
+
+  #screen-welcome .motif { opacity: .8; margin-bottom: 26px; }
+
+  .welcome-list { list-style: none; padding: 0; margin: 0 0 32px; }
+
+  .welcome-list li {
+    display: flex; gap: 12px; align-items: baseline;
+    padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,.1);
+  }
+
+  .welcome-list li:last-child { border-bottom: none; }
+  .welcome-list b { font-weight: 500; }
+  .welcome-list span { color: #A6B0C4; font-size: 15px; display: block; margin-top: 2px; }
+  .welcome-num { font-family: Newsreader, Georgia, serif; color: var(--gold); font-size: 19px; }
+
+  .welcome-foot { text-align: center; color: #7E8AA0; font-size: 13px; margin: 14px 0 0; }
+
+  /* ============ Шапка ============ */
+
+  .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
+  .head h1 { font-family: Newsreader, Georgia, serif; font-size: 27px; font-weight: 600; margin: 0; }
+  .streak { font-size: 14px; color: var(--gold); font-weight: 500; }
+
+  .section-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; }
+
+  /* ============ Юниты ============ */
+
+  .unit {
+    display: block; width: 100%; text-align: left;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+  }
+
+  .unit[data-state="locked"] { opacity: .4; cursor: default; }
+  .unit[data-state="done"] { border-color: var(--correct); }
+  .unit-name { font-weight: 500; }
+  .unit-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .unit-mark { float: right; font-size: 13px; color: var(--correct); }
+
+  /* ============ Грамматика ============ */
+
+  .note { padding: 24px 22px; margin-bottom: 18px; border-left: 3px solid var(--gold); }
+  .note h2 { font-family: Newsreader, Georgia, serif; font-size: 22px; font-weight: 600; margin: 0 0 14px; }
+  .note p { margin: 0 0 12px; }
+  .note p:last-of-type { margin-bottom: 0; }
+  .note b { font-family: Newsreader, Georgia, serif; font-weight: 500; font-size: 17px; }
+  .note table { width: 100%; border-collapse: collapse; margin: 16px 0 4px; font-size: 15px; }
+  .note td { padding: 7px 0; border-bottom: 1px solid var(--line); }
+  .note td:first-child { font-family: Newsreader, Georgia, serif; font-size: 17px; }
+  .note td:last-child { color: var(--muted); text-align: right; }
+  .note tr:last-child td { border-bottom: none; }
+
+  /* ============ Урок ============ */
+
+  .top { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .track { flex: 1; height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+  .fill { height: 100%; width: 0; background: var(--brick); border-radius: 3px; transition: width .3s ease; }
+  .quit { background: none; border: none; color: var(--muted); font-size: 24px; line-height: 1; padding: 0 4px; }
+
+  .prompt { padding: 30px 22px 26px; text-align: center; margin-bottom: 20px; }
+  .task { font-size: 13px; color: var(--muted); margin: 0 0 16px; }
+  .subject { font-size: 38px; line-height: 1.15; margin: 0; }
+  .subject.small { font-size: 26px; }
+  .icon-btn { background: none; border: none; color: var(--muted); font-size: 20px; padding: 4px 8px; }
+
+  .options { display: grid; gap: 10px; margin: 0 0 20px; padding: 0; list-style: none; }
+  .option { width: 100%; text-align: left; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 15px 18px; }
+  .option:hover:not(:disabled) { border-color: var(--ink); }
+  .option:disabled { cursor: default; }
+  .option.is-correct { border-color: var(--correct); background: #EDF6F1; color: var(--correct); font-weight: 500; }
+  .option.is-wrong { border-color: var(--wrong); background: #FAEEEC; color: var(--wrong); }
+
+  .slot { min-height: 56px; border-bottom: 2px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px; align-content: flex-start; padding: 6px 0 10px; margin-bottom: 18px; }
+  .bank { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; min-height: 44px; }
+  .chip { font-family: Newsreader, Georgia, serif; font-size: 17px; background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 9px 14px; }
+  .chip.used { visibility: hidden; }
+
+  .answer-input {
+    width: 100%; font: inherit; font-family: Newsreader, Georgia, serif;
+    font-size: 20px; color: inherit; background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;
+  }
+  .answer-input:focus { outline: none; border-color: var(--brick); }
+
+  .feedback { min-height: 44px; font-size: 15px; margin-bottom: 12px; }
+  .feedback.ok { color: var(--correct); }
+  .feedback.bad { color: var(--wrong); }
+  .feedback .ro { font-size: 17px; }
+
+  /* ============ Итог ============ */
+
+  .result {
+    background: var(--deep); color: #EFEAE3;
+    border-radius: 16px; padding: 44px 24px 32px; text-align: center; margin-top: 12px;
+  }
+  .result .motif { opacity: .7; margin-bottom: 24px; }
+  .score { font-family: Newsreader, Georgia, serif; font-size: 62px; line-height: 1; margin: 0 0 6px; }
+  .result p { color: #A6B0C4; margin: 0 0 28px; }
+  .result .primary { background: var(--brick); }
+
+  /* ============ Словарь ============ */
+
+  .tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+  .tab {
+    flex: 1; background: none; border: 1px solid var(--line);
+    border-radius: 999px; padding: 9px; font-size: 14px; color: var(--muted);
+  }
+  .tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+
+  .search {
+    width: 100%; font: inherit; color: inherit; background: var(--card);
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 12px 14px; margin-bottom: 16px;
+  }
+  .search:focus { outline: none; border-color: var(--brick); }
+
+  .entry {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .entry-ro { font-family: Newsreader, Georgia, serif; font-size: 18px; }
+  .entry-ru { color: var(--muted); font-size: 14px; margin-top: 1px; }
+  .entry-text { flex: 1; min-width: 0; }
+
+  .setcard {
+    display: block; width: 100%; text-align: left;
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 12px; padding: 16px 18px; margin-bottom: 10px;
+  }
+  .setcard[data-soon="1"] { opacity: .45; cursor: default; }
+  .setcard-name { font-weight: 500; }
+  .setcard-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
+  .setcard-count { float: right; font-size: 13px; color: var(--muted); }
+
+  .back {
+    background: none; border: none; color: var(--muted);
+    padding: 0; margin-bottom: 14px; font-size: 15px;
+  }
+
+  .group-title { font-size: 13px; color: var(--muted); margin: 22px 0 10px; }
+
+  .empty { color: var(--muted); text-align: center; padding: 30px 0; }
+
+  /* ============ Нижняя навигация ============ */
+
+  nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: var(--card); border-top: 1px solid var(--line);
+    display: flex; padding: 8px 0 22px;
+  }
+
+  .navbtn {
+    flex: 1; background: none; border: none;
+    color: var(--muted); font-size: 13px; padding: 6px 0;
+  }
+  .navbtn[aria-current="page"] { color: var(--brick); font-weight: 500; }
+  .navbtn .glyph { display: block; font-size: 19px; margin-bottom: 2px; }
+
+  @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+
+<!-- мотив определяется один раз и переиспользуется -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <pattern id="rhomb" width="18" height="14" patternUnits="userSpaceOnUse">
+      <path d="M9 1 L17 7 L9 13 L1 7 Z" fill="none" stroke="currentColor" stroke-width="1"/>
+      <path d="M9 4.6 L12.4 7 L9 9.4 L5.6 7 Z" fill="currentColor"/>
+    </pattern>
+  </defs>
+</svg>
+
+<div id="screen-welcome"></div>
+
+<main>
+  <section id="screen-home"></section>
+  <section id="screen-note" class="hidden"></section>
+  <section id="screen-lesson" class="hidden"></section>
+  <section id="screen-result" class="hidden"></section>
+  <section id="screen-dict" class="hidden"></section>
+</main>
+
+<nav id="nav" class="hidden">
+  <button class="navbtn" data-go="home"><span class="glyph">◈</span>Курс</button>
+  <button class="navbtn" data-go="dict"><span class="glyph">☰</span>Словарь</button>
+</nav>
+
+<script>
+/* ==========================================================================
+   ЧАСТЬ 1. СОДЕРЖАНИЕ КУРСА
+   ========================================================================== */
+
+const COURSE = {
+  title: "Первые слова",
+  units: [
+
+    {
+      id: "u1",
+      name: "Приветствие",
+      sub: "Здравствуйте, спасибо, до свидания",
+      grammar: null,
+      words: [
+        { ro: "bună",           ru: "привет" },
+        { ro: "bună ziua",      ru: "добрый день" },
+        { ro: "bună dimineața", ru: "доброе утро" },
+        { ro: "bună seara",     ru: "добрый вечер" },
+        { ro: "la revedere",    ru: "до свидания" },
+        { ro: "mulțumesc",      ru: "спасибо" },
+        { ro: "cu plăcere",     ru: "пожалуйста (в ответ)" },
+        { ro: "te rog",         ru: "пожалуйста (просьба)" },
+        { ro: "da",             ru: "да" },
+        { ro: "nu",             ru: "нет" },
+        { ro: "scuze",          ru: "извините" }
+      ],
+      phrases: [
+        { ro: "Bună ziua",   ru: "Добрый день" },
+        { ro: "La revedere", ru: "До свидания" }
+      ],
+      gaps: []
+    },
+
+    {
+      id: "u2",
+      name: "Знакомство",
+      sub: "Глагол «быть», местоимения",
+      grammar: {
+        title: "Глагол a fi — «быть»",
+        body: [
+          "В русском мы говорим «я студент» — без глагола. В румынском глагол обязателен: <b>Eu sunt student</b>. Пропустить его нельзя.",
+          "Местоимение при этом часто опускают: форма глагола и так показывает, о ком речь. <b>Sunt student</b> — этого достаточно."
+        ],
+        table: [
+          ["eu sunt",       "я есть"],
+          ["tu ești",       "ты есть"],
+          ["el / ea este",  "он / она есть"],
+          ["noi suntem",    "мы есть"],
+          ["voi sunteți",   "вы есть"],
+          ["ei / ele sunt", "они есть"]
+        ]
+      },
+      words: [
+        { ro: "eu",            ru: "я" },
+        { ro: "tu",            ru: "ты" },
+        { ro: "el",            ru: "он" },
+        { ro: "ea",            ru: "она" },
+        { ro: "sunt",          ru: "я есть / они есть" },
+        { ro: "ești",          ru: "ты есть" },
+        { ro: "este",          ru: "он есть / она есть" },
+        { ro: "mă numesc",     ru: "меня зовут" },
+        { ro: "îmi pare bine", ru: "приятно познакомиться" },
+        { ro: "prieten",       ru: "друг" },
+        { ro: "prietenă",      ru: "подруга" }
+      ],
+      phrases: [
+        { ro: "Eu sunt Ana",     ru: "Я Ана" },
+        { ro: "Tu ești prieten", ru: "Ты друг" },
+        { ro: "El este prieten", ru: "Он друг" }
+      ],
+      gaps: [
+        { text: "Eu ___ Ana.",      answer: "sunt", options: ["sunt", "ești", "este"] },
+        { text: "Tu ___ prieten.",  answer: "ești", options: ["sunt", "ești", "este"] },
+        { text: "Ea ___ prietenă.", answer: "este", options: ["sunt", "ești", "este"] }
+      ]
+    },
+
+    {
+      id: "u3",
+      name: "Кто ты",
+      sub: "Профессии, артикль un / o",
+      grammar: {
+        title: "Неопределённый артикль: un и o",
+        body: [
+          "У румынского существительного есть род, и артикль его показывает: <b>un</b> для мужского, <b>o</b> для женского.",
+          "Род румынского слова часто не совпадает с русским. Поэтому запоминать слово нужно сразу с артиклем: не «prieten», а <b>un prieten</b>."
+        ],
+        table: [
+          ["un prieten", "друг"],
+          ["un student", "студент"],
+          ["un medic",   "врач"],
+          ["o prietenă", "подруга"],
+          ["o studentă", "студентка"],
+          ["o casă",     "дом"]
+        ]
+      },
+      words: [
+        { ro: "un student",  ru: "студент" },
+        { ro: "o studentă",  ru: "студентка" },
+        { ro: "un profesor", ru: "преподаватель" },
+        { ro: "un medic",    ru: "врач" },
+        { ro: "o casă",      ru: "дом" },
+        { ro: "un oraș",     ru: "город" },
+        { ro: "de unde",     ru: "откуда" },
+        { ro: "din",         ru: "из" },
+        { ro: "aici",        ru: "здесь" }
+      ],
+      phrases: [
+        { ro: "Eu sunt student",  ru: "Я студент" },
+        { ro: "Ea este studentă", ru: "Она студентка" },
+        { ro: "De unde ești",     ru: "Откуда ты" },
+        { ro: "Sunt din Moldova", ru: "Я из Молдовы" }
+      ],
+      gaps: [
+        { text: "___ prieten",  answer: "un", options: ["un", "o"] },
+        { text: "___ casă",     answer: "o",  options: ["un", "o"] },
+        { text: "___ medic",    answer: "un", options: ["un", "o"] },
+        { text: "___ studentă", answer: "o",  options: ["un", "o"] }
+      ]
+    },
+
+    {
+      id: "u4",
+      name: "Какой он",
+      sub: "Прилагательные и знакомые слова",
+      grammar: {
+        title: "Прилагательное подстраивается под слово",
+        body: [
+          "Как и в русском, румынское прилагательное меняется по роду: <b>un prieten bun</b>, но <b>o prietenă bună</b>.",
+          "Разница в другом: в румынском прилагательное обычно стоит <b>после</b> существительного. Не «хороший друг», а «друг хороший».",
+          "И приятная новость: половина слов здесь вам уже знакома. Румынский полон славянских заимствований — <b>a iubi</b>, <b>drag</b>, <b>da</b>, <b>a citi</b>."
+        ],
+        table: [
+          ["bun / bună",   "хороший"],
+          ["mare",         "большой"],
+          ["mic / mică",   "маленький"],
+          ["drag / dragă", "дорогой"]
+        ]
+      },
+      words: [
+        { ro: "bun",     ru: "хороший" },
+        { ro: "bună",    ru: "хорошая" },
+        { ro: "mare",    ru: "большой" },
+        { ro: "mic",     ru: "маленький" },
+        { ro: "drag",    ru: "дорогой" },
+        { ro: "apă",     ru: "вода" },
+        { ro: "o carte", ru: "книга" },
+        { ro: "a citi",  ru: "читать" },
+        { ro: "a iubi",  ru: "любить" }
+      ],
+      phrases: [
+        { ro: "Casa este mare", ru: "Дом большой" },
+        { ro: "Apa este bună",  ru: "Вода хорошая" },
+        { ro: "Un prieten bun", ru: "Хороший друг" },
+        { ro: "O carte mică",   ru: "Маленькая книга" }
+      ],
+      gaps: [
+        { text: "un prieten ___", answer: "bun",  options: ["bun", "bună"] },
+        { text: "o prietenă ___", answer: "bună", options: ["bun", "bună"] },
+        { text: "Casa este ___.", answer: "mare", options: ["mare", "mic"] }
+      ]
+    }
+  ]
+};
+
+/* ==========================================================================
+   ЧАСТЬ 2. СЛОВАРЬ И ПРОФЕССИОНАЛЬНЫЕ НАБОРЫ
+   ==========================================================================
+   Наборы лексики для работы. Не встроены в курс — это справочник, к которому
+   человек обращается по нужде. Позже из них можно собирать отдельные уроки.
+*/
+
+const SETS = [
+
+  {
+    id: "survival",
+    name: "Когда не понимаешь",
+    sub: "Самое нужное с первого дня",
+    words: [
+      { ro: "Nu înțeleg.",                ru: "Я не понимаю." },
+      { ro: "Scuze, nu am înțeles.",      ru: "Извините, я не понял." },
+      { ro: "Repetați, vă rog!",          ru: "Повторите, пожалуйста!" },
+      { ro: "Repetați pe litere!",        ru: "Продиктуйте по буквам!" },
+      { ro: "Vorbiți mai rar, vă rog.",   ru: "Говорите медленнее, пожалуйста." },
+      { ro: "Vorbiți mai tare, vă rog.",  ru: "Говорите громче, пожалуйста." },
+      { ro: "Încă o dată, vă rog.",       ru: "Ещё раз, пожалуйста." },
+      { ro: "Am o întrebare.",            ru: "У меня вопрос." },
+      { ro: "Ce înseamnă…?",              ru: "Что означает…?" },
+      { ro: "Cum se spune în română…?",   ru: "Как по-румынски…?" },
+      { ro: "Puteți scrie, vă rog?",      ru: "Можете написать, пожалуйста?" },
+      { ro: "Nu vorbesc bine româna.",    ru: "Я плохо говорю по-румынски." },
+      { ro: "Învăț limba română.",        ru: "Я учу румынский язык." },
+      { ro: "Vorbiți rusește?",           ru: "Вы говорите по-русски?" },
+      { ro: "Nu știu.",                   ru: "Я не знаю." },
+      { ro: "Am nevoie de ajutor.",       ru: "Мне нужна помощь." }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "logistics",
+    name: "Логистика и склад",
+    sub: "Груз, доставка, документы",
+    words: [
+      { ro: "depozit",           ru: "склад" },
+      { ro: "marfă",             ru: "товар" },
+      { ro: "colet",             ru: "посылка" },
+      { ro: "palet",             ru: "паллета" },
+      { ro: "cutie",             ru: "коробка" },
+      { ro: "ladă",              ru: "ящик" },
+      { ro: "camion",            ru: "грузовик" },
+      { ro: "remorcă",           ru: "прицеп" },
+      { ro: "stivuitor",         ru: "погрузчик" },
+      { ro: "încărcător",        ru: "грузчик" },
+      { ro: "a încărca",         ru: "грузить" },
+      { ro: "a descărca",        ru: "разгружать" },
+      { ro: "livrare",           ru: "доставка" },
+      { ro: "expeditor",         ru: "отправитель" },
+      { ro: "destinatar",        ru: "получатель" },
+      { ro: "factură",           ru: "счёт-фактура" },
+      { ro: "aviz de însoțire",  ru: "товарная накладная" },
+      { ro: "vamă",              ru: "таможня" },
+      { ro: "declarație vamală", ru: "таможенная декларация" },
+      { ro: "greutate",          ru: "вес" },
+      { ro: "cântar",            ru: "весы" },
+      { ro: "tonă",              ru: "тонна" },
+      { ro: "termen de livrare", ru: "срок доставки" },
+      { ro: "adresă de livrare", ru: "адрес доставки" },
+      { ro: "rută",              ru: "маршрут" },
+      { ro: "cursă",             ru: "рейс" },
+      { ro: "retur",             ru: "возврат" },
+      { ro: "transport",         ru: "перевозка" }
+    ],
+    phrases: [
+      { ro: "Unde descărcăm?",              ru: "Где разгружаем?" },
+      { ro: "Câți paleți sunt?",            ru: "Сколько паллет?" },
+      { ro: "Marfa este deteriorată.",      ru: "Товар повреждён." },
+      { ro: "Semnați aici, vă rog.",        ru: "Распишитесь здесь, пожалуйста." },
+      { ro: "Când ajunge camionul?",        ru: "Когда придёт грузовик?" },
+      { ro: "Am nevoie de factură.",        ru: "Мне нужна накладная." },
+      { ro: "Livrarea este pentru mâine.",  ru: "Доставка на завтра." }
+    ]
+  },
+
+  {
+    id: "food",
+    name: "Общественное питание",
+    sub: "Официант, повар, бармен",
+    words: [
+      { ro: "ospătar",       ru: "официант" },
+      { ro: "ospătăriță",    ru: "официантка" },
+      { ro: "bucătar",       ru: "повар" },
+      { ro: "barman",        ru: "бармен" },
+      { ro: "bucătărie",     ru: "кухня" },
+      { ro: "meniu",         ru: "меню" },
+      { ro: "comandă",       ru: "заказ" },
+      { ro: "rezervare",     ru: "бронь" },
+      { ro: "nota de plată", ru: "счёт" },
+      { ro: "bacșiș",        ru: "чаевые" },
+      { ro: "masă",          ru: "стол" },
+      { ro: "farfurie",      ru: "тарелка" },
+      { ro: "pahar",         ru: "стакан" },
+      { ro: "ceașcă",        ru: "чашка" },
+      { ro: "lingură",       ru: "ложка" },
+      { ro: "furculiță",     ru: "вилка" },
+      { ro: "cuțit",         ru: "нож" },
+      { ro: "șervețel",      ru: "салфетка" },
+      { ro: "tavă",          ru: "поднос" },
+      { ro: "fel principal", ru: "основное блюдо" },
+      { ro: "supă",          ru: "суп" },
+      { ro: "salată",        ru: "салат" },
+      { ro: "desert",        ru: "десерт" },
+      { ro: "băutură",       ru: "напиток" },
+      { ro: "apă plată",     ru: "вода без газа" },
+      { ro: "apă minerală",  ru: "минеральная вода" },
+      { ro: "vin",           ru: "вино" },
+      { ro: "bere",          ru: "пиво" },
+      { ro: "cafea",         ru: "кофе" },
+      { ro: "ceai",          ru: "чай" },
+      { ro: "pâine",         ru: "хлеб" },
+      { ro: "carne",         ru: "мясо" },
+      { ro: "pește",         ru: "рыба" },
+      { ro: "legume",        ru: "овощи" },
+      { ro: "fructe",        ru: "фрукты" }
+    ],
+    phrases: [
+      { ro: "Cu ce vă pot ajuta?",   ru: "Чем могу помочь?" },
+      { ro: "Aveți o rezervare?",    ru: "У вас есть бронь?" },
+      { ro: "Poftim meniul.",        ru: "Вот меню." },
+      { ro: "Ce doriți să comandați?", ru: "Что желаете заказать?" },
+      { ro: "Doriți ceva de băut?",  ru: "Желаете что-нибудь выпить?" },
+      { ro: "Mai doriți ceva?",      ru: "Желаете что-нибудь ещё?" },
+      { ro: "Imediat!",              ru: "Сейчас!" },
+      { ro: "Poftă bună!",           ru: "Приятного аппетита!" },
+      { ro: "Din păcate, nu avem.",  ru: "К сожалению, у нас нет." },
+      { ro: "Nota de plată, vă rog.", ru: "Счёт, пожалуйста." }
+    ]
+  },
+
+  {
+    id: "docs",
+    name: "Документы и госуслуги",
+    sub: "Примэрия, справки, окошко",
+    words: [
+      { ro: "primărie",             ru: "примэрия" },
+      { ro: "ghișeu",               ru: "окошко (в учреждении)" },
+      { ro: "rând",                 ru: "очередь" },
+      { ro: "cerere",               ru: "заявление" },
+      { ro: "act",                  ru: "документ" },
+      { ro: "buletin de identitate", ru: "удостоверение личности" },
+      { ro: "pașaport",             ru: "паспорт" },
+      { ro: "certificat",           ru: "справка, свидетельство" },
+      { ro: "copie",                ru: "копия" },
+      { ro: "semnătură",            ru: "подпись" },
+      { ro: "ștampilă",             ru: "печать" },
+      { ro: "taxă",                 ru: "пошлина" },
+      { ro: "termen",               ru: "срок" },
+      { ro: "adeverință",           ru: "справка (с места работы)" },
+      { ro: "a completa",           ru: "заполнить" },
+      { ro: "a depune",             ru: "подать" },
+      { ro: "a semna",              ru: "подписать" }
+    ],
+    phrases: [
+      { ro: "Unde este ghișeul?",      ru: "Где окошко?" },
+      { ro: "Ce acte sunt necesare?",  ru: "Какие документы нужны?" },
+      { ro: "Trebuie să completez o cerere?", ru: "Мне нужно заполнить заявление?" },
+      { ro: "Cât durează?",            ru: "Сколько это займёт?" },
+      { ro: "Nu înțeleg, mai rar, vă rog.", ru: "Я не понимаю, помедленнее, пожалуйста." }
+    ]
+  },
+
+  {
+    id: "med",
+    name: "Медицина и аптека",
+    sub: "У врача, в аптеке",
+    words: [
+      { ro: "farmacie",        ru: "аптека" },
+      { ro: "medicament",      ru: "лекарство" },
+      { ro: "rețetă",          ru: "рецепт" },
+      { ro: "pastilă",         ru: "таблетка" },
+      { ro: "sirop",           ru: "сироп" },
+      { ro: "durere",          ru: "боль" },
+      { ro: "durere de cap",   ru: "головная боль" },
+      { ro: "febră",           ru: "температура, жар" },
+      { ro: "tuse",            ru: "кашель" },
+      { ro: "răceală",         ru: "простуда" },
+      { ro: "tensiune",        ru: "давление" },
+      { ro: "medic de familie", ru: "семейный врач" },
+      { ro: "spital",          ru: "больница" },
+      { ro: "policlinică",     ru: "поликлиника" },
+      { ro: "programare",      ru: "запись на приём" },
+      { ro: "analize",         ru: "анализы" }
+    ],
+    phrases: [
+      { ro: "Mă doare capul.",          ru: "У меня болит голова." },
+      { ro: "Mă doare aici.",           ru: "У меня болит здесь." },
+      { ro: "Am febră.",                ru: "У меня температура." },
+      { ro: "Aveți ceva pentru tuse?",  ru: "Есть что-нибудь от кашля?" },
+      { ro: "Cu rețetă sau fără?",      ru: "По рецепту или без?" },
+      { ro: "Am nevoie de o programare.", ru: "Мне нужна запись на приём." },
+      { ro: "Sunt alergic la…",         ru: "У меня аллергия на…" },
+      { ro: "De câte ori pe zi?",       ru: "Сколько раз в день?" },
+      { ro: "Chemați o ambulanță!",     ru: "Вызовите скорую!" }
+    ]
+  },
+
+  {
+    id: "build",
+    name: "Стройка и ремонт",
+    sub: "Инструмент, материалы, объект",
+    words: [
+      { ro: "constructor",      ru: "строитель" },
+      { ro: "șantier",          ru: "стройка" },
+      { ro: "ciment",           ru: "цемент" },
+      { ro: "nisip",            ru: "песок" },
+      { ro: "cărămidă",         ru: "кирпич" },
+      { ro: "beton",            ru: "бетон" },
+      { ro: "vopsea",           ru: "краска" },
+      { ro: "ciocan",           ru: "молоток" },
+      { ro: "cui",              ru: "гвоздь" },
+      { ro: "șurub",            ru: "шуруп" },
+      { ro: "șurubelniță",      ru: "отвёртка" },
+      { ro: "mașină de găurit", ru: "дрель" },
+      { ro: "scară",            ru: "лестница, стремянка" },
+      { ro: "mănuși",           ru: "перчатки" },
+      { ro: "cască",            ru: "каска" },
+      { ro: "perete",           ru: "стена" },
+      { ro: "podea",            ru: "пол" },
+      { ro: "acoperiș",         ru: "крыша" },
+      { ro: "ușă",              ru: "дверь" },
+      { ro: "fereastră",        ru: "окно" }
+    ],
+    phrases: [
+      { ro: "Dă-mi ciocanul, te rog.", ru: "Дай мне молоток, пожалуйста." },
+      { ro: "Unde sunt mănușile?",     ru: "Где перчатки?" },
+      { ro: "Atenție!",                ru: "Осторожно!" },
+      { ro: "Am terminat.",            ru: "Я закончил." },
+      { ro: "Când începem mâine?",     ru: "Когда завтра начинаем?" },
+      { ro: "Nu avem destul ciment.",  ru: "У нас не хватает цемента." },
+      { ro: "Ajută-mă, te rog.",       ru: "Помоги мне, пожалуйста." },
+      { ro: "Este periculos aici.",    ru: "Здесь опасно." }
+    ]
+  },
+
+  {
+    id: "shop",
+    name: "Магазин и торговля",
+    sub: "Продавец, касса, товар",
+    words: [
+      { ro: "magazin",             ru: "магазин" },
+      { ro: "piață",               ru: "рынок" },
+      { ro: "vânzătoare",          ru: "продавщица" },
+      { ro: "casieriță",           ru: "кассир (ж)" },
+      { ro: "casă de marcat",      ru: "касса" },
+      { ro: "bon fiscal",          ru: "чек" },
+      { ro: "preț",                ru: "цена" },
+      { ro: "reducere",            ru: "скидка" },
+      { ro: "ofertă",              ru: "акция" },
+      { ro: "raft",                ru: "полка" },
+      { ro: "coș",                 ru: "корзина" },
+      { ro: "cărucior",            ru: "тележка" },
+      { ro: "pungă",               ru: "пакет" },
+      { ro: "stoc",                ru: "наличие на складе" },
+      { ro: "termen de valabilitate", ru: "срок годности" },
+      { ro: "restul",              ru: "сдача" },
+      { ro: "numerar",             ru: "наличные" },
+      { ro: "card",                ru: "карта" },
+      { ro: "garanție",            ru: "гарантия" },
+      { ro: "schimb",              ru: "обмен" },
+      { ro: "mărime",              ru: "размер" },
+      { ro: "cabină de probă",     ru: "примерочная" },
+      { ro: "îmbrăcăminte",        ru: "одежда" },
+      { ro: "încălțăminte",        ru: "обувь" }
+    ],
+    phrases: [
+      { ro: "Cu ce vă pot ajuta?",          ru: "Чем могу помочь?" },
+      { ro: "Cât costă?",                   ru: "Сколько стоит?" },
+      { ro: "Aveți și alte mărimi?",        ru: "Есть другие размеры?" },
+      { ro: "Pot să probez?",               ru: "Можно примерить?" },
+      { ro: "Cu cardul sau în numerar?",    ru: "Картой или наличными?" },
+      { ro: "Doriți bon fiscal?",           ru: "Чек нужен?" },
+      { ro: "Poftiți restul.",              ru: "Вот сдача." },
+      { ro: "Nu avem în stoc.",             ru: "Нет в наличии." },
+      { ro: "Este la reducere.",            ru: "Это со скидкой." },
+      { ro: "Pot să schimb produsul?",      ru: "Могу обменять товар?" }
+    ]
+  },
+
+  {
+    id: "taxi",
+    name: "Транспорт и такси",
+    sub: "Маршрут, адрес, оплата",
+    words: [
+      { ro: "taxi",                ru: "такси" },
+      { ro: "șofer",               ru: "водитель" },
+      { ro: "mașină",              ru: "машина" },
+      { ro: "troleibuz",           ru: "троллейбус" },
+      { ro: "autobuz",             ru: "автобус" },
+      { ro: "microbuz",            ru: "маршрутка" },
+      { ro: "stație",              ru: "остановка" },
+      { ro: "autogară",            ru: "автовокзал" },
+      { ro: "bilet",               ru: "билет" },
+      { ro: "cursă",               ru: "рейс, поездка" },
+      { ro: "adresă",              ru: "адрес" },
+      { ro: "stradă",              ru: "улица" },
+      { ro: "bulevard",            ru: "бульвар" },
+      { ro: "intersecție",         ru: "перекрёсток" },
+      { ro: "semafor",             ru: "светофор" },
+      { ro: "parcare",             ru: "парковка" },
+      { ro: "benzinărie",          ru: "заправка" },
+      { ro: "benzină",             ru: "бензин" },
+      { ro: "motorină",            ru: "дизель" },
+      { ro: "portbagaj",           ru: "багажник" },
+      { ro: "centură de siguranță", ru: "ремень безопасности" },
+      { ro: "drept înainte",       ru: "прямо" },
+      { ro: "la stânga",           ru: "налево" },
+      { ro: "la dreapta",          ru: "направо" }
+    ],
+    phrases: [
+      { ro: "Unde mergem?",                    ru: "Куда едем?" },
+      { ro: "La ce adresă?",                   ru: "По какому адресу?" },
+      { ro: "Cât costă cursa?",                ru: "Сколько стоит поездка?" },
+      { ro: "Opriți aici, vă rog.",            ru: "Остановите здесь, пожалуйста." },
+      { ro: "Puteți aștepta puțin?",           ru: "Можете немного подождать?" },
+      { ro: "Mergeți drept înainte.",          ru: "Езжайте прямо." },
+      { ro: "La semafor la dreapta.",          ru: "На светофоре направо." },
+      { ro: "Cât durează până acolo?",         ru: "Сколько туда ехать?" },
+      { ro: "Aveți loc pentru bagaje?",        ru: "Есть место для багажа?" }
+    ]
+  },
+
+  {
+    id: "beauty",
+    name: "Салон красоты",
+    sub: "Парикмахер, маникюр, запись",
+    words: [
+      { ro: "salon de frumusețe", ru: "салон красоты" },
+      { ro: "frizerie",           ru: "парикмахерская" },
+      { ro: "frizeriță",          ru: "парикмахер (ж)" },
+      { ro: "coafeză",            ru: "стилист по волосам" },
+      { ro: "tuns",               ru: "стрижка (процесс)" },
+      { ro: "tunsoare",           ru: "стрижка (результат)" },
+      { ro: "vopsit",             ru: "окрашивание" },
+      { ro: "vopsea",             ru: "краска" },
+      { ro: "șuvițe",             ru: "пряди, мелирование" },
+      { ro: "breton",             ru: "чёлка" },
+      { ro: "uscător",            ru: "фен" },
+      { ro: "foarfece",           ru: "ножницы" },
+      { ro: "pieptene",           ru: "расчёска" },
+      { ro: "barbă",              ru: "борода" },
+      { ro: "mustață",            ru: "усы" },
+      { ro: "sprâncene",          ru: "брови" },
+      { ro: "manichiură",         ru: "маникюр" },
+      { ro: "pedichiură",         ru: "педикюр" },
+      { ro: "unghii",             ru: "ногти" },
+      { ro: "ojă",                ru: "лак для ногтей" },
+      { ro: "masaj",              ru: "массаж" },
+      { ro: "programare",         ru: "запись" }
+    ],
+    phrases: [
+      { ro: "Aveți programare?",              ru: "Вы записаны?" },
+      { ro: "Vreau o programare pentru mâine.", ru: "Хочу записаться на завтра." },
+      { ro: "Cum doriți să vă tund?",         ru: "Как вас подстричь?" },
+      { ro: "Doar vârfurile, vă rog.",        ru: "Только кончики, пожалуйста." },
+      { ro: "Mai scurt, vă rog.",             ru: "Покороче, пожалуйста." },
+      { ro: "Cât costă un tuns?",             ru: "Сколько стоит стрижка?" },
+      { ro: "Vă convine ora 15:00?",          ru: "Вам удобно в 15:00?" }
+    ]
+  },
+
+  {
+    id: "school",
+    name: "Школа и садик",
+    sub: "Для родителей",
+    words: [
+      { ro: "școală",              ru: "школа" },
+      { ro: "grădiniță",           ru: "детский сад" },
+      { ro: "liceu",               ru: "лицей" },
+      { ro: "clasă",               ru: "класс" },
+      { ro: "elev",                ru: "ученик" },
+      { ro: "învățătoare",         ru: "учительница начальных классов" },
+      { ro: "profesoară",          ru: "учительница" },
+      { ro: "educatoare",          ru: "воспитательница" },
+      { ro: "diriginte",           ru: "классный руководитель" },
+      { ro: "lecție",              ru: "урок" },
+      { ro: "orar",                ru: "расписание" },
+      { ro: "temă pentru acasă",   ru: "домашнее задание" },
+      { ro: "caiet",               ru: "тетрадь" },
+      { ro: "manual",              ru: "учебник" },
+      { ro: "rechizite",           ru: "школьные принадлежности" },
+      { ro: "notă",                ru: "оценка" },
+      { ro: "carnet de note",      ru: "дневник" },
+      { ro: "ședință cu părinții", ru: "родительское собрание" },
+      { ro: "absență",             ru: "пропуск" },
+      { ro: "certificat medical",  ru: "медицинская справка" },
+      { ro: "cantină",             ru: "столовая" },
+      { ro: "vacanță",             ru: "каникулы" }
+    ],
+    phrases: [
+      { ro: "Sunt mama lui Andrei.",           ru: "Я мама Андрея." },
+      { ro: "Când este ședința cu părinții?",  ru: "Когда родительское собрание?" },
+      { ro: "Copilul meu a lipsit ieri.",      ru: "Мой ребёнок вчера отсутствовал." },
+      { ro: "Am adus certificatul medical.",   ru: "Я принёс медицинскую справку." },
+      { ro: "Ce teme are pentru mâine?",       ru: "Что задали на завтра?" },
+      { ro: "La ce oră se termină lecțiile?",  ru: "Во сколько заканчиваются уроки?" },
+      { ro: "Pot să vorbesc cu dirigintele?",  ru: "Могу поговорить с классным руководителем?" }
+    ]
+  },
+
+  {
+    id: "bank",
+    name: "Банк и деньги",
+    sub: "Счёт, карта, перевод",
+    words: [
+      { ro: "bancă",           ru: "банк" },
+      { ro: "cont",            ru: "счёт" },
+      { ro: "card bancar",     ru: "банковская карта" },
+      { ro: "bancomat",        ru: "банкомат" },
+      { ro: "numerar",         ru: "наличные" },
+      { ro: "transfer",        ru: "перевод" },
+      { ro: "comision",        ru: "комиссия" },
+      { ro: "credit",          ru: "кредит" },
+      { ro: "rată",            ru: "платёж по кредиту" },
+      { ro: "dobândă",         ru: "процент" },
+      { ro: "extras de cont",  ru: "выписка со счёта" },
+      { ro: "schimb valutar",  ru: "обмен валюты" },
+      { ro: "curs valutar",    ru: "курс валюты" },
+      { ro: "leu / lei",       ru: "лей / леи" },
+      { ro: "euro",            ru: "евро" },
+      { ro: "salariu",         ru: "зарплата" },
+      { ro: "plată",           ru: "платёж" },
+      { ro: "chitanță",        ru: "квитанция" },
+      { ro: "semnătură",       ru: "подпись" }
+    ],
+    phrases: [
+      { ro: "Vreau să deschid un cont.",      ru: "Хочу открыть счёт." },
+      { ro: "Care este comisionul?",          ru: "Какая комиссия?" },
+      { ro: "Aș vrea să fac un transfer.",    ru: "Хотел бы сделать перевод." },
+      { ro: "Unde este cel mai apropiat bancomat?", ru: "Где ближайший банкомат?" },
+      { ro: "Cardul nu funcționează.",        ru: "Карта не работает." },
+      { ro: "Care este cursul azi?",          ru: "Какой сегодня курс?" }
+    ]
+  },
+
+  {
+    id: "clean",
+    name: "Уборка и клининг",
+    sub: "Инвентарь, помещения",
+    words: [
+      { ro: "curățenie",       ru: "уборка" },
+      { ro: "a curăța",        ru: "чистить" },
+      { ro: "a spăla",         ru: "мыть" },
+      { ro: "a șterge",        ru: "вытирать" },
+      { ro: "a mătura",        ru: "подметать" },
+      { ro: "a aspira",        ru: "пылесосить" },
+      { ro: "aspirator",       ru: "пылесос" },
+      { ro: "mătură",          ru: "метла" },
+      { ro: "mop",             ru: "швабра" },
+      { ro: "găleată",         ru: "ведро" },
+      { ro: "cârpă",           ru: "тряпка" },
+      { ro: "burete",          ru: "губка" },
+      { ro: "detergent",       ru: "моющее средство" },
+      { ro: "săpun",           ru: "мыло" },
+      { ro: "dezinfectant",    ru: "дезинфицирующее средство" },
+      { ro: "gunoi",           ru: "мусор" },
+      { ro: "sac de gunoi",    ru: "мусорный пакет" },
+      { ro: "praf",            ru: "пыль" },
+      { ro: "podea",           ru: "пол" },
+      { ro: "geam",            ru: "окно" },
+      { ro: "coridor",         ru: "коридор" },
+      { ro: "lenjerie",        ru: "бельё" },
+      { ro: "mașină de spălat", ru: "стиральная машина" },
+      { ro: "hârtie igienică", ru: "туалетная бумага" }
+    ],
+    phrases: [
+      { ro: "Unde sunt detergenții?",      ru: "Где моющие средства?" },
+      { ro: "Am terminat de curățat.",     ru: "Я закончил уборку." },
+      { ro: "Trebuie schimbată lenjeria.", ru: "Нужно поменять бельё." },
+      { ro: "Aici lipsește hârtie igienică.", ru: "Здесь нет туалетной бумаги." },
+      { ro: "Camera este gata.",           ru: "Номер готов." },
+      { ro: "La ce oră începem?",          ru: "Во сколько начинаем?" }
+    ]
+  },
+
+  {
+    id: "agro",
+    name: "Село и виноделие",
+    sub: "Поле, урожай, погреб",
+    words: [
+      { ro: "sat",             ru: "село" },
+      { ro: "gospodărie",      ru: "хозяйство" },
+      { ro: "grădină",         ru: "огород, сад" },
+      { ro: "livadă",          ru: "фруктовый сад" },
+      { ro: "vie",             ru: "виноградник" },
+      { ro: "viță-de-vie",     ru: "виноградная лоза" },
+      { ro: "struguri",        ru: "виноград" },
+      { ro: "recoltă",         ru: "урожай" },
+      { ro: "cules",           ru: "сбор урожая" },
+      { ro: "a culege",        ru: "собирать" },
+      { ro: "a semăna",        ru: "сеять" },
+      { ro: "a săpa",          ru: "копать" },
+      { ro: "a uda",           ru: "поливать" },
+      { ro: "tractor",         ru: "трактор" },
+      { ro: "plug",            ru: "плуг" },
+      { ro: "sapă",            ru: "тяпка" },
+      { ro: "ladă",            ru: "ящик" },
+      { ro: "beci",            ru: "погреб" },
+      { ro: "butoi",           ru: "бочка" },
+      { ro: "must",            ru: "сусло" },
+      { ro: "teasc",           ru: "пресс" },
+      { ro: "vin tânăr",       ru: "молодое вино" },
+      { ro: "porumb",          ru: "кукуруза" },
+      { ro: "grâu",            ru: "пшеница" },
+      { ro: "floarea-soarelui", ru: "подсолнух" },
+      { ro: "roșii",           ru: "помидоры" },
+      { ro: "cartofi",         ru: "картофель" },
+      { ro: "prune",           ru: "сливы" },
+      { ro: "mere",            ru: "яблоки" },
+      { ro: "nuci",            ru: "орехи" }
+    ],
+    phrases: [
+      { ro: "Când începe culesul?",          ru: "Когда начинается сбор?" },
+      { ro: "Recolta este bună anul acesta.", ru: "Урожай в этом году хороший." },
+      { ro: "Câte lăzi avem?",               ru: "Сколько у нас ящиков?" },
+      { ro: "Vinul este în beci.",           ru: "Вино в погребе." },
+      { ro: "Trebuie udată grădina.",        ru: "Нужно полить огород." }
+    ]
+  }
+];
+
+/* ==========================================================================
+   ЧАСТЬ 3. ДВИЖОК
+   ========================================================================== */
+
+const state = {
+  done: [], streak: 0, lastDay: null,
+  current: null, step: 0, score: 0, answered: false,
+  tab: "course", query: "", openSet: null
+};
+
+/* ---------- Сохранение прогресса ----------
+   Прогресс лежит в браузере пользователя, на его устройстве.
+   Это временное решение: оно не переносится между телефоном и компьютером.
+   Когда появится база и аккаунты, меняется только код внутри
+   loadProgress и saveProgress — остальное приложение об этом не знает.
+
+   Всё обёрнуто в try/catch: в режиме инкогнито и в некоторых встроенных
+   браузерах хранилище запрещено, и обращение к нему выбрасывает ошибку.
+   В таком случае приложение просто работает без сохранения.        */
+
+const STORAGE_KEY = "romana:progress";
+
+function today() {
+  const d = new Date();
+  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+
+function yesterday() {
+  const d = new Date(Date.now() - 86400000);
+  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const saved = JSON.parse(raw);
+
+    state.done = Array.isArray(saved.done) ? saved.done : [];
+    state.lastDay = saved.lastDay || null;
+
+    // Стрик жив, если последний урок был сегодня или вчера. Иначе сгорел.
+    if (state.lastDay === today() || state.lastDay === yesterday()) {
+      state.streak = saved.streak || 1;
+    } else {
+      state.streak = 0;
+    }
+    return saved;
+  } catch (e) {
+    return null;   // хранилище недоступно — работаем без сохранения
+  }
+}
+
+function saveProgress() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      done: state.done,
+      streak: state.streak,
+      lastDay: state.lastDay
+    }));
+  } catch (e) {
+    /* не сохранилось — не страшно, урок всё равно засчитан в этой сессии */
+  }
+}
+
+function markDayDone() {
+  const t = today();
+  if (state.lastDay === t) return;              // сегодня уже отмечались
+  if (state.lastDay === yesterday()) state.streak++;
+  else state.streak = 1;                        // первый день или перерыв
+  state.lastDay = t;
+}
+
+function resetProgress() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+  state.done = [];
+  state.streak = 0;
+  state.lastDay = null;
+}
+
+function shuffle(list) {
+  const a = list.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Сравнение без диакритики: "buna" засчитывается вместо "bună".
+function normalize(s) {
+  return s.toLowerCase().trim()
+    .replace(/ă|â/g, "a").replace(/î/g, "i")
+    .replace(/ș|ş/g, "s").replace(/ț|ţ/g, "t")
+    .replace(/[.,!?]/g, "").replace(/\s+/g, " ");
+}
+
+// Временная озвучка синтезом речи браузера. Настоящее аудио запишут носители.
+function speak(text) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ro-RO"; u.rate = 0.9;
+  speechSynthesis.speak(u);
+}
+
+function unitIndex(id) { return COURSE.units.findIndex(u => u.id === id); }
+function isUnlocked(i) { return i === 0 || state.done.includes(COURSE.units[i - 1].id); }
+
+function buildLesson(unit) {
+  const idx = unitIndex(unit.id);
+  const oldWords = COURSE.units.slice(0, idx).flatMap(u => u.words);
+  const allWords = COURSE.units.flatMap(u => u.words);
+  const tasks = [];
+
+  shuffle(unit.words).slice(0, 5).forEach(w =>
+    tasks.push({ type: "choice", dir: "ro-ru", word: w, pool: allWords }));
+  shuffle(unit.words).slice(0, 2).forEach(w =>
+    tasks.push({ type: "choice", dir: "ru-ro", word: w, pool: allWords }));
+  shuffle(unit.phrases).slice(0, 2).forEach(p =>
+    tasks.push({ type: "assemble", phrase: p }));
+  shuffle(unit.gaps).slice(0, 2).forEach(g =>
+    tasks.push({ type: "gap", gap: g }));
+
+  const typed = shuffle(unit.words.filter(w => !w.ro.includes(" ")))[0];
+  if (typed) tasks.push({ type: "input", word: typed });
+
+  shuffle(oldWords).slice(0, 2).forEach(w =>
+    tasks.push({ type: "choice", dir: "ro-ru", word: w, pool: allWords }));
+
+  return shuffle(tasks).slice(0, 12);
+}
+
+/* ==========================================================================
+   ЧАСТЬ 4. ЭКРАНЫ
+   ========================================================================== */
+
+const screens = {
+  welcome: document.getElementById("screen-welcome"),
+  home:    document.getElementById("screen-home"),
+  note:    document.getElementById("screen-note"),
+  lesson:  document.getElementById("screen-lesson"),
+  result:  document.getElementById("screen-result"),
+  dict:    document.getElementById("screen-dict")
+};
+
+const nav = document.getElementById("nav");
+
+const MOTIF = '<svg class="motif" aria-hidden="true"><rect width="100%" height="14" fill="url(#rhomb)"/></svg>';
+
+function show(name) {
+  Object.entries(screens).forEach(([k, el]) => el.classList.toggle("hidden", k !== name));
+  // навигация видна везде, кроме вводного экрана и самого урока
+  nav.classList.toggle("hidden", name === "welcome" || name === "lesson");
+  nav.querySelectorAll(".navbtn").forEach(b => {
+    const active = (b.dataset.go === "dict" && name === "dict") ||
+                   (b.dataset.go === "home" && name !== "dict");
+    b.setAttribute("aria-current", active ? "page" : "false");
+  });
+  window.scrollTo(0, 0);
+}
+
+nav.querySelectorAll(".navbtn").forEach(b => {
+  b.onclick = () => {
+    if (b.dataset.go === "home") { renderHome(); show("home"); }
+    else { state.openSet = null; renderDict(); show("dict"); }
+  };
+});
+
+/* ---------- Вводный экран ---------- */
+
+function renderWelcome() {
+  const totalWords = COURSE.units.flatMap(u => u.words).length
+                   + SETS.filter(s => !s.soon).flatMap(s => s.words).length;
+
+  screens.welcome.innerHTML = `
+    <div class="welcome-inner">
+      <h1 class="welcome-title">Româna</h1>
+      <p class="welcome-sub">Румынский с нуля — для тех, кто говорит по-русски</p>
+      ${MOTIF}
+      <ul class="welcome-list">
+        <li><span class="welcome-num">1</span><div>
+          <b>Без английского посредника</b>
+          <span>Объяснения идут от русского языка, а не через третий</span>
+        </div></li>
+        <li><span class="welcome-num">2</span><div>
+          <b>Грамматику объясняем</b>
+          <span>Короткое правило перед уроком, а не угадывание закономерностей</span>
+        </div></li>
+        <li><span class="welcome-num">3</span><div>
+          <b>Слова для работы</b>
+          <span>Общепит, документы, стройка, аптека — отдельным словарём</span>
+        </div></li>
+      </ul>
+      <button class="primary brick" id="start">Начать</button>
+      <p class="welcome-foot">${totalWords} слов и фраз · без регистрации</p>
+    </div>
+  `;
+  screens.welcome.querySelector("#start").onclick = () => { renderHome(); show("home"); };
+}
+
+/* ---------- Главный экран ---------- */
+
+function renderHome() {
+  const total = COURSE.units.length;
+  const done = state.done.length;
+
+  screens.home.innerHTML = `
+    <div class="head">
+      <h1 class="ro">Româna</h1>
+      <span class="streak">${state.streak > 0
+        ? state.streak + " " + dayWord(state.streak) + " подряд"
+        : "Начните сегодня"}</span>
+    </div>
+    ${MOTIF}
+    <p class="section-title">Секция 1 · ${COURSE.title} · ${done} из ${total}</p>
+    <div id="unit-list"></div>
+    ${done ? '<button class="back" id="reset" style="margin-top:18px">Сбросить прогресс</button>' : ""}
+  `;
+
+  const reset = screens.home.querySelector("#reset");
+  if (reset) reset.onclick = () => {
+    if (confirm("Сбросить весь прогресс и начать заново?")) {
+      resetProgress();
+      renderHome();
+    }
+  };
+
+  const list = screens.home.querySelector("#unit-list");
+
+  COURSE.units.forEach((unit, i) => {
+    const unlocked = isUnlocked(i);
+    const finished = state.done.includes(unit.id);
+    const btn = document.createElement("button");
+    btn.className = "unit";
+    btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
+    btn.disabled = !unlocked;
+    btn.innerHTML = `
+      ${finished ? '<span class="unit-mark">пройден</span>' : ""}
+      <div class="unit-name">${unit.name}</div>
+      <div class="unit-sub">${unit.sub}</div>
+    `;
+    btn.onclick = () => startUnit(unit);
+    list.appendChild(btn);
+  });
+}
+
+function dayWord(n) {
+  const last = n % 10, two = n % 100;
+  if (two >= 11 && two <= 14) return "дней";
+  if (last === 1) return "день";
+  if (last >= 2 && last <= 4) return "дня";
+  return "дней";
+}
+
+/* ---------- Грамматика ---------- */
+
+function startUnit(unit) {
+  if (!unit.grammar) return startLesson(unit);
+  const g = unit.grammar;
+  screens.note.innerHTML = `
+    <div class="card note">
+      <h2>${g.title}</h2>
+      ${g.body.map(p => `<p>${p}</p>`).join("")}
+      ${g.table ? `<table>${g.table.map(r =>
+        `<tr><td>${r[0]}</td><td>${r[1]}</td></tr>`).join("")}</table>` : ""}
+    </div>
+    <button class="primary" id="note-go">Начать урок</button>
+  `;
+  screens.note.querySelector("#note-go").onclick = () => startLesson(unit);
+  show("note");
+}
+
+/* ---------- Урок ---------- */
+
+function startLesson(unit) {
+  state.current = { unit, tasks: buildLesson(unit) };
+  state.step = 0; state.score = 0;
+  show("lesson");
+  renderTask();
+}
+
+function renderTask() {
+  const { tasks } = state.current;
+  const task = tasks[state.step];
+  state.answered = false;
+
+  screens.lesson.innerHTML = `
+    <div class="top">
+      <button class="quit" id="quit" aria-label="Выйти из урока">&times;</button>
+      <div class="track"><div class="fill" style="width:${state.step / tasks.length * 100}%"></div></div>
+    </div>
+    <div id="body"></div>
+    <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+    <button class="primary" id="next" disabled>Дальше</button>
+  `;
+
+  screens.lesson.querySelector("#quit").onclick = () => { renderHome(); show("home"); };
+  screens.lesson.querySelector("#next").onclick = nextTask;
+
+  const body = screens.lesson.querySelector("#body");
+  if (task.type === "choice")   renderChoice(body, task);
+  if (task.type === "gap")      renderGap(body, task);
+  if (task.type === "assemble") renderAssemble(body, task);
+  if (task.type === "input")    renderInput(body, task);
+}
+
+function renderChoice(body, task) {
+  const toRu = task.dir === "ro-ru";
+  const w = task.word;
+  const question = toRu ? w.ro : w.ru;
+  const answer   = toRu ? w.ru : w.ro;
+
+  const wrong = shuffle(task.pool.filter(x => (toRu ? x.ru : x.ro) !== answer))
+                  .slice(0, 3).map(x => toRu ? x.ru : x.ro);
+
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">${toRu ? "Как переводится?" : "Как сказать по-румынски?"}</p>
+      <p class="subject ${question.length > 12 ? "small" : ""} ${toRu ? "ro" : ""}">${question}</p>
+      ${toRu ? `<button class="icon-btn" id="say" aria-label="Прослушать">🔊</button>` : ""}
+    </div>
+    <ul class="options" id="options"></ul>
+  `;
+  if (toRu) body.querySelector("#say").onclick = () => speak(w.ro);
+  buildOptions(body, shuffle(wrong.concat(answer)), answer, !toRu);
+}
+
+function renderGap(body, task) {
+  const g = task.gap;
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Выберите правильную форму</p>
+      <p class="subject small ro">${g.text}</p>
+    </div>
+    <ul class="options" id="options"></ul>
+  `;
+  buildOptions(body, shuffle(g.options), g.answer, true);
+}
+
+function buildOptions(body, choices, answer, romanian) {
+  const list = body.querySelector("#options");
+  choices.forEach(choice => {
+    const li = document.createElement("li");
+    const btn = document.createElement("button");
+    btn.className = "option" + (romanian ? " ro" : "");
+    btn.textContent = choice;
+    btn.onclick = () => {
+      if (state.answered) return;
+      list.querySelectorAll("button").forEach(b => {
+        b.disabled = true;
+        if (b.textContent === answer) b.classList.add("is-correct");
+      });
+      if (choice === answer) finishTask(true);
+      else { btn.classList.add("is-wrong"); finishTask(false, answer); }
+    };
+    li.appendChild(btn);
+    list.appendChild(li);
+  });
+}
+
+function renderAssemble(body, task) {
+  const p = task.phrase;
+  const words = p.ro.split(" ");
+
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Соберите фразу</p>
+      <p class="subject small">${p.ru}</p>
+    </div>
+    <div class="slot" id="slot"></div>
+    <div class="bank" id="bank"></div>
+  `;
+
+  const slot = body.querySelector("#slot");
+  const bank = body.querySelector("#bank");
+  const picked = [];
+
+  shuffle(words).forEach(word => {
+    const chip = document.createElement("button");
+    chip.className = "chip";
+    chip.textContent = word;
+    chip.onclick = () => {
+      if (state.answered) return;
+      chip.classList.add("used");
+      const inSlot = document.createElement("button");
+      inSlot.className = "chip";
+      inSlot.textContent = word;
+      inSlot.onclick = () => {
+        if (state.answered) return;
+        inSlot.remove();
+        chip.classList.remove("used");
+        picked.splice(picked.indexOf(inSlot), 1);
+        check();
+      };
+      slot.appendChild(inSlot);
+      picked.push(inSlot);
+      check();
+    };
+    bank.appendChild(chip);
+  });
+
+  function check() {
+    const btn = screens.lesson.querySelector("#next");
+    if (picked.length !== words.length) { btn.disabled = true; return; }
+    const built = picked.map(c => c.textContent).join(" ");
+    if (normalize(built) === normalize(p.ro)) finishTask(true, null, p.ro);
+    else finishTask(false, p.ro);
+  }
+}
+
+function renderInput(body, task) {
+  const w = task.word;
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Напишите по-румынски</p>
+      <p class="subject small">${w.ru}</p>
+    </div>
+    <input class="answer-input ro" id="typed" autocomplete="off"
+           autocapitalize="off" spellcheck="false" placeholder="…">
+    <button class="primary" id="check" style="margin-bottom:20px">Проверить</button>
+  `;
+
+  const input = body.querySelector("#typed");
+  const check = body.querySelector("#check");
+  input.focus();
+
+  function submit() {
+    if (state.answered || !input.value.trim()) return;
+    check.remove();
+    input.disabled = true;
+    if (normalize(input.value) === normalize(w.ro)) finishTask(true, null, w.ro);
+    else finishTask(false, w.ro);
+  }
+  check.onclick = submit;
+  input.onkeydown = e => { if (e.key === "Enter") submit(); };
+}
+
+function finishTask(ok, correctAnswer, spellNote) {
+  state.answered = true;
+  const fb = screens.lesson.querySelector("#feedback");
+  const next = screens.lesson.querySelector("#next");
+
+  if (ok) {
+    state.score++;
+    fb.className = "feedback ok";
+    fb.innerHTML = spellNote ? `Верно · <span class="ro">${spellNote}</span>` : "Верно";
+  } else {
+    fb.className = "feedback bad";
+    fb.innerHTML = `Правильно: <span class="ro">${correctAnswer}</span>`;
+  }
+  next.disabled = false;
+  next.focus();
+}
+
+function nextTask() {
+  state.step++;
+  if (state.step < state.current.tasks.length) renderTask();
+  else {
+    if (!state.done.includes(state.current.unit.id)) state.done.push(state.current.unit.id);
+    markDayDone();
+    saveProgress();
+    renderResult();
+  }
+}
+
+function renderResult() {
+  const total = state.current.tasks.length;
+  screens.result.innerHTML = `
+    <div class="result">
+      ${MOTIF}
+      <p class="score">${state.score}/${total}</p>
+      <p>${state.score === total ? "Без единой ошибки" : "Ошибки вернутся в следующих уроках"}</p>
+      <button class="primary" id="back">Дальше</button>
+    </div>
+  `;
+  screens.result.querySelector("#back").onclick = () => { renderHome(); show("home"); };
+  show("result");
+}
+
+/* ---------- Словарь ---------- */
+
+function renderDict() {
+  if (state.openSet) return renderSet(state.openSet);
+
+  screens.dict.innerHTML = `
+    <div class="head"><h1 class="ro">Словарь</h1></div>
+    <div class="tabs">
+      <button class="tab" data-tab="course" aria-selected="${state.tab === "course"}">Слова курса</button>
+      <button class="tab" data-tab="work"   aria-selected="${state.tab === "work"}">Для работы</button>
+    </div>
+    <div id="dict-body"></div>
+  `;
+
+  screens.dict.querySelectorAll(".tab").forEach(t => {
+    t.onclick = () => { state.tab = t.dataset.tab; state.query = ""; renderDict(); };
+  });
+
+  const body = screens.dict.querySelector("#dict-body");
+  if (state.tab === "course") renderCourseWords(body);
+  else renderSetList(body);
+}
+
+function renderCourseWords(body) {
+  body.innerHTML = `
+    <input class="search" id="q" placeholder="Поиск по слову или переводу"
+           autocomplete="off" spellcheck="false" value="${state.query}">
+    <div id="list"></div>
+  `;
+
+  const input = body.querySelector("#q");
+  input.oninput = () => { state.query = input.value; paint(); };
+
+  function paint() {
+    const list = body.querySelector("#list");
+    list.innerHTML = "";
+    const q = normalize(state.query);
+    let shown = 0;
+
+    COURSE.units.forEach(unit => {
+      const hits = unit.words.filter(w =>
+        !q || normalize(w.ro).includes(q) || w.ru.toLowerCase().includes(q));
+      if (!hits.length) return;
+      shown += hits.length;
+      const h = document.createElement("p");
+      h.className = "group-title";
+      h.textContent = unit.name;
+      list.appendChild(h);
+      hits.forEach(w => list.appendChild(entryRow(w)));
+    });
+
+    if (!shown) list.innerHTML = '<p class="empty">Ничего не нашлось</p>';
+  }
+  paint();
+}
+
+function renderSetList(body) {
+  body.innerHTML = "";
+  SETS.forEach(set => {
+    const btn = document.createElement("button");
+    btn.className = "setcard";
+    btn.dataset.soon = set.soon ? "1" : "0";
+    btn.disabled = !!set.soon;
+    const count = set.soon ? "скоро"
+      : (set.words.length + (set.phrases ? set.phrases.length : 0)) + " слов";
+    btn.innerHTML = `
+      <span class="setcard-count">${count}</span>
+      <div class="setcard-name">${set.name}</div>
+      <div class="setcard-sub">${set.sub}</div>
+    `;
+    btn.onclick = () => { state.openSet = set; state.query = ""; renderDict(); };
+    body.appendChild(btn);
+  });
+}
+
+function renderSet(set) {
+  screens.dict.innerHTML = `
+    <button class="back" id="back">← Все наборы</button>
+    <div class="head"><h1 class="ro">${set.name}</h1></div>
+    <input class="search" id="q" placeholder="Поиск в наборе"
+           autocomplete="off" spellcheck="false" value="${state.query}">
+    <div id="list"></div>
+  `;
+
+  screens.dict.querySelector("#back").onclick = () => {
+    state.openSet = null; state.query = ""; renderDict();
+  };
+
+  const input = screens.dict.querySelector("#q");
+  input.oninput = () => { state.query = input.value; paint(); };
+
+  function paint() {
+    const list = screens.dict.querySelector("#list");
+    list.innerHTML = "";
+    const q = normalize(state.query);
+    const match = arr => (arr || []).filter(w =>
+      !q || normalize(w.ro).includes(q) || w.ru.toLowerCase().includes(q));
+
+    const words = match(set.words);
+    const phrases = match(set.phrases);
+
+    if (words.length) {
+      const h = document.createElement("p");
+      h.className = "group-title"; h.textContent = "Слова";
+      list.appendChild(h);
+      words.forEach(w => list.appendChild(entryRow(w)));
+    }
+    if (phrases.length) {
+      const h = document.createElement("p");
+      h.className = "group-title"; h.textContent = "Фразы";
+      list.appendChild(h);
+      phrases.forEach(w => list.appendChild(entryRow(w)));
+    }
+    if (!words.length && !phrases.length)
+      list.innerHTML = '<p class="empty">Ничего не нашлось</p>';
+  }
+  paint();
+}
+
+function entryRow(w) {
+  const row = document.createElement("div");
+  row.className = "entry";
+  row.innerHTML = `
+    <div class="entry-text">
+      <div class="entry-ro">${w.ro}</div>
+      <div class="entry-ru">${w.ru}</div>
+    </div>
+    <button class="icon-btn" aria-label="Прослушать">🔊</button>
+  `;
+  row.querySelector("button").onclick = () => speak(w.ro);
+  return row;
+}
+
+/* ==========================================================================
+   ЧАСТЬ 5. ЗАПУСК
+   ========================================================================== */
+
+const saved = loadProgress();
+
+if (saved && state.done.length) {
+  // Человек уже занимался — вводный экран ему не нужен, сразу к урокам.
+  renderHome();
+  show("home");
+} else {
+  renderWelcome();
+  show("welcome");
+}
+</script>
