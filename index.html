@@ -459,7 +459,8 @@ const SECTION_TITLES = {
     3: "Я и коллеги",
     4: "Мой дом",
     5: "Семья",
-    6: "Каждый день"
+    6: "Каждый день",
+    7: "Покупки"
   }
 };
 
@@ -1999,6 +2000,252 @@ const COURSE = {
         { text: "Fac curat cu ___.",      answer: "aspiratorul", options: ["aspiratorul", "vasele", "gunoi"] },
         { text: "Camera este ___, apoi este curată.", answer: "murdară", options: ["murdară", "curată", "nouă"] }
       ]
+    },
+
+    {
+      id: "s7-1",
+      section: 7,
+      level: "A1",
+      verified: false,
+      name: "Количество и мера",
+      sub: "un kilogram de, o sticlă de",
+      grammar: {
+        title: "Мера + de + слово без артикля",
+        body: [
+          "После слова, которое называет меру (килограмм, литр, бутылка...), — всегда <b>de</b>, а дальше существительное без артикля: <b>un kilogram de mere</b> — «килограмм яблок», не «килограмм из яблоки».",
+          "<b>Aș vrea...</b> — «я хотел(а) бы...», вежливая просьба в магазине. Готовая фраза, разбор формы — позже."
+        ],
+        table: [
+          ["un kilogram de mere",       "килограмм яблок"],
+          ["jumătate de kilogram de roșii", "полкило помидоров"],
+          ["un litru de lapte",         "литр молока"],
+          ["o sticlă de apă",           "бутылка воды"],
+          ["o bucată de pâine",         "кусок хлеба"],
+          ["un pachet de unt",          "пачка масла"]
+        ]
+      },
+      words: [
+        { ro: "un kilogram",   ru: "килограмм" },
+        { ro: "jumătate",      ru: "половина" },
+        { ro: "un litru",      ru: "литр" },
+        { ro: "o sticlă",      ru: "бутылка" },
+        { ro: "o bucată",      ru: "кусок" },
+        { ro: "un pachet",     ru: "пачка, пакет" },
+        { ro: "Aș vrea...",    ru: "Я хотел(а) бы..." },
+        { ro: "mere",     ru: "яблоки" },
+        { ro: "roșii",    ru: "помидоры (в Молдове бытовое — pătlăgele, на проверку)" },
+        { ro: "cartofi",  ru: "картофель (в Молдове бытовое — barabule, на проверку)" },
+        { ro: "varză",    ru: "капуста (в Молдове бытовое — curechi, на проверку)" },
+        { ro: "ardei",    ru: "перец (сладкий; в Молдове бытовое — piper, на проверку)" },
+        { ro: "ceapă",    ru: "лук" },
+        { ro: "morcov",   ru: "морковь" },
+        { ro: "lapte",    ru: "молоко" },
+        { ro: "pâine",    ru: "хлеб" },
+        { ro: "unt",      ru: "масло (сливочное)" },
+        { ro: "ouă",      ru: "яйца" }
+      ],
+      phrases: [
+        { ro: "Aș vrea un kilogram de mere.",    ru: "Я хотел бы килограмм яблок." },
+        { ro: "Aș vrea o sticlă de lapte.",      ru: "Я хотел бы бутылку молока." },
+        { ro: "Vreau o bucată de pâine.",        ru: "Я хочу кусок хлеба." }
+      ],
+      gaps: [
+        { text: "un kilogram ___ mere",  answer: "de", options: ["de", "din", "și"] },
+        { text: "o sticlă ___ apă",      answer: "de", options: ["de", "din", "cu"] },
+        { text: "un pachet ___ unt",     answer: "de", options: ["de", "din", "la"] }
+      ]
+    },
+
+    {
+      id: "s7-2",
+      section: 7,
+      level: "A1",
+      verified: false,
+      name: "Цены и размеры",
+      sub: "Cât costă?, глаголы a cumpăra и a plăti",
+      grammar: {
+        title: "Глаголы a cumpăra и a plăti — полные таблицы",
+        body: [
+          "<b>A cumpăra</b> — «покупать». У этого глагола гласная в корне меняется перед <b>-i</b>: <b>cumpăr</b>, но <b>cumperi</b> (ă → e) — отдельное, что стоит запомнить.",
+          "<b>A plăti</b> — «платить», по образцу на -esc.",
+          "<b>Cât costă?</b> — «сколько стоит?», <b>Cât fac?</b> — «сколько получается?» (про сумму за несколько товаров); отвечают <b>Costă...</b> / <b>Fac...</b>.",
+          "Повтор правила <b>de</b> после 20 из секции 3: <b>cincisprezece lei</b>, но <b>douăzeci de lei</b>."
+        ],
+        table: [
+          ["eu cumpăr",       "я покупаю"],
+          ["tu cumperi",      "ты покупаешь"],
+          ["el / ea cumpără", "он / она покупает"],
+          ["noi cumpărăm",    "мы покупаем"],
+          ["voi cumpărați",   "вы покупаете"],
+          ["ei / ele cumpără","они покупают"],
+          ["eu plătesc",       "я плачу"],
+          ["tu plătești",      "ты платишь"],
+          ["el / ea plătește", "он / она платит"],
+          ["noi plătim",       "мы платим"],
+          ["voi plătiți",      "вы платите"],
+          ["ei / ele plătesc", "они платят"]
+        ]
+      },
+      words: [
+        { ro: "cumpăr",    ru: "я покупаю" },
+        { ro: "cumperi",   ru: "ты покупаешь" },
+        { ro: "cumpără",   ru: "он/она покупает" },
+        { ro: "cumpărăm",  ru: "мы покупаем" },
+        { ro: "cumpărați", ru: "вы покупаете" },
+        { ro: "plătesc",   ru: "я плачу" },
+        { ro: "plătești",  ru: "ты платишь" },
+        { ro: "plătește",  ru: "он/она платит" },
+        { ro: "Cât costă?", ru: "Сколько стоит?" },
+        { ro: "Cât fac?",   ru: "Сколько получается?" },
+        { ro: "costă",      ru: "стоит" },
+        { ro: "mărime",     ru: "размер (одежды)" },
+        { ro: "număr",      ru: "размер (обуви)" },
+        { ro: "restul",     ru: "сдача" },
+        { ro: "numerar",    ru: "наличные" }
+      ],
+      phrases: [
+        { ro: "Cât costă merele?",        ru: "Сколько стоят яблоки?" },
+        { ro: "Merele costă zece lei.",   ru: "Яблоки стоят десять леев." },
+        { ro: "Cât fac?",                 ru: "Сколько получается?" },
+        { ro: "Fac douăzeci de lei.",     ru: "Получается двадцать леев." },
+        { ro: "Eu cumpăr pâine.",         ru: "Я покупаю хлеб." },
+        { ro: "Tu cumperi lapte?",        ru: "Ты покупаешь молоко?" },
+        { ro: "Plătesc cu cardul.",       ru: "Я плачу картой." },
+        { ro: "Pot să probez?",           ru: "Можно примерить?" }
+      ],
+      gaps: [
+        { text: "Eu ___ mere.",       answer: "cumpăr",    options: ["cumpăr", "cumperi", "cumpără"] },
+        { text: "Tu ___ pâine?",      answer: "cumperi",   options: ["cumperi", "cumpăr", "cumpără"] },
+        { text: "Eu ___ cu cardul.",  answer: "plătesc",   options: ["plătesc", "plătești", "plătește"] },
+        { text: "Tu ___ în numerar?", answer: "plătești",  options: ["plătești", "plătesc", "plătește"] },
+        { text: "Merele ___ cincisprezece lei.", answer: "costă", options: ["costă", "cumpăr", "fac"] }
+      ]
+    },
+
+    {
+      id: "s7-3",
+      section: 7,
+      level: "A1",
+      verified: false,
+      name: "Цвета и одежда",
+      sub: "Согласование цвета с одеждой",
+      grammar: {
+        title: "Цвета согласуются с одеждой — четыре формы",
+        body: [
+          "Цвета уже знакомы из словаря, но с одеждой у них появляется четыре формы: <b>roșu / roșie / roșii</b> (м / ж / мн. оба рода), <b>alb / albă / albi / albe</b>, <b>negru / neagră / negri / negre</b>. У <b>verde</b> формы по роду совпадают, меняется только множественное число: <b>verde / verzi</b>. Не меняются вовсе: <b>maro, gri, bej, roz</b>.",
+          "Та же связь со средним родом, что в секции 2: в единственном числе цвет ведёт себя как у мужского, во множественном — как у женского: <b>un pulover negru</b> — <b>două pulovere negre</b>.",
+          "Культура: народный костюм сегодня носят в основном на Hramul, на свадьбах и на сцене — не в быту."
+        ],
+        table: [
+          ["alb / albă / albi / albe",       "белый"],
+          ["negru / neagră / negri / negre", "чёрный"],
+          ["verde / verzi",                  "зелёный"],
+          ["roșu / roșie / roșii",           "красный"]
+        ]
+      },
+      words: [
+        { ro: "un pulover", roF: "niște pulovere", ru: "свитер", ruF: "несколько свитеров" },
+        { ro: "o fustă",    roF: "niște fuste",     ru: "юбка",   ruF: "несколько юбок" },
+        { ro: "un tricou",  roF: "niește tricouri", ru: "футболка", ruF: "несколько футболок" },
+        { ro: "o curea",    roF: "niște curele",    ru: "ремень", ruF: "несколько ремней" },
+        { ro: "o eșarfă",   roF: "niește eșarfe",   ru: "шарф",   ruF: "несколько шарфов" },
+        { ro: "o cizmă",    roF: "niște cizme",     ru: "сапог",  ruF: "несколько сапог" },
+        { ro: "o sandală",  roF: "niește sandale",  ru: "сандалия", ruF: "несколько сандалий" },
+        { ro: "albi",   ru: "белые (м)" },
+        { ro: "albe",   ru: "белые (ж)" },
+        { ro: "negri",  ru: "чёрные (м)" },
+        { ro: "negre",  ru: "чёрные (ж)" },
+        { ro: "verzi",  ru: "зелёные" }
+      ],
+      phrases: [
+        { ro: "Puloverul este negru.",    ru: "Свитер чёрный." },
+        { ro: "Cămașa este albă.",        ru: "Рубашка белая." },
+        { ro: "Pantalonii sunt negri.",   ru: "Штаны чёрные." },
+        { ro: "Fustele sunt verzi.",      ru: "Юбки зелёные." }
+      ],
+      gaps: [
+        { text: "Puloverul este ___.",  answer: "negru",  options: ["negru", "neagră", "negri"] },
+        { text: "Cămașa este ___.",     answer: "albă",   options: ["albă", "alb", "albe"] },
+        { text: "Pantalonii sunt ___.", answer: "negri",  options: ["negri", "negru", "negre"] },
+        { text: "Fustele sunt ___.",    answer: "verzi",  options: ["verzi", "verde", "verzii"] }
+      ]
+    },
+
+    {
+      id: "s7-4",
+      section: 7,
+      level: "A1",
+      verified: false,
+      name: "Что я купил",
+      sub: "Прошедшее время: am/ai/a/am/ați/au + причастие",
+      extraGaps: 6,
+      grammar: {
+        title: "Прошедшее время (perfectul compus)",
+        body: [
+          "Строится так: <b>am / ai / a / am / ați / au</b> (та же форма, что у «иметь», но без «are» у третьего лица!) + особая форма глагола (причастие).",
+          "Два правила: глаголы на <b>-a</b> дают <b>-at</b> (<b>a cumpăra → am cumpărat</b>, <b>a lua → am luat</b>), глаголы на <b>-i</b> дают <b>-it</b> (<b>a plăti → am plătit</b>).",
+          "Шесть особых причастий — просто запомнить списком: <b>am fost</b> (был), <b>am avut</b> (имел), <b>am văzut</b> (видел), <b>am mers</b> (шёл/ехал), <b>am spus</b> (сказал), <b>am făcut</b> (сделал).",
+          "Ловушка 1: форма не меняется по роду — <b>am cumpărat</b> говорят и мужчина, и женщина.",
+          "Ловушка 2: <b>am</b> — это и «я», и «мы»: одна и та же форма.",
+          "Ловушка 3: <b>a cumpăra</b> («купить») и <b>a cumpărat</b> («он купил») отличаются всего на одну букву — легко перепутать на слух и на письме.",
+          "Ловушка 4: в речи отрицание сливается: <b>nu am → n-am</b>, <b>n-ai</b>, <b>n-a</b>, <b>n-au</b>."
+        ],
+        table: [
+          ["am cumpărat",      "я купил(а)"],
+          ["ai cumpărat",      "ты купил(а)"],
+          ["a cumpărat",       "он/она купил(а)"],
+          ["ați cumpărat",     "вы купили"],
+          ["au cumpărat",      "они купили"],
+          ["am fost",     "я был(а)"],
+          ["ai fost",     "ты был(а)"],
+          ["a fost",      "он/она был(а)"],
+          ["ați fost",    "вы были"],
+          ["au fost",     "они были"]
+        ]
+      },
+      words: [
+        { ro: "am cumpărat",  ru: "я купил(а)" },
+        { ro: "ai cumpărat",  ru: "ты купил(а)" },
+        { ro: "a cumpărat",   ru: "он/она купил(а)" },
+        { ro: "ați cumpărat", ru: "вы купили" },
+        { ro: "au cumpărat",  ru: "они купили" },
+        { ro: "am plătit",    ru: "я заплатил(а)" },
+        { ro: "ai plătit",    ru: "ты заплатил(а)" },
+        { ro: "a plătit",     ru: "он/она заплатил(а)" },
+        { ro: "ați plătit",   ru: "вы заплатили" },
+        { ro: "au plătit",    ru: "они заплатили" },
+        { ro: "am fost",   ru: "я был(а)" },
+        { ro: "am avut",   ru: "я имел(а)" },
+        { ro: "am văzut",  ru: "я видел(а)" },
+        { ro: "am mers",   ru: "я шёл/шла" },
+        { ro: "am spus",   ru: "я сказал(а)" },
+        { ro: "am făcut",  ru: "я сделал(а)" },
+        { ro: "am luat",   ru: "я взял(а)" },
+        { ro: "am dat",    ru: "я дал(а)" },
+        { ro: "ieri",      ru: "вчера" },
+        { ro: "încă",      ru: "ещё" },
+        { ro: "N-am",      ru: "я не..." },
+        { ro: "N-ai",      ru: "ты не..." }
+      ],
+      phrases: [
+        { ro: "Ana a cumpărat mere.",       ru: "Аня купила яблоки." },
+        { ro: "Vlad a cumpărat mere.",      ru: "Влад купил яблоки." },
+        { ro: "Eu am cumpărat pâine.",      ru: "Я купил(а) хлеб." },
+        { ro: "Noi am cumpărat pâine.",     ru: "Мы купили хлеб." },
+        { ro: "Ieri am fost la piață.",     ru: "Вчера я был(а) на рынке." },
+        { ro: "Am văzut un apartament frumos.", ru: "Я видел(а) красивую квартиру." },
+        { ro: "N-am cumpărat nimic.",       ru: "Я ничего не купил(а)." },
+        { ro: "N-ai plătit încă?",          ru: "Ты ещё не заплатил?" }
+      ],
+      gaps: [
+        { text: "Ieri eu ___ mere.",   answer: "am cumpărat", options: ["am cumpărat", "cumpăr", "ai cumpărat"] },
+        { text: "Tu ___ pâine?",       answer: "ai cumpărat", options: ["ai cumpărat", "am cumpărat", "a cumpărat"] },
+        { text: "Ana ___ o carte.",    answer: "a cumpărat",  options: ["a cumpărat", "am cumpărat", "ai cumpărat"] },
+        { text: "Voi ___ mult?",       answer: "ați plătit",  options: ["ați plătit", "am plătit", "a plătit"] },
+        { text: "Ei ___ cu cardul.",   answer: "au plătit",   options: ["au plătit", "a plătit", "ai plătit"] },
+        { text: "Noi ___ pâine.",      answer: "am cumpărat", options: ["am cumpărat", "ați cumpărat", "au cumpărat"] },
+        { text: "___ nimic ieri.",     answer: "N-am cumpărat", options: ["N-am cumpărat", "Am cumpărat", "N-ai cumpărat"] }
+      ]
     }
   ]
 };
@@ -2940,6 +3187,67 @@ const SETS = [
       { ro: "un depozit", ru: "депозит, залог" },
       { ro: "renovat",   roF: "renovată",  ru: "отремонтированный", ruF: "отремонтированная" },
       { ro: "utilități", ru: "коммунальные услуги" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "products",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "🍎",
+    name: "Продукты",
+    sub: "Из секции 7: фрукты, овощи, основные продукты",
+    words: [
+      { ro: "mere",     ru: "яблоки" },
+      { ro: "roșii",    ru: "помидоры (в Молдове бытовое — pătlăgele, на проверку)" },
+      { ro: "cartofi",  ru: "картофель (в Молдове бытовое — barabule, на проверку)" },
+      { ro: "varză",    ru: "капуста (в Молдове бытовое — curechi, на проверку)" },
+      { ro: "ardei",    ru: "перец (сладкий; в Молдове бытовое — piper, на проверку)" },
+      { ro: "ceapă",    ru: "лук" },
+      { ro: "morcov",   ru: "морковь" },
+      { ro: "castraveți", ru: "огурцы" },
+      { ro: "usturoi",  ru: "чеснок" },
+      { ro: "lapte",    ru: "молоко" },
+      { ro: "pâine",    ru: "хлеб" },
+      { ro: "unt",      ru: "масло (сливочное)" },
+      { ro: "ouă",      ru: "яйца" },
+      { ro: "brânză",   ru: "сыр (домашний, творожный)" },
+      { ro: "carne",    ru: "мясо" },
+      { ro: "pește",    ru: "рыба" },
+      { ro: "orez",     ru: "рис" },
+      { ro: "zahăr",    ru: "сахар" },
+      { ro: "sare",     ru: "соль" },
+      { ro: "ulei",     ru: "масло (растительное)" },
+      { ro: "făină",    ru: "мука" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "clothes",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "👕",
+    name: "Одежда и обувь",
+    sub: "Из секции 7: цвета с одеждой",
+    words: [
+      { ro: "un pulover", roF: "niște pulovere", ru: "свитер", ruF: "несколько свитеров" },
+      { ro: "o fustă",    roF: "niește fuste",     ru: "юбка",   ruF: "несколько юбок" },
+      { ro: "un tricou",  roF: "niește tricouri", ru: "футболка", ruF: "несколько футболок" },
+      { ro: "o curea",    roF: "niește curele",    ru: "ремень", ruF: "несколько ремней" },
+      { ro: "o eșarfă",   roF: "niește eșarfe",   ru: "шарф",   ruF: "несколько шарфов" },
+      { ro: "o cizmă",    roF: "niește cizme",     ru: "сапог",  ruF: "несколько сапог" },
+      { ro: "o sandală",  roF: "niește sandale",  ru: "сандалия", ruF: "несколько сандалий" },
+      { ro: "o cămașă",   ru: "рубашка" },
+      { ro: "pantaloni",  ru: "штаны" },
+      { ro: "pantofi",    ru: "туфли" },
+      { ro: "o rochie",   ru: "платье" },
+      { ro: "o jachetă",  ru: "куртка" },
+      { ro: "o pălărie",  ru: "шапка, шляпа" },
+      { ro: "șosete",     ru: "носки" }
     ],
     phrases: []
   }
