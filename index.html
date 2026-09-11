@@ -432,12 +432,98 @@
    ЧАСТЬ 1. СОДЕРЖАНИЕ КУРСА
    ========================================================================== */
 
+const SECTION_TITLES = {
+  0: "Первые фразы",
+  1: "Первые слова"
+};
+
+// Сочетания букв секции 0. Юнит s0-1 использует их в упражнении «как
+// читается» (task.type === "read"). Сами звуки — из госучебника A1,
+// но конкретная запись кириллицей — наш выбор, не проверено носителем.
+const READ_COMBOS = [
+  { combo: "ce",  reading: "че" },
+  { combo: "ci",  reading: "чи" },
+  { combo: "che", reading: "ке" },
+  { combo: "chi", reading: "ки" },
+  { combo: "ge",  reading: "дже" },
+  { combo: "gi",  reading: "джи" },
+  { combo: "ghe", reading: "ге" },
+  { combo: "ghi", reading: "ги" }
+];
+
 const COURSE = {
-  title: "Первые слова",
   units: [
 
     {
+      id: "s0-1",
+      section: 0,
+      name: "Звуки и буквы",
+      sub: "ă, î/â, ș, ț и особые сочетания",
+      readCombos: true,
+      grammar: {
+        title: "Особые буквы и звуки",
+        body: [
+          "В румынском четыре буквы, которых нет в русском: <b>ă</b>, <b>î</b> (в начале и конце слова, в середине — <b>â</b>), <b>ș</b>, <b>ț</b>. Каждая — свой отдельный звук.",
+          "Сочетания <b>ce, ci</b> читаются как «че, чи», а <b>che, chi</b> — как «ке, ки»: буква после <b>c</b> решает, мягкий звук или твёрдый. Так же работают <b>ge, gi</b> («дже, джи») и <b>ghe, ghi</b> («ге, ги»).",
+          "Ударение почти всегда на последнем или предпоследнем слоге — но проще слушать и повторять, чем считать слоги.",
+          "Кстати: 31 августа в Молдове — Ziua Limbii Române, день румынского языка."
+        ],
+        table: [
+          ["ă", "между «а» и «э», без напряжения"],
+          ["î / â", "как русское «ы»"],
+          ["ș", "как русское «ш»"],
+          ["ț", "как русское «ц»"]
+        ]
+      },
+      words: [
+        { ro: "Nu înțeleg.",              ru: "Я не понимаю." },
+        { ro: "Repetați, vă rog!",        ru: "Повторите, пожалуйста!" },
+        { ro: "Vorbiți mai rar, vă rog.", ru: "Говорите медленнее, пожалуйста." },
+        { ro: "Încă o dată, vă rog.",     ru: "Ещё раз, пожалуйста." },
+        { ro: "Nu știu.",                 ru: "Я не знаю." },
+        { ro: "Ce înseamnă…?",            ru: "Что означает…?" }
+      ],
+      phrases: [],
+      gaps: []
+    },
+
+    {
+      id: "s0-2",
+      section: 0,
+      name: "Не понимаю",
+      sub: "Когда ничего не разобрал",
+      grammar: null,
+      words: [
+        { ro: "Scuze, nu am înțeles.",   ru: "Извините, я не понял." },
+        { ro: "Vorbiți mai tare, vă rog.", ru: "Говорите громче, пожалуйста." },
+        { ro: "Am o întrebare.",         ru: "У меня вопрос." },
+        { ro: "Nu vorbesc bine româna.", ru: "Я плохо говорю по-румынски." },
+        { ro: "Am nevoie de ajutor.",    ru: "Мне нужна помощь." }
+      ],
+      phrases: [],
+      gaps: []
+    },
+
+    {
+      id: "s0-3",
+      section: 0,
+      name: "Переспросить",
+      sub: "Помедленнее, по буквам, ещё раз",
+      grammar: null,
+      words: [
+        { ro: "Repetați pe litere!",        ru: "Продиктуйте по буквам!" },
+        { ro: "Cum se spune în română…?",   ru: "Как по-румынски…?" },
+        { ro: "Puteți scrie, vă rog?",      ru: "Можете написать, пожалуйста?" },
+        { ro: "Învăț limba română.",        ru: "Я учу румынский язык." },
+        { ro: "Vorbiți rusește?",           ru: "Вы говорите по-русски?" }
+      ],
+      phrases: [],
+      gaps: []
+    },
+
+    {
       id: "u1",
+      section: 1,
       name: "Приветствие",
       sub: "Здравствуйте, спасибо, до свидания",
       grammar: null,
@@ -463,6 +549,7 @@ const COURSE = {
 
     {
       id: "u2",
+      section: 1,
       name: "Знакомство",
       sub: "Глагол «быть», местоимения",
       grammar: {
@@ -507,6 +594,7 @@ const COURSE = {
 
     {
       id: "u3",
+      section: 1,
       name: "Кто ты",
       sub: "Профессии, артикль un / o",
       grammar: {
@@ -551,6 +639,7 @@ const COURSE = {
 
     {
       id: "u4",
+      section: 1,
       name: "Какой он",
       sub: "Прилагательные и знакомые слова",
       grammar: {
@@ -1442,7 +1531,13 @@ function playCorrect() { tone(523.25, 0, .1, .12); tone(783.99, .1, .16, .12); }
 function playWrong()   { tone(196, 0, .18, .12); }
 
 function unitIndex(id) { return COURSE.units.findIndex(u => u.id === id); }
-function isUnlocked(i) { return i === 0 || state.done.includes(COURSE.units[i - 1].id); }
+
+function isUnlocked(i) {
+  // Уже пройденный юнит остаётся открытым всегда — даже если позже
+  // перед ним появится новая секция, которой не было в чьём-то прогрессе.
+  if (state.done.includes(COURSE.units[i].id)) return true;
+  return i === 0 || state.done.includes(COURSE.units[i - 1].id);
+}
 
 function buildLesson(unit) {
   const idx = unitIndex(unit.id);
@@ -1465,16 +1560,23 @@ function buildLesson(unit) {
   shuffle(oldWords).slice(0, 2).forEach(w =>
     tasks.push({ type: "choice", dir: "ro-ru", word: w, pool: allWords }));
 
-  // «Найди пары» — своё место гарантировано: остальные задания зажимаем
-  // до 11, чтобы после добавления пары итог остался ровно 12.
-  const picked = shuffle(tasks).slice(0, 11);
+  // Задания с гарантированным местом в уроке (не участвуют в общей
+  // жеребьёвке, чтобы не потеряться среди остального): «Найди пары»
+  // всегда, «как читается» — только у юнита с readCombos.
+  const reserved = [];
 
   const matchPool = unit.words.length >= 5 ? unit.words
     : unit.words.concat(oldWords).filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i);
   const matchWords = shuffle(matchPool).slice(0, 5);
-  if (matchWords.length === 5) picked.push({ type: "match", words: matchWords });
+  if (matchWords.length === 5) reserved.push({ type: "match", words: matchWords });
 
-  return shuffle(picked);
+  if (unit.readCombos) {
+    shuffle(READ_COMBOS).slice(0, 2).forEach(c =>
+      reserved.push({ type: "read", combo: c.combo, answer: c.reading }));
+  }
+
+  const picked = shuffle(tasks).slice(0, 12 - reserved.length);
+  return shuffle(picked.concat(reserved));
 }
 
 /* ==========================================================================
@@ -1604,6 +1706,15 @@ function renderHome() {
   const total = COURSE.units.length;
   const done = state.done.length;
 
+  // Юниты сгруппированы по секциям — у каждой секции свой заголовок
+  // и своя дорожка (собственная соединяющая линия, см. .path в CSS).
+  const sections = [];
+  COURSE.units.forEach(unit => {
+    let group = sections.find(s => s.num === unit.section);
+    if (!group) { group = { num: unit.section, units: [] }; sections.push(group); }
+    group.units.push(unit);
+  });
+
   screens.home.innerHTML = `
     <div class="head">
       <h1 class="ro">Româna</h1>
@@ -1612,8 +1723,8 @@ function renderHome() {
         : "Начните сегодня"}</span>
     </div>
     ${MOTIF}
-    <p class="section-title">Секция 1 · ${COURSE.title} · ${done} из ${total}</p>
-    <div class="path" id="unit-list"></div>
+    <p class="section-title" style="margin-top:0">Курс A1 · ${done} из ${total}</p>
+    <div id="unit-list"></div>
     ${done ? '<button class="back" id="reset" style="margin-top:6px">Сбросить прогресс</button>' : ""}
   `;
 
@@ -1627,26 +1738,39 @@ function renderHome() {
 
   const list = screens.home.querySelector("#unit-list");
 
-  // Юниты — дорожкой: кружок-веха слева/справа по очереди, карточка с
-  // названием рядом. Соединяющая линия — фон .path, задаётся в CSS.
-  COURSE.units.forEach((unit, i) => {
-    const unlocked = isUnlocked(i);
-    const finished = state.done.includes(unit.id);
-    const btn = document.createElement("button");
-    btn.className = "path-item" + (i % 2 ? " side-right" : "");
-    btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
-    btn.disabled = !unlocked;
-    const nodeContent = finished ? "✓" : unlocked ? String(i + 1) : "🔒";
-    btn.innerHTML = `
-      <span class="path-node">${nodeContent}</span>
-      <span class="path-card">
-        ${finished ? '<span class="unit-mark">пройден</span>' : ""}
-        <div class="unit-name">${unit.name}</div>
-        <div class="unit-sub">${unit.sub}</div>
-      </span>
-    `;
-    btn.onclick = () => startUnit(unit);
-    list.appendChild(btn);
+  sections.forEach(group => {
+    const sectionDone = group.units.filter(u => state.done.includes(u.id)).length;
+    const heading = document.createElement("p");
+    heading.className = "section-title";
+    heading.textContent =
+      `Секция ${group.num} · ${SECTION_TITLES[group.num]} · ${sectionDone} из ${group.units.length}`;
+    list.appendChild(heading);
+
+    const path = document.createElement("div");
+    path.className = "path";
+    list.appendChild(path);
+
+    // Кружок-веха слева/справа по очереди, карточка с названием рядом.
+    group.units.forEach(unit => {
+      const i = unitIndex(unit.id);
+      const unlocked = isUnlocked(i);
+      const finished = state.done.includes(unit.id);
+      const btn = document.createElement("button");
+      btn.className = "path-item" + (i % 2 ? " side-right" : "");
+      btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
+      btn.disabled = !unlocked;
+      const nodeContent = finished ? "✓" : unlocked ? String(i + 1) : "🔒";
+      btn.innerHTML = `
+        <span class="path-node">${nodeContent}</span>
+        <span class="path-card">
+          ${finished ? '<span class="unit-mark">пройден</span>' : ""}
+          <div class="unit-name">${unit.name}</div>
+          <div class="unit-sub">${unit.sub}</div>
+        </span>
+      `;
+      btn.onclick = () => startUnit(unit);
+      path.appendChild(btn);
+    });
   });
 }
 
@@ -1714,6 +1838,7 @@ function renderTask() {
   if (task.type === "assemble") renderAssemble(body, task);
   if (task.type === "input")    renderInput(body, task);
   if (task.type === "match")    renderMatch(body, task);
+  if (task.type === "read")     renderRead(body, task);
 }
 
 function renderChoice(body, task) {
@@ -1747,6 +1872,19 @@ function renderGap(body, task) {
     <ul class="options" id="options"></ul>
   `;
   buildOptions(body, shuffle(g.options), g.answer, true);
+}
+
+function renderRead(body, task) {
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Как читается?</p>
+      <p class="subject ro">${task.combo}</p>
+    </div>
+    <ul class="options" id="options"></ul>
+  `;
+  const wrong = shuffle(READ_COMBOS.filter(c => c.combo !== task.combo))
+                  .slice(0, 3).map(c => c.reading);
+  buildOptions(body, shuffle(wrong.concat(task.answer)), task.answer, false);
 }
 
 function buildOptions(body, choices, answer, romanian) {
