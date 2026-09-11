@@ -243,6 +243,14 @@
   .match-item.is-wrong { background: var(--wrong); color: #fff; box-shadow: 0 3px 0 var(--wrong-dark); animation: shake .3s ease; }
   .match-item:disabled { cursor: default; }
 
+  /* ---- Циферблат → фраза ---- */
+  .clock-face { display: block; margin: 8px auto 4px; }
+  .clock-face .clock-rim { fill: var(--card); stroke: var(--ink); stroke-width: 3; }
+  .clock-face .clock-tick { stroke: var(--muted); stroke-width: 2; }
+  .clock-face .clock-hour { stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
+  .clock-face .clock-min { stroke: var(--primary); stroke-width: 4; stroke-linecap: round; }
+  .clock-face .clock-center { fill: var(--primary); }
+
   .options { display: grid; gap: 10px; margin: 0 0 20px; padding: 0; list-style: none; }
   .option {
     width: 100%; text-align: left; background: var(--card); border: none;
@@ -308,7 +316,7 @@
 
   .confetti {
     position: absolute; top: -10px; width: 10px; height: 10px;
-    background: var(--primary); opacity: 0;
+    background: var(--primary); opacity: 0; pointer-events: none;
     animation: fall 1.6s ease-in forwards;
   }
   @keyframes fall {
@@ -432,23 +440,53 @@
    ЧАСТЬ 1. СОДЕРЖАНИЕ КУРСА
    ========================================================================== */
 
+// Уровни курса (A1, потом A2, A3…). Переключателя в интерфейсе пока
+// нет — он появится вместе с A2, — но данные уже размечены по уровням,
+// чтобы новый уровень не потребовал переделки. totalUnits — из
+// course-a1.md, для строки «Уровень A1 · N из 38» над путём курса.
+const LEVELS = {
+  A1: { title: "Уровень A1", totalUnits: 38 }
+};
+
+// Названия секций по уровням: SECTION_TITLES[level][номер секции].
+// У каждого уровня своя нумерация секций с нуля — поэтому вложено
+// по уровню, а не общий плоский список.
 const SECTION_TITLES = {
-  0: "Первые фразы",
-  1: "Первые слова"
+  A1: {
+    0: "Первые фразы",
+    1: "Первые слова",
+    2: "Учим румынский",
+    3: "Я и коллеги"
+  }
 };
 
 // Сочетания букв секции 0. Юнит s0-1 использует их в упражнении «как
 // читается» (task.type === "read"). Сами звуки — из госучебника A1,
 // но конкретная запись кириллицей — наш выбор, не проверено носителем.
 const READ_COMBOS = [
-  { combo: "ce",  reading: "че" },
-  { combo: "ci",  reading: "чи" },
-  { combo: "che", reading: "ке" },
-  { combo: "chi", reading: "ки" },
-  { combo: "ge",  reading: "дже" },
-  { combo: "gi",  reading: "джи" },
-  { combo: "ghe", reading: "ге" },
-  { combo: "ghi", reading: "ги" }
+  { combo: "ce",  reading: "че",  verified: false },
+  { combo: "ci",  reading: "чи",  verified: false },
+  { combo: "che", reading: "ке",  verified: false },
+  { combo: "chi", reading: "ки",  verified: false },
+  { combo: "ge",  reading: "дже", verified: false },
+  { combo: "gi",  reading: "джи", verified: false },
+  { combo: "ghe", reading: "ге",  verified: false },
+  { combo: "ghi", reading: "ги",  verified: false }
+];
+
+// Время для упражнения «циферблат → фраза» (task.type === "clock").
+// Юнит s2-4 использует их (unit.clockTimes). Устойчивое «ora unu» вместо
+// ожидаемого по роду «ora una» — так дано в разговорниках, но не
+// проверено носителем; сами фразы новые, тоже не проверены.
+const CLOCK_TIMES = [
+  { h: 1,  m: 0,  phrase: "E ora unu.",                verified: false },
+  { h: 12, m: 0,  phrase: "E ora douăsprezece.",       verified: false },
+  { h: 5,  m: 0,  phrase: "E ora cinci.",               verified: false },
+  { h: 2,  m: 30, phrase: "E ora două și jumătate.",    verified: false },
+  { h: 6,  m: 30, phrase: "E ora șase și jumătate.",    verified: false },
+  { h: 3,  m: 15, phrase: "E ora trei și un sfert.",    verified: false },
+  { h: 9,  m: 15, phrase: "E ora nouă și un sfert.",    verified: false },
+  { h: 8,  m: 45, phrase: "E ora opt fără un sfert.",   verified: false }
 ];
 
 const COURSE = {
@@ -457,6 +495,8 @@ const COURSE = {
     {
       id: "s0-1",
       section: 0,
+      level: "A1",
+      verified: false,
       name: "Звуки и буквы",
       sub: "ă, î/â, ș, ț и особые сочетания",
       readCombos: true,
@@ -490,6 +530,8 @@ const COURSE = {
     {
       id: "s0-2",
       section: 0,
+      level: "A1",
+      verified: false,
       name: "Не понимаю",
       sub: "Когда ничего не разобрал",
       grammar: null,
@@ -507,6 +549,8 @@ const COURSE = {
     {
       id: "s0-3",
       section: 0,
+      level: "A1",
+      verified: false,
       name: "Переспросить",
       sub: "Помедленнее, по буквам, ещё раз",
       grammar: null,
@@ -524,6 +568,7 @@ const COURSE = {
     {
       id: "u1",
       section: 1,
+      level: "A1",
       name: "Приветствие",
       sub: "Здравствуйте, спасибо, до свидания",
       grammar: null,
@@ -550,6 +595,7 @@ const COURSE = {
     {
       id: "u2",
       section: 1,
+      level: "A1",
       name: "Знакомство",
       sub: "Глагол «быть», местоимения",
       grammar: {
@@ -595,6 +641,7 @@ const COURSE = {
     {
       id: "u3",
       section: 1,
+      level: "A1",
       name: "Кто ты",
       sub: "Профессии, артикль un / o",
       grammar: {
@@ -640,6 +687,7 @@ const COURSE = {
     {
       id: "u4",
       section: 1,
+      level: "A1",
       name: "Какой он",
       sub: "Прилагательные и знакомые слова",
       grammar: {
@@ -678,6 +726,432 @@ const COURSE = {
         { text: "o prietenă ___", answer: "bună", options: ["bun", "bună"] },
         { text: "Casa este ___.", answer: "mare", options: ["mare", "mic"] }
       ]
+    },
+
+    {
+      id: "s2-1",
+      section: 2,
+      level: "A1",
+      verified: false,
+      name: "В классе",
+      sub: "un / o / niște, средний род",
+      grammar: {
+        title: "Артикль un / o / niște и средний род",
+        body: [
+          "Неопределённый артикль показывает число и род: <b>un</b> — мужской, <b>o</b> — женский, <b>niște</b> — множественное число (несколько).",
+          "У части слов — средний род. В единственном числе он ведёт себя как мужской (<b>un pix</b>), а во множественном — как женский: <b>două pixuri</b>, а не «doi pixuri».",
+          "Множественное число обычно получается окончанием <b>-e</b>, <b>-i</b> или <b>-uri</b> — легче запомнить сразу парой, чем по правилу."
+        ],
+        table: [
+          ["un pix",   "два — două pixuri"],
+          ["un caiet", "два — două caiete"],
+          ["un scaun", "два — două scaune"],
+          ["o masă",   "два — două mese"]
+        ]
+      },
+      words: [
+        { ro: "un pix",      roF: "niște pixuri",    ru: "ручка",              ruF: "несколько ручек" },
+        { ro: "un caiet",    roF: "niște caiete",     ru: "тетрадь",            ruF: "несколько тетрадей" },
+        { ro: "un scaun",    roF: "niște scaune",     ru: "стул",               ruF: "несколько стульев" },
+        { ro: "o masă",      roF: "niște mese",       ru: "стол",               ruF: "несколько столов" },
+        { ro: "o ușă",       roF: "niște uși",        ru: "дверь",              ruF: "несколько дверей" },
+        { ro: "o fereastră", roF: "niște ferestre",   ru: "окно",               ruF: "несколько окон" },
+        { ro: "un telefon",  roF: "niște telefoane",  ru: "телефон",            ruF: "несколько телефонов" },
+        { ro: "o clasă",     roF: "niște clase",      ru: "класс (кабинет)",    ruF: "несколько классов" }
+      ],
+      phrases: [
+        { ro: "Este un pix.", ru: "Это ручка." },
+        { ro: "Este o masă.", ru: "Это стол." }
+      ],
+      gaps: [
+        { text: "___ pix",   answer: "un", options: ["un", "o"] },
+        { text: "___ masă",  answer: "o",  options: ["un", "o"] },
+        { text: "___ caiet", answer: "un", options: ["un", "o"] }
+      ]
+    },
+
+    {
+      id: "s2-2",
+      section: 2,
+      level: "A1",
+      verified: false,
+      name: "У меня есть",
+      sub: "Глагол a avea, частые чередования",
+      grammar: {
+        title: "Глагол a avea — «иметь»",
+        body: [
+          "<b>A avea</b> — «иметь», один из самых частых глаголов. Формы неправильные, лучше запомнить целиком, не по образцу.",
+          "Заодно: во множественном числе согласная перед окончанием иногда меняется — <b>medic → medici</b>, <b>coleg → colegi</b>, <b>student → studenți</b>. Гласная тоже может меняться: <b>masă → mese</b>."
+        ],
+        table: [
+          ["eu am",       "у меня есть"],
+          ["tu ai",       "у тебя есть"],
+          ["el / ea are", "у него / у неё есть"],
+          ["noi avem",    "у нас есть"],
+          ["voi aveți",   "у вас есть"],
+          ["ei / ele au", "у них есть"]
+        ]
+      },
+      words: [
+        { ro: "am",     ru: "у меня есть" },
+        { ro: "ai",     ru: "у тебя есть" },
+        { ro: "are",    ru: "у него / у неё есть" },
+        { ro: "avem",   ru: "у нас есть" },
+        { ro: "aveți",  ru: "у вас есть" },
+        { ro: "au",     ru: "у них есть" },
+        { ro: "un coleg", roF: "niște colegi", ru: "коллега (м)", ruF: "несколько коллег" },
+        { ro: "o colegă", roF: "niște colege", ru: "коллега (ж)", ruF: "несколько коллег" }
+      ],
+      phrases: [
+        { ro: "Am un pix.",      ru: "У меня есть ручка." },
+        { ro: "Ai o carte?",     ru: "У тебя есть книга?" },
+        { ro: "Are un telefon.", ru: "У него есть телефон." }
+      ],
+      gaps: [
+        { text: "Eu ___ un pix.",     answer: "am",   options: ["am", "ai", "are"] },
+        { text: "Tu ___ o carte?",    answer: "ai",   options: ["am", "ai", "are"] },
+        { text: "Ea ___ un telefon.", answer: "are",  options: ["am", "ai", "are"] }
+      ]
+    },
+
+    {
+      id: "s2-3",
+      section: 2,
+      level: "A1",
+      verified: false,
+      name: "Где лежит",
+      sub: "Предлоги места",
+      grammar: {
+        title: "Предлоги места",
+        body: [
+          "Пять предлогов, которые пригождаются каждый день.",
+          "Здесь они — в готовых фразах, без определённого артикля (он будет позже): проще запомнить целиком, чем разбирать по правилам."
+        ],
+        table: [
+          ["în",     "в"],
+          ["pe",     "на"],
+          ["sub",    "под"],
+          ["lângă",  "рядом с"],
+          ["între",  "между"]
+        ]
+      },
+      words: [
+        { ro: "în",       ru: "в" },
+        { ro: "pe",       ru: "на" },
+        { ro: "sub",      ru: "под" },
+        { ro: "lângă",    ru: "рядом с" },
+        { ro: "între",    ru: "между" },
+        { ro: "aici",     ru: "здесь" },
+        { ro: "acolo",    ru: "там" },
+        { ro: "o geantă", ru: "сумка" }
+      ],
+      phrases: [
+        { ro: "Un pix este pe masă.",  ru: "Ручка на столе." },
+        { ro: "O carte este în geantă.", ru: "Книга в сумке." },
+        { ro: "Ana este lângă Vlad.",  ru: "Аня рядом с Владом." }
+      ],
+      gaps: [
+        { text: "Un pix este ___ masă.",   answer: "pe",    options: ["pe", "sub", "în"] },
+        { text: "O carte este ___ geantă.", answer: "în",   options: ["în", "pe", "sub"] },
+        { text: "Ana este ___ Vlad.",      answer: "lângă", options: ["lângă", "între", "sub"] }
+      ]
+    },
+
+    {
+      id: "s2-4",
+      section: 2,
+      level: "A1",
+      verified: false,
+      name: "Сколько времени",
+      sub: "Cât e ora?, четверти и половины",
+      clockTimes: true,
+      grammar: {
+        title: "Который час",
+        body: [
+          "«Час» по-румынски женского рода, поэтому «один» и «два» в других случаях — <b>una</b> и <b>două</b>. Но в самом вопросе о времени говорят <b>E ora unu</b> — устойчивое выражение, так и запоминается.",
+          "«Четверть» и «половина» добавляются через <b>și</b> («и»), а без четверти — через <b>fără</b> («без»)."
+        ],
+        table: [
+          ["Cât e ora?",              "Который час?"],
+          ["E ora unu.",              "Час."],
+          ["E ora trei și un sfert.", "Пятнадцать минут четвёртого."],
+          ["E ora șase și jumătate.", "Половина седьмого."],
+          ["E ora opt fără un sfert.", "Без пятнадцати восемь."]
+        ]
+      },
+      words: [
+        { ro: "Cât e ora?",     ru: "Который час?" },
+        { ro: "și un sfert",    ru: "и четверть" },
+        { ro: "și jumătate",    ru: "и половина" },
+        { ro: "fără un sfert",  ru: "без четверти" },
+        { ro: "o oră",          ru: "час (единица времени)" },
+        { ro: "un minut",       ru: "минута" }
+      ],
+      phrases: [
+        { ro: "E ora trei și un sfert.", ru: "Пятнадцать минут четвёртого." },
+        { ro: "E ora opt fără un sfert.", ru: "Без пятнадцати восемь." }
+      ],
+      gaps: []
+    },
+
+    {
+      id: "s2-5",
+      section: 2,
+      level: "A1",
+      verified: false,
+      name: "Календарь",
+      sub: "Дни, времена года, рабочие и выходные",
+      grammar: {
+        title: "Дни недели и рабочая неделя",
+        body: [
+          "Дни недели пишутся с маленькой буквы — как и месяцы, в отличие от русского это не всегда сразу запоминается.",
+          "Рабочие дни — <b>zile lucrătoare</b>, выходные — <b>zile libere</b>: суббота и воскресенье."
+        ],
+        table: [
+          ["o zi",        "день"],
+          ["o săptămână", "неделя"],
+          ["o lună",      "месяц"],
+          ["un an",       "год"]
+        ]
+      },
+      words: [
+        { ro: "luni",      ru: "понедельник" },
+        { ro: "marți",     ru: "вторник" },
+        { ro: "miercuri",  ru: "среда" },
+        { ro: "joi",       ru: "четверг" },
+        { ro: "vineri",    ru: "пятница" },
+        { ro: "sâmbătă",   ru: "суббота" },
+        { ro: "duminică",  ru: "воскресенье" },
+        { ro: "primăvară", ru: "весна" },
+        { ro: "vară",      ru: "лето" },
+        { ro: "toamnă",    ru: "осень" },
+        { ro: "iarnă",     ru: "зима" },
+        { ro: "o zi",         ru: "день" },
+        { ro: "o săptămână",  ru: "неделя" },
+        { ro: "o lună",       ru: "месяц" },
+        { ro: "un an",        ru: "год" },
+        { ro: "astăzi",       ru: "сегодня" },
+        { ro: "mâine",        ru: "завтра" },
+        { ro: "zi liberă",    ru: "выходной день" }
+      ],
+      phrases: [
+        { ro: "Astăzi este luni.", ru: "Сегодня понедельник." },
+        { ro: "Mâine este marți.", ru: "Завтра вторник." }
+      ],
+      gaps: []
+    },
+
+    {
+      id: "s3-1",
+      section: 3,
+      level: "A1",
+      verified: false,
+      name: "Что я делаю",
+      sub: "Глаголы I спряжения",
+      grammar: {
+        title: "Глаголы I спряжения — на -a",
+        body: [
+          "Самая частая группа глаголов, все на <b>-a</b> в словарной форме. Образец — <b>a lucra</b>, «работать».",
+          "По тому же образцу спрягаются <b>a întreba</b> («спрашивать»: <b>eu întreb</b>) и <b>a intra</b> («входить»: <b>eu intru</b>) — и сотни других глаголов на -a."
+        ],
+        table: [
+          ["eu lucrez",       "я работаю"],
+          ["tu lucrezi",      "ты работаешь"],
+          ["el / ea lucrează","он / она работает"],
+          ["noi lucrăm",      "мы работаем"],
+          ["voi lucrați",     "вы работаете"],
+          ["ei / ele lucrează","они работают"]
+        ]
+      },
+      words: [
+        { ro: "lucrez",      ru: "я работаю" },
+        { ro: "lucrezi",     ru: "ты работаешь" },
+        { ro: "lucrează",    ru: "он/она работает, они работают" },
+        { ro: "lucrăm",      ru: "мы работаем" },
+        { ro: "lucrați",     ru: "вы работаете" },
+        { ro: "a întreba",   ru: "спрашивать" },
+        { ro: "a intra",     ru: "входить" }
+      ],
+      phrases: [
+        { ro: "Vlad lucrează.", ru: "Влад работает." },
+        { ro: "Eu întreb.",     ru: "Я спрашиваю." },
+        { ro: "Ana intră.",     ru: "Аня входит." }
+      ],
+      gaps: [
+        { text: "Eu ___.",   answer: "lucrez",   options: ["lucrez", "lucrezi", "lucrează"] },
+        { text: "Tu ___.",   answer: "lucrezi",  options: ["lucrez", "lucrezi", "lucrează"] },
+        { text: "Vlad ___.", answer: "lucrează", options: ["lucrez", "lucrezi", "lucrează"] }
+      ]
+    },
+
+    {
+      id: "s3-2",
+      section: 3,
+      level: "A1",
+      verified: false,
+      name: "Кто это",
+      sub: "Указательные и вопросительные слова",
+      grammar: {
+        title: "Указательные: acesta, aceasta, aceștia, acestea",
+        body: [
+          "«Этот / эта / эти» меняются по роду и числу — так же, как прилагательные.",
+          "Вместе с ними пригодятся вопросительные слова: <b>cine</b> (кто), <b>ce</b> (что), <b>unde</b> (где), <b>când</b> (когда), <b>câți / câte</b> (сколько, м/ж)."
+        ],
+        table: [
+          ["acesta",  "этот"],
+          ["aceasta", "эта"],
+          ["aceștia", "эти (м)"],
+          ["acestea", "эти (ж)"]
+        ]
+      },
+      words: [
+        { ro: "acesta",  ru: "этот" },
+        { ro: "aceasta", ru: "эта" },
+        { ro: "aceștia", ru: "эти (м)" },
+        { ro: "acestea", ru: "эти (ж)" },
+        { ro: "cine",    ru: "кто" },
+        { ro: "ce",      ru: "что" },
+        { ro: "unde",    ru: "где" },
+        { ro: "când",    ru: "когда" },
+        { ro: "câți",    ru: "сколько (м)" },
+        { ro: "câte",    ru: "сколько (ж)" }
+      ],
+      phrases: [
+        { ro: "Cine este acesta?", ru: "Кто это?" },
+        { ro: "Ce este aceasta?",  ru: "Что это?" },
+        { ro: "Unde lucrezi?",     ru: "Где ты работаешь?" }
+      ],
+      gaps: [
+        { text: "___ este Vlad?", answer: "Cine",  options: ["Cine", "Ce", "Unde"] },
+        { text: "___ lucrezi?",   answer: "Unde",  options: ["Unde", "Cine", "Când"] }
+      ]
+    },
+
+    {
+      id: "s3-3",
+      section: 3,
+      level: "A1",
+      verified: false,
+      name: "Мой коллега",
+      sub: "Определённый артикль в конце слова",
+      extraGaps: 6,
+      grammar: {
+        title: "Определённый артикль на конце слова",
+        body: [
+          "В румынском нет отдельного слова «тот/та» — оно приклеивается в конец существительного. Мужской род добавляет <b>-ul</b>, женский заменяет конечную <b>-ă</b> на <b>-a</b>.",
+          "Множественное число: мужской род добавляет <b>-i</b> к уже готовой форме множественного (<b>colegi → colegii</b>), женский добавляет <b>-le</b> (<b>colege → colegele</b>).",
+          "Тот же приклеенный артикль — и у давно знакомого слова: <b>prieten → prietenul</b>, <b>prietenă → prietena</b>."
+        ],
+        table: [
+          ["coleg → colegul",   "коллега → тот коллега"],
+          ["colegă → colega",   "коллега(ж) → та коллега"],
+          ["colegi → colegii",  "коллеги → те коллеги"],
+          ["colege → colegele", "коллеги(ж) → те коллеги"]
+        ]
+      },
+      words: [
+        { ro: "colegul",   ru: "тот коллега" },
+        { ro: "colega",    ru: "та коллега" },
+        { ro: "colegii",   ru: "те коллеги (м)" },
+        { ro: "colegele",  ru: "те коллеги (ж)" },
+        { ro: "prietenul", ru: "тот друг" },
+        { ro: "prietena",  ru: "та подруга" }
+      ],
+      phrases: [
+        { ro: "Colegul lucrează.", ru: "Коллега (тот) работает." },
+        { ro: "Colega intră.",     ru: "Коллега (та) входит." }
+      ],
+      gaps: [
+        { text: "un coleg → ___",       answer: "colegul",   options: ["colegul", "colega", "colegii"] },
+        { text: "o colegă → ___",       answer: "colega",    options: ["colega", "colegul", "colegele"] },
+        { text: "niște colegi → ___",   answer: "colegii",   options: ["colegii", "colegele", "colegul"] },
+        { text: "niște colege → ___",   answer: "colegele",  options: ["colegele", "colegii", "colega"] },
+        { text: "un prieten → ___",     answer: "prietenul", options: ["prietenul", "prietena", "colegul"] },
+        { text: "o prietenă → ___",     answer: "prietena",  options: ["prietena", "prietenul", "colega"] },
+        { text: "Acesta este ___.",     answer: "colegul",   options: ["colegul", "colega", "colegii"] },
+        { text: "Aceasta este ___.",    answer: "colega",    options: ["colega", "colegul", "colegele"] }
+      ]
+    },
+
+    {
+      id: "s3-4",
+      section: 3,
+      level: "A1",
+      verified: false,
+      name: "Мой телефон",
+      sub: "Притяжательные meu/tău, числа до 1000",
+      grammar: {
+        title: "Притяжательные: meu, mea, tău, ta",
+        body: [
+          "«Мой/моя» и «твой/твоя» согласуются с родом того, чем владеют, — как прилагательное после слова.",
+          "Это только первое знакомство: <b>mei/mele</b> (мои/твои для множественного числа) и остальные лица — в секции 5.",
+          "Заодно про числа: 21–99 устроены по тому же правилу, что уже разобрано в словаре («Числа 0–100») — десяток плюс <b>și</b> плюс единица. Сотни: <b>o sută</b> (100), <b>două sute</b> (200)… Тысяча — <b>o mie</b>."
+        ],
+        table: [
+          ["colegul meu",   "мой коллега"],
+          ["colega mea",    "моя коллега"],
+          ["prietenul tău", "твой друг"],
+          ["prietena ta",   "твоя подруга"]
+        ]
+      },
+      words: [
+        { ro: "colegul meu",   ru: "мой коллега" },
+        { ro: "colega mea",    ru: "моя коллега" },
+        { ro: "prietenul tău", ru: "твой друг" },
+        { ro: "prietena ta",   ru: "твоя подруга" },
+        { ro: "două sute",     ru: "двести" },
+        { ro: "o mie",         ru: "тысяча" },
+        { ro: "o adresă",      ru: "адрес" },
+        { ro: "un număr de telefon", ru: "номер телефона" }
+      ],
+      phrases: [
+        { ro: "Acesta este colegul meu.", ru: "Это мой коллега." },
+        { ro: "Aceasta este prietena ta.", ru: "Это твоя подруга." }
+      ],
+      gaps: [
+        { text: "Acesta este colegul ___.",  answer: "meu", options: ["meu", "mea", "tău"] },
+        { text: "Aceasta este prietena ___.", answer: "ta",  options: ["ta", "tău", "mea"] }
+      ]
+    },
+
+    {
+      id: "s3-5",
+      section: 3,
+      level: "A1",
+      verified: false,
+      name: "Профессии",
+      sub: "Мужской и женский род профессий",
+      grammar: {
+        title: "Профессии: мужской и женский род",
+        body: [
+          "У части профессий женская форма — отдельное слово, не всегда предсказуемое по образцу. Кстати, «врач» — просто <b>medic</b>, одинаково для мужчины и женщины (уже знакомое слово из секции 1).",
+          "Культура: <b>Hramul</b> — праздник села или города в честь святого-покровителя. Коллеги нередко приглашают друг друга в гости именно на Hramul родного населённого пункта."
+        ],
+        table: [
+          ["inginer / ingineră",     "инженер"],
+          ["polițist / polițistă",   "полицейский"],
+          ["vânzător / vânzătoare",  "продавец"],
+          ["doctor / doctoriță",     "доктор"]
+        ]
+      },
+      words: [
+        { ro: "un inginer",   roF: "o ingineră",   ru: "инженер (м)",     ruF: "инженер (ж)" },
+        { ro: "un polițist",  roF: "o polițistă",  ru: "полицейский (м)", ruF: "полицейская (ж)" },
+        { ro: "un frizer",    roF: "o frizeriță",  ru: "парикмахер (м)",  ruF: "парикмахер (ж)" },
+        { ro: "un șofer",     roF: "o șoferiță",   ru: "водитель (м)",    ruF: "водитель (ж)" },
+        { ro: "un actor",     roF: "o actriță",    ru: "актёр",           ruF: "актриса" },
+        { ro: "un vânzător",  roF: "o vânzătoare", ru: "продавец (м)",    ruF: "продавщица" },
+        { ro: "un contabil",  roF: "o contabilă",  ru: "бухгалтер (м)",   ruF: "бухгалтер (ж)" },
+        { ro: "un doctor",    roF: "o doctoriță",  ru: "доктор (м)",      ruF: "доктор (ж)" }
+      ],
+      phrases: [
+        { ro: "Ea este ingineră.",  ru: "Она инженер." },
+        { ro: "El este vânzător.",  ru: "Он продавец." }
+      ],
+      gaps: [
+        { text: "Ea este ___.", answer: "ingineră",  options: ["ingineră", "inginer", "actor"] },
+        { text: "El este ___.", answer: "vânzător",  options: ["vânzător", "vânzătoare", "actriță"] }
+      ]
     }
   ]
 };
@@ -694,6 +1168,7 @@ const SETS = [
   {
     id: "survival",
     group: "work",
+    verified: false,
     name: "Когда не понимаешь",
     sub: "Самое нужное с первого дня",
     words: [
@@ -1233,6 +1708,7 @@ const SETS = [
   {
     id: "colors",
     group: "topic",
+    level: "A1",
     verified: false,
     icon: "🎨",
     name: "Цвета",
@@ -1256,6 +1732,7 @@ const SETS = [
   {
     id: "numbers",
     group: "topic",
+    level: "A1",
     // Числа 0–20, десятки и примеры сверены с госучебником A1 — источник
     // указан прямо в записи (source). Только 35 и 99 достроены нами по
     // тому же образцу (десяток + «și» + единица) и помечены verified: false —
@@ -1312,6 +1789,7 @@ const SETS = [
   {
     id: "days",
     group: "topic",
+    level: "A1",
     verified: false,
     icon: "📆",
     name: "Дни недели",
@@ -1331,6 +1809,7 @@ const SETS = [
   {
     id: "seasons",
     group: "topic",
+    level: "A1",
     verified: false,
     icon: "🍂",
     name: "Месяцы и времена года",
@@ -1359,6 +1838,7 @@ const SETS = [
   {
     id: "family",
     group: "topic",
+    level: "A1",
     verified: false,
     icon: "👪",
     name: "Семья",
@@ -1380,6 +1860,76 @@ const SETS = [
       { ro: "mătușă",   ru: "тётя" },
       { ro: "nepot",    ru: "внук, племянник" },
       { ro: "nepoată",  ru: "внучка, племянница" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "things",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "✏️",
+    name: "Вещи вокруг",
+    sub: "Из секции 2: класс, дом, сумка",
+    words: [
+      { ro: "un pix",      roF: "niște pixuri",   ru: "ручка",           ruF: "несколько ручек" },
+      { ro: "un caiet",    roF: "niște caiete",    ru: "тетрадь",         ruF: "несколько тетрадей" },
+      { ro: "un scaun",    roF: "niște scaune",    ru: "стул",            ruF: "несколько стульев" },
+      { ro: "o masă",      roF: "niște mese",      ru: "стол",            ruF: "несколько столов" },
+      { ro: "o ușă",       roF: "niște uși",       ru: "дверь",           ruF: "несколько дверей" },
+      { ro: "o fereastră", roF: "niște ferestre",  ru: "окно",            ruF: "несколько окон" },
+      { ro: "un telefon",  roF: "niște telefoane", ru: "телефон",         ruF: "несколько телефонов" },
+      { ro: "o clasă",     roF: "niște clase",     ru: "класс (кабинет)", ruF: "несколько классов" },
+      { ro: "o geantă",    ru: "сумка" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "time",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "🕐",
+    name: "Время и часы",
+    sub: "Из секции 2: который час, дни, месяцы",
+    words: [
+      { ro: "Cât e ora?",    ru: "Который час?" },
+      { ro: "și un sfert",   ru: "и четверть" },
+      { ro: "și jumătate",   ru: "и половина" },
+      { ro: "fără un sfert", ru: "без четверти" },
+      { ro: "o oră",         ru: "час (единица времени)" },
+      { ro: "un minut",      ru: "минута" },
+      { ro: "o zi",          ru: "день" },
+      { ro: "o săptămână",   ru: "неделя" },
+      { ro: "o lună",        ru: "месяц" },
+      { ro: "un an",         ru: "год" },
+      { ro: "astăzi",        ru: "сегодня" },
+      { ro: "mâine",         ru: "завтра" },
+      { ro: "zi liberă",     ru: "выходной день" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "jobs",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "💼",
+    name: "Профессии",
+    sub: "Из секции 3: мужской и женский род",
+    words: [
+      { ro: "un inginer",  roF: "o ingineră",   ru: "инженер (м)",     ruF: "инженер (ж)" },
+      { ro: "un polițist", roF: "o polițistă",  ru: "полицейский (м)", ruF: "полицейская (ж)" },
+      { ro: "un frizer",   roF: "o frizeriță",  ru: "парикмахер (м)",  ruF: "парикмахер (ж)" },
+      { ro: "un șofer",    roF: "o șoferiță",   ru: "водитель (м)",    ruF: "водитель (ж)" },
+      { ro: "un actor",    roF: "o actriță",    ru: "актёр",           ruF: "актриса" },
+      { ro: "un vânzător", roF: "o vânzătoare", ru: "продавец (м)",    ruF: "продавщица" },
+      { ro: "un contabil", roF: "o contabilă",  ru: "бухгалтер (м)",   ruF: "бухгалтер (ж)" },
+      { ro: "un doctor",   roF: "o doctoriță",  ru: "доктор (м)",      ruF: "доктор (ж)" },
+      { ro: "un medic",    ru: "врач (м и ж, не меняется)" }
     ],
     phrases: []
   }
@@ -1551,8 +2101,13 @@ function buildLesson(unit) {
     tasks.push({ type: "choice", dir: "ru-ro", word: w, pool: allWords }));
   shuffle(unit.phrases).slice(0, 2).forEach(p =>
     tasks.push({ type: "assemble", phrase: p }));
-  shuffle(unit.gaps).slice(0, 2).forEach(g =>
-    tasks.push({ type: "gap", gap: g }));
+  // Обычные юниты — 2 задания на пропуск, в общей жеребьёвке ниже.
+  // extraGaps идёт не сюда, а в reserved (см. ниже): иначе жеребьёвка
+  // могла случайно срезать почти все повторения одного правила.
+  if (!unit.extraGaps) {
+    shuffle(unit.gaps).slice(0, 2).forEach(g =>
+      tasks.push({ type: "gap", gap: g }));
+  }
 
   const typed = shuffle(unit.words.filter(w => !w.ro.includes(" ")))[0];
   if (typed) tasks.push({ type: "input", word: typed });
@@ -1562,8 +2117,15 @@ function buildLesson(unit) {
 
   // Задания с гарантированным местом в уроке (не участвуют в общей
   // жеребьёвке, чтобы не потеряться среди остального): «Найди пары»
-  // всегда, «как читается» — только у юнита с readCombos.
+  // всегда, «как читается» и «циферблат» — по флагу юнита, extraGaps —
+  // для юнита, где одно правило требует особенно много однотипной
+  // тренировки подряд (см. CLAUDE.md, «Как строить секции курса»).
   const reserved = [];
+
+  if (unit.extraGaps) {
+    shuffle(unit.gaps).slice(0, unit.extraGaps).forEach(g =>
+      reserved.push({ type: "gap", gap: g }));
+  }
 
   const matchPool = unit.words.length >= 5 ? unit.words
     : unit.words.concat(oldWords).filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i);
@@ -1573,6 +2135,11 @@ function buildLesson(unit) {
   if (unit.readCombos) {
     shuffle(READ_COMBOS).slice(0, 2).forEach(c =>
       reserved.push({ type: "read", combo: c.combo, answer: c.reading }));
+  }
+
+  if (unit.clockTimes) {
+    shuffle(CLOCK_TIMES).slice(0, 2).forEach(t =>
+      reserved.push({ type: "clock", h: t.h, m: t.m, answer: t.phrase }));
   }
 
   const picked = shuffle(tasks).slice(0, 12 - reserved.length);
@@ -1703,13 +2270,17 @@ function goToPath() {
 /* ---------- Главный экран ---------- */
 
 function renderHome() {
-  const total = COURSE.units.length;
-  const done = state.done.length;
+  // Переключателя уровней ещё нет — пока всегда A1, но именно из-за
+  // этой константы, а не из захардкоженных текстов ниже: A2 подключится
+  // добавлением записи в LEVELS без переделки этой функции.
+  const level = "A1";
+  const levelUnits = COURSE.units.filter(u => u.level === level);
+  const levelDone = levelUnits.filter(u => state.done.includes(u.id)).length;
 
   // Юниты сгруппированы по секциям — у каждой секции свой заголовок
   // и своя дорожка (собственная соединяющая линия, см. .path в CSS).
   const sections = [];
-  COURSE.units.forEach(unit => {
+  levelUnits.forEach(unit => {
     let group = sections.find(s => s.num === unit.section);
     if (!group) { group = { num: unit.section, units: [] }; sections.push(group); }
     group.units.push(unit);
@@ -1723,9 +2294,9 @@ function renderHome() {
         : "Начните сегодня"}</span>
     </div>
     ${MOTIF}
-    <p class="section-title" style="margin-top:0">Курс A1 · ${done} из ${total}</p>
+    <p class="section-title" style="margin-top:0">${LEVELS[level].title} · ${levelDone} из ${LEVELS[level].totalUnits}</p>
     <div id="unit-list"></div>
-    ${done ? '<button class="back" id="reset" style="margin-top:6px">Сбросить прогресс</button>' : ""}
+    ${levelDone ? '<button class="back" id="reset" style="margin-top:6px">Сбросить прогресс</button>' : ""}
   `;
 
   const reset = screens.home.querySelector("#reset");
@@ -1743,7 +2314,7 @@ function renderHome() {
     const heading = document.createElement("p");
     heading.className = "section-title";
     heading.textContent =
-      `Секция ${group.num} · ${SECTION_TITLES[group.num]} · ${sectionDone} из ${group.units.length}`;
+      `Секция ${group.num} · ${SECTION_TITLES[level][group.num]} · ${sectionDone} из ${group.units.length}`;
     list.appendChild(heading);
 
     const path = document.createElement("div");
@@ -1839,6 +2410,7 @@ function renderTask() {
   if (task.type === "input")    renderInput(body, task);
   if (task.type === "match")    renderMatch(body, task);
   if (task.type === "read")     renderRead(body, task);
+  if (task.type === "clock")    renderClock(body, task);
 }
 
 function renderChoice(body, task) {
@@ -1885,6 +2457,39 @@ function renderRead(body, task) {
   const wrong = shuffle(READ_COMBOS.filter(c => c.combo !== task.combo))
                   .slice(0, 3).map(c => c.reading);
   buildOptions(body, shuffle(wrong.concat(task.answer)), task.answer, false);
+}
+
+function clockSVG(h, m) {
+  const hourAngle = ((h % 12) + m / 60) * 30;
+  const minAngle = m * 6;
+  const ticks = [...Array(12)].map((_, i) => {
+    const a = i * 30 * Math.PI / 180;
+    const x1 = 70 + 56 * Math.sin(a), y1 = 70 - 56 * Math.cos(a);
+    const x2 = 70 + 63 * Math.sin(a), y2 = 70 - 63 * Math.cos(a);
+    return `<line class="clock-tick" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+  }).join("");
+  return `
+    <svg class="clock-face" width="140" height="140" viewBox="0 0 140 140" aria-hidden="true">
+      <circle class="clock-rim" cx="70" cy="70" r="66"/>
+      ${ticks}
+      <line class="clock-hour" x1="70" y1="70" x2="70" y2="38" transform="rotate(${hourAngle} 70 70)"/>
+      <line class="clock-min" x1="70" y1="70" x2="70" y2="24" transform="rotate(${minAngle} 70 70)"/>
+      <circle class="clock-center" cx="70" cy="70" r="4"/>
+    </svg>
+  `;
+}
+
+function renderClock(body, task) {
+  body.innerHTML = `
+    <div class="card prompt">
+      <p class="task">Сколько времени?</p>
+      ${clockSVG(task.h, task.m)}
+    </div>
+    <ul class="options" id="options"></ul>
+  `;
+  const wrong = shuffle(CLOCK_TIMES.filter(t => t.phrase !== task.answer))
+                  .slice(0, 3).map(t => t.phrase);
+  buildOptions(body, shuffle(wrong.concat(task.answer)), task.answer, true);
 }
 
 function buildOptions(body, choices, answer, romanian) {
