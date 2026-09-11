@@ -460,7 +460,8 @@ const SECTION_TITLES = {
     4: "Мой дом",
     5: "Семья",
     6: "Каждый день",
-    7: "Покупки"
+    7: "Покупки",
+    8: "Еда"
   }
 };
 
@@ -2246,6 +2247,220 @@ const COURSE = {
         { text: "Noi ___ pâine.",      answer: "am cumpărat", options: ["am cumpărat", "ați cumpărat", "au cumpărat"] },
         { text: "___ nimic ieri.",     answer: "N-am cumpărat", options: ["N-am cumpărat", "Am cumpărat", "N-ai cumpărat"] }
       ]
+    },
+
+    {
+      id: "s8-1",
+      section: 8,
+      level: "A1",
+      verified: false,
+      name: "Мне нравится",
+      sub: "Îmi place / îmi plac, a mânca, a bea",
+      extraGaps: 6,
+      grammar: {
+        title: "Îmi place / îmi plac — как в русском",
+        body: [
+          "Конструкция работает как русское «мне нравится/нравятся»: согласуется не с тем, кому нравится, а с тем, что нравится. Одна вещь — <b>place</b>, несколько — <b>plac</b>: <b>Îmi place ceaiul</b> (чай, одно), <b>Îmi plac merele</b> (яблоки, много).",
+          "«Кому нравится» показывает слово перед <b>place/plac</b>: <b>îmi</b> (мне), <b>îți</b> (тебе), <b>îi</b> (ему/ей), <b>ne</b> (нам), <b>vă</b> (вам), <b>le</b> (им).",
+          "Главная ловушка: когда говорим «вообще», нужен определённый артикль — <b>Îmi place cafeaua</b>, а не «Îmi place cafea». Без артикля звучит неполно, как в русском не скажешь «мне нравится чай» без объекта. Отсюда много одинаковых упражнений подряд.",
+          "Связь с секцией 5: тот же <b>lui</b>/<b>-ei</b>, что в <b>fiul lui Sergiu</b>, здесь показывает, кому нравится: <b>Lui Sergiu îi place cafeaua</b>, <b>Anei îi place ceaiul</b>.",
+          "<b>A mânca</b> и <b>a bea</b> — неправильные глаголы, полными таблицами.",
+          "«Îmi place să...» здесь не разбираем — конструкция с <b>să</b> будет в секции 10.",
+          "Культура: <b>sarmale</b> — праздничное блюдо, голубцы в виноградных или капустных листьях."
+        ],
+        table: [
+          ["îmi place / îmi plac", "мне нравится / нравятся"],
+          ["îți place / îți plac",  "тебе нравится / нравятся"],
+          ["îi place / îi plac",    "ему/ей нравится / нравятся"],
+          ["ne place / ne plac",    "нам нравится / нравятся"],
+          ["vă place / vă plac",    "вам нравится / нравятся"],
+          ["le place / le plac",    "им нравится / нравятся"],
+          ["eu mănânc",       "я ем"],
+          ["tu mănânci",      "ты ешь"],
+          ["el / ea mănâncă", "он / она ест"],
+          ["noi mâncăm",      "мы едим"],
+          ["voi mâncați",     "вы едите"],
+          ["ei / ele mănâncă","они едят"],
+          ["eu beau",       "я пью"],
+          ["tu bei",        "ты пьёшь"],
+          ["el / ea bea",   "он / она пьёт"],
+          ["noi bem",       "мы пьём"],
+          ["voi beți",      "вы пьёте"],
+          ["ei / ele beau", "они пьют"]
+        ]
+      },
+      words: [
+        { ro: "îmi place",  ru: "мне нравится" },
+        { ro: "îmi plac",   ru: "мне нравятся" },
+        { ro: "îți place",  ru: "тебе нравится" },
+        { ro: "îți plac",   ru: "тебе нравятся" },
+        { ro: "îi place",   ru: "ему/ей нравится" },
+        { ro: "îi plac",    ru: "ему/ей нравятся" },
+        { ro: "ne place",   ru: "нам нравится" },
+        { ro: "ne plac",    ru: "нам нравятся" },
+        { ro: "vă place",   ru: "вам нравится" },
+        { ro: "vă plac",    ru: "вам нравятся" },
+        { ro: "le place",   ru: "им нравится" },
+        { ro: "le plac",    ru: "им нравятся" },
+        { ro: "mănânc",   ru: "я ем" },
+        { ro: "mănânci",  ru: "ты ешь" },
+        { ro: "mâncăm",   ru: "мы едим" },
+        { ro: "mâncați",  ru: "вы едите" },
+        { ro: "beau",     ru: "я пью / они пьют" },
+        { ro: "bei",      ru: "ты пьёшь" },
+        { ro: "bem",      ru: "мы пьём" },
+        { ro: "beți",     ru: "вы пьёте" },
+        { ro: "cafeaua",  ru: "кофе (этот, вообще)" },
+        { ro: "ceaiul",   ru: "чай (этот, вообще)" },
+        { ro: "berea",    ru: "пиво (это, вообще)" },
+        { ro: "supa",     ru: "суп (этот, вообще)" },
+        { ro: "vinul",    ru: "вино (это, вообще)" },
+        { ro: "salata",   ru: "салат (этот, вообще)" },
+        { ro: "dulce",   ru: "сладкий" },
+        { ro: "sărat",   roF: "sărată", ru: "солёный", ruF: "солёная" },
+        { ro: "acru",    roF: "acră",   ru: "кислый",  ruF: "кислая" },
+        { ro: "amar",    roF: "amară",  ru: "горький", ruF: "горькая" },
+        { ro: "legume",  ru: "овощи" },
+        { ro: "fructe",  ru: "фрукты" },
+        { ro: "carne",   ru: "мясо" },
+        { ro: "pește",   ru: "рыба" },
+        { ro: "un desert", ru: "десерт" },
+        { ro: "sarmale",   ru: "сармале (голубцы)" }
+      ],
+      phrases: [
+        { ro: "Îmi place cafeaua.",         ru: "Мне нравится кофе." },
+        { ro: "Îmi plac merele.",           ru: "Мне нравятся яблоки." },
+        { ro: "Lui Sergiu îi place cafeaua.", ru: "Сергею нравится кофе." },
+        { ro: "Anei îi place ceaiul.",      ru: "Ане нравится чай." },
+        { ro: "Eu mănânc pâine.",           ru: "Я ем хлеб." },
+        { ro: "Tu bei ceai?",               ru: "Ты пьёшь чай?" },
+        { ro: "Noi mâncăm supă.",           ru: "Мы едим суп." },
+        { ro: "Ei beau vin.",               ru: "Они пьют вино." },
+        { ro: "Ieri am mâncat mămăligă.",   ru: "Вчера я ел(а) мамалыгу." },
+        { ro: "Ieri am băut cafea.",        ru: "Вчера я пил(а) кофе." },
+        { ro: "Îmi plac sarmalele.",        ru: "Мне нравятся сармале." }
+      ],
+      gaps: [
+        { text: "Îmi place ___.",   answer: "cafeaua", options: ["cafeaua", "cafea", "cafele"] },
+        { text: "Îmi place ___.",   answer: "ceaiul",  options: ["ceaiul", "ceai", "ceaiuri"] },
+        { text: "Îi place ___.",    answer: "berea",   options: ["berea", "bere", "beri"] },
+        { text: "Ne place ___.",    answer: "supa",    options: ["supa", "supă", "supe"] },
+        { text: "Vă place ___?",    answer: "vinul",   options: ["vinul", "vin", "vinuri"] },
+        { text: "Le place ___.",    answer: "salata",  options: ["salata", "salată", "salate"] },
+        { text: "Anei îi place ___.", answer: "ceaiul", options: ["ceaiul", "ceai", "cafea"] },
+        { text: "Sergiu spune: «___ place cafeaua.»", answer: "Îmi", options: ["Îmi", "Îți", "Îi"] },
+        { text: "Ana spune: «___ place ceaiul.»",      answer: "Îmi", options: ["Îmi", "Îi", "Ne"] },
+        { text: "Lui Vlad ___ place berea.",           answer: "îi",  options: ["îi", "îmi", "vă"] }
+      ]
+    },
+
+    {
+      id: "s8-2",
+      section: 8,
+      level: "A1",
+      verified: false,
+      name: "Что я буду делать",
+      sub: "Будущее время: voi + глагол",
+      grammar: {
+        title: "Будущее время: voi / vei / va / vom / veți / vor",
+        body: [
+          "Перед глаголом без «a» ставится своё слово на каждое лицо: <b>voi merge</b> — «я пойду», <b>vei merge</b> — «ты пойдёшь» и так далее. Отрицание — <b>nu</b> перед: <b>nu voi mânca</b>.",
+          "Ловушка 1: <b>voi</b> — это и «я буду» (<b>eu voi mânca</b>), и уже знакомое «вы» (<b>voi mâncați</b>, «вы едите»). Одно и то же слово, разное значение — определяется по тому, что стоит рядом.",
+          "Ловушка 2: <b>va</b> («он/она будет») и <b>vă</b> («вам», из прошлого юнита) отличаются только значком над буквой. Приложение принимает ответ без диакритики — поэтому здесь такие задания только на выбор варианта, не на ввод с клавиатуры.",
+          "Это единственная форма будущего в A1. <b>O să</b> — только в A2, здесь её нет даже готовой фразой."
+        ],
+        table: [
+          ["eu voi merge",      "я пойду"],
+          ["tu vei merge",      "ты пойдёшь"],
+          ["el / ea va merge",  "он / она пойдёт"],
+          ["noi vom merge",     "мы пойдём"],
+          ["voi veți merge",    "вы пойдёте"],
+          ["ei / ele vor merge","они пойдут"]
+        ]
+      },
+      words: [
+        { ro: "voi",  ru: "я буду... (и «вы»)" },
+        { ro: "vei",  ru: "ты будешь..." },
+        { ro: "va merge",  ru: "он/она пойдёт" },
+        { ro: "vom",  ru: "мы будем..." },
+        { ro: "veți", ru: "вы будете..." },
+        { ro: "vor",  ru: "они будут..." },
+        { ro: "o cafenea", ru: "кафе" },
+        { ro: "meniu",         ru: "меню" },
+        { ro: "nota de plată", ru: "счёт" },
+        { ro: "bacșiș",        ru: "чаевые" },
+        { ro: "un ospătar",  roF: "o ospătăriță", ru: "официант", ruF: "официантка" },
+        { ro: "farfurie",      ru: "тарелка" },
+        { ro: "pahar",         ru: "стакан" },
+        { ro: "lingură",       ru: "ложка" },
+        { ro: "furculiță",     ru: "вилка" },
+        { ro: "cuțit",         ru: "нож" },
+        { ro: "șervețel",      ru: "салфетка" }
+      ],
+      phrases: [
+        { ro: "Eu voi mânca la cafenea.",  ru: "Я поем в кафе." },
+        { ro: "Tu vei bea ceai?",          ru: "Ты будешь пить чай?" },
+        { ro: "Noi vom merge la cafenea.", ru: "Мы пойдём в кафе." },
+        { ro: "Nu voi mânca la cafenea.",  ru: "Я не буду есть в кафе." },
+        { ro: "La cafenea vom vedea meniul.", ru: "В кафе мы увидим меню." },
+        { ro: "Ospătarul are nota de plată.", ru: "У официанта счёт." }
+      ],
+      gaps: [
+        { text: "Eu ___ mânca la cafenea.", answer: "voi",  options: ["voi", "vei", "va"] },
+        { text: "Voi ___ mânca la ora șapte.", answer: "veți", options: ["veți", "voi", "vom"] },
+        { text: "El ___ merge la Comrat.",  answer: "va",   options: ["va", "vă", "voi"] },
+        { text: "Noi ___ bea ceai.",        answer: "vom",  options: ["vom", "veți", "vor"] },
+        { text: "Ei ___ lucra mult.",       answer: "vor",  options: ["vor", "vom", "va"] }
+      ]
+    },
+
+    {
+      id: "s8-3",
+      section: 8,
+      level: "A1",
+      verified: false,
+      name: "Приходи!",
+      sub: "Повелительное наклонение (бытовые формы)",
+      grammar: {
+        title: "Повелительное наклонение — готовыми парами",
+        body: [
+          "Общего правила для формы на «ты» нет — оно запутанное, проще запомнить готовыми парами: <b>vino — veniți</b> (приходи — приходите), <b>mergi — mergeți</b>, <b>spune — spuneți</b>, <b>mănâncă — mâncați</b>, <b>bea — beți</b>, <b>ia — luați</b>.",
+          "Правило, которое работает: форма на «вы» — та же, что в настоящем времени (<b>voi mâncați</b> → <b>Mâncați!</b>). Она же вежливая — та самая форма с <b>dumneavoastră</b>, что пригодится в кафе с незнакомым человеком.",
+          "<b>A veni</b> — «приходить», неправильный глагол, полной таблицей — без него непонятно, откуда берётся <b>vino</b>.",
+          "Ловушка: «ты говоришь» — <b>spui</b>, а «скажи!» — <b>spune</b> — не та же форма. «Ешь!» — <b>mănâncă</b>, как «он ест», а не как «ты ешь» (<b>mănânci</b>). Форма на «ты» у разных глаголов берётся по-разному — отсюда и учим их парами, а не по правилу.",
+          "Отрицательной формы («не ешь») здесь не берём — её нет в программе."
+        ],
+        table: [
+          ["eu vin",      "я прихожу"],
+          ["tu vii",      "ты приходишь"],
+          ["el / ea vine","он / она приходит"],
+          ["noi venim",   "мы приходим"],
+          ["voi veniți",  "вы приходите"],
+          ["ei / ele vin","они приходят"]
+        ]
+      },
+      words: [
+        { ro: "vin",     ru: "я прихожу" },
+        { ro: "vii",     ru: "ты приходишь" },
+        { ro: "vine",    ru: "он/она приходит" },
+        { ro: "venim",   ru: "мы приходим" },
+        { ro: "vino",    ru: "приходи!" },
+        { ro: "dumneavoastră", ru: "вы (вежливо, к незнакомым)" },
+        { ro: "un fel principal", ru: "основное блюдо" }
+      ],
+      phrases: [
+        { ro: "Vino la cafenea!",       ru: "Приходи в кафе!" },
+        { ro: "Veniți mâine!",          ru: "Приходите завтра!" },
+        { ro: "Mănâncă desertul!",      ru: "Ешь десерт!" },
+        { ro: "Luați meniul, vă rog.",  ru: "Возьмите меню, пожалуйста." },
+        { ro: "Dumneavoastră veniți des aici?", ru: "Вы часто сюда приходите?" }
+      ],
+      gaps: [
+        { text: "___ la cafenea!",   answer: "Vino",    options: ["Vino", "Vii", "Vine"] },
+        { text: "___ mâine, vă rog!", answer: "Veniți",  options: ["Veniți", "Vino", "Venim"] },
+        { text: "___ desertul!",     answer: "Mănâncă", options: ["Mănâncă", "Mănânci", "Mâncați"] },
+        { text: "___ meniul, vă rog.", answer: "Luați", options: ["Luați", "Ia", "Luăm"] }
+      ]
     }
   ]
 };
@@ -3220,7 +3435,15 @@ const SETS = [
       { ro: "zahăr",    ru: "сахар" },
       { ro: "sare",     ru: "соль" },
       { ro: "ulei",     ru: "масло (растительное)" },
-      { ro: "făină",    ru: "мука" }
+      { ro: "făină",    ru: "мука" },
+      { ro: "legume",  ru: "овощи" },
+      { ro: "fructe",  ru: "фрукты" },
+      { ro: "dulce",   ru: "сладкий" },
+      { ro: "sărat",   roF: "sărată", ru: "солёный", ruF: "солёная" },
+      { ro: "acru",    roF: "acră",   ru: "кислый",  ruF: "кислая" },
+      { ro: "amar",    roF: "amară",  ru: "горький", ruF: "горькая" },
+      { ro: "o cafenea", ru: "кафе" },
+      { ro: "sarmale",   ru: "сармале (голубцы)" }
     ],
     phrases: []
   },
