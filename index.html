@@ -137,6 +137,21 @@
 
   .welcome-foot { text-align: center; color: #9C90BD; font-size: 13px; margin: 14px 0 0; }
 
+  .welcome-skip {
+    display: block; width: 100%; background: none; border: none;
+    color: #C7BEE0; text-align: center; font-weight: 700; font-size: 14px;
+    padding: 16px 0 0; text-decoration: underline; text-underline-offset: 3px;
+  }
+
+  /* ---- переход «вводный экран → путь курса» ---- */
+  @keyframes fadeOutScreen { to { opacity: 0; transform: scale(.98); } }
+  @keyframes fadeInScreen { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  #screen-welcome.fade-out { animation: fadeOutScreen .22s ease forwards; }
+  #screen-home.fade-in { animation: fadeInScreen .32s ease; }
+  @media (prefers-reduced-motion: reduce) {
+    #screen-welcome.fade-out, #screen-home.fade-in { animation: none; }
+  }
+
   /* ============ Шапка ============ */
 
   .head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 6px; }
@@ -1498,7 +1513,22 @@ nav.querySelectorAll(".navbtn").forEach(b => {
   };
 });
 
-/* ---------- Вводный экран ---------- */
+/* ---------- Вводный экран ----------
+   Два варианта одного экрана: для первого визита (полная подача — что
+   за курс и как устроено обучение) и для повторного (короткое
+   приветствие со стриком). У обоих — ссылка в словарь без начала курса:
+   учиться сразу не обязательно, посмотреть слова можно и так. */
+
+function welcomeSkipLink() {
+  return `<button class="welcome-skip" id="skip-dict">Посмотреть словарь без урока</button>`;
+}
+
+function wireWelcomeButtons() {
+  screens.welcome.querySelector("#start").onclick = goToPath;
+  screens.welcome.querySelector("#skip-dict").onclick = () => {
+    state.openSet = null; renderDict(); show("dict");
+  };
+}
 
 function renderWelcome() {
   const totalWords = COURSE.units.flatMap(u => u.words).length
@@ -1507,7 +1537,7 @@ function renderWelcome() {
   screens.welcome.innerHTML = `
     <div class="welcome-inner">
       <h1 class="welcome-title">Româna</h1>
-      <p class="welcome-sub">Румынский с нуля — для тех, кто говорит по-русски</p>
+      <p class="welcome-sub">Румынский с нуля — объяснения на русском, без английского посредника</p>
       ${MOTIF}
       <ul class="welcome-list">
         <li><span class="welcome-num">1</span><div>
@@ -1523,11 +1553,49 @@ function renderWelcome() {
           <span>Общепит, документы, стройка, аптека — отдельным словарём</span>
         </div></li>
       </ul>
-      <button class="primary" id="start">Начать</button>
+      <button class="primary" id="start">Начать обучение</button>
+      ${welcomeSkipLink()}
       <p class="welcome-foot">${totalWords} слов и фраз · без регистрации</p>
     </div>
   `;
-  screens.welcome.querySelector("#start").onclick = () => { renderHome(); show("home"); };
+  wireWelcomeButtons();
+}
+
+function renderWelcomeBack() {
+  const greeting = state.streak > 0
+    ? `С возвращением! ${state.streak} ${dayWord(state.streak)} подряд`
+    : "С возвращением!";
+
+  screens.welcome.innerHTML = `
+    <div class="welcome-inner">
+      <h1 class="welcome-title">Româna</h1>
+      <p class="welcome-sub">${greeting}</p>
+      ${MOTIF}
+      <button class="primary" id="start">Продолжить</button>
+      ${welcomeSkipLink()}
+    </div>
+  `;
+  wireWelcomeButtons();
+}
+
+// Переход к пути курса — с лёгким затуханием, если устройство не просит
+// уменьшить движение (prefers-reduced-motion уважаем и здесь, и в CSS).
+function goToPath() {
+  const reduced = window.matchMedia &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const proceed = () => {
+    renderHome();
+    show("home");
+    if (!reduced) {
+      screens.home.classList.add("fade-in");
+      setTimeout(() => screens.home.classList.remove("fade-in"), 350);
+    }
+  };
+
+  if (reduced) { proceed(); return; }
+  screens.welcome.classList.add("fade-out");
+  setTimeout(proceed, 220);
 }
 
 /* ---------- Главный экран ---------- */
@@ -2070,11 +2138,10 @@ const saved = loadProgress();
 loadSoundPref();
 
 if (saved && state.done.length) {
-  // Человек уже занимался — вводный экран ему не нужен, сразу к урокам.
-  renderHome();
-  show("home");
+  // Человек уже занимался — короткое приветствие со стриком, не полная подача.
+  renderWelcomeBack();
 } else {
   renderWelcome();
-  show("welcome");
 }
+show("welcome");
 </script>
