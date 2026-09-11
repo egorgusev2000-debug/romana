@@ -445,7 +445,7 @@
 // чтобы новый уровень не потребовал переделки. totalUnits — из
 // course-a1.md, для строки «Уровень A1 · N из 38» над путём курса.
 const LEVELS = {
-  A1: { title: "Уровень A1", totalUnits: 38 }
+  A1: { title: "Уровень A1", totalUnits: 40 }
 };
 
 // Названия секций по уровням: SECTION_TITLES[level][номер секции].
@@ -458,7 +458,8 @@ const SECTION_TITLES = {
     2: "Учим румынский",
     3: "Я и коллеги",
     4: "Мой дом",
-    5: "Семья"
+    5: "Семья",
+    6: "Каждый день"
   }
 };
 
@@ -759,11 +760,19 @@ const COURSE = {
         { ro: "o ușă",       roF: "niște uși",        ru: "дверь",              ruF: "несколько дверей" },
         { ro: "o fereastră", roF: "niște ferestre",   ru: "окно",               ruF: "несколько окон" },
         { ro: "un telefon",  roF: "niște telefoane",  ru: "телефон",            ruF: "несколько телефонов" },
-        { ro: "o clasă",     roF: "niște clase",      ru: "класс (кабинет)",    ruF: "несколько классов" }
+        { ro: "o clasă",     roF: "niște clase",      ru: "класс (кабинет)",    ruF: "несколько классов" },
+        { ro: "un creion",   roF: "niște creioane",   ru: "карандаш",           ruF: "несколько карандашей" },
+        { ro: "o riglă",     roF: "niște rigle",      ru: "линейка",            ruF: "несколько линеек" },
+        { ro: "o gumă",      roF: "niște gume",       ru: "ластик",             ruF: "несколько ластиков" },
+        { ro: "un rucsac",   roF: "niște rucsacuri",  ru: "рюкзак",             ruF: "несколько рюкзаков" },
+        { ro: "o hartă",     roF: "niște hărți",      ru: "карта (география)",  ruF: "несколько карт" },
+        { ro: "o tablă",     roF: "niște table",      ru: "доска",              ruF: "несколько досок" }
       ],
       phrases: [
         { ro: "Este un pix.", ru: "Это ручка." },
-        { ro: "Este o masă.", ru: "Это стол." }
+        { ro: "Este o masă.", ru: "Это стол." },
+        { ro: "Este un creion.", ru: "Это карандаш." },
+        { ro: "Este o hartă.",   ru: "Это карта." }
       ],
       gaps: [
         { text: "___ pix",   answer: "un", options: ["un", "o"] },
@@ -802,12 +811,18 @@ const COURSE = {
         { ro: "aveți",  ru: "у вас есть" },
         { ro: "au",     ru: "у них есть" },
         { ro: "un coleg", roF: "niște colegi", ru: "коллега (м)", ruF: "несколько коллег" },
-        { ro: "o colegă", roF: "niște colege", ru: "коллега (ж)", ruF: "несколько коллег" }
+        { ro: "o colegă", roF: "niște colege", ru: "коллега (ж)", ruF: "несколько коллег" },
+        { ro: "un ceas",    roF: "niște ceasuri", ru: "часы (прибор)", ruF: "несколько часов" },
+        { ro: "o umbrelă",  roF: "niște umbrele",  ru: "зонт",          ruF: "несколько зонтов" },
+        { ro: "un card",    roF: "niște carduri",  ru: "карта (банковская)", ruF: "несколько карт" },
+        { ro: "o cheie",    roF: "niște chei",     ru: "ключ",          ruF: "несколько ключей" }
       ],
       phrases: [
         { ro: "Am un pix.",      ru: "У меня есть ручка." },
         { ro: "Ai o carte?",     ru: "У тебя есть книга?" },
-        { ro: "Are un telefon.", ru: "У него есть телефон." }
+        { ro: "Are un telefon.", ru: "У него есть телефон." },
+        { ro: "Am un ceas nou.", ru: "У меня новые часы." },
+        { ro: "Ai o cheie?",     ru: "У тебя есть ключ?" }
       ],
       gaps: [
         { text: "Eu ___ un pix.",     answer: "am",   options: ["am", "ai", "are"] },
@@ -845,12 +860,17 @@ const COURSE = {
         { ro: "între",    ru: "между" },
         { ro: "aici",     ru: "здесь" },
         { ro: "acolo",    ru: "там" },
-        { ro: "o geantă", ru: "сумка" }
+        { ro: "o geantă", ru: "сумка" },
+        { ro: "un raft",  roF: "niște rafturi", ru: "полка",  ruF: "несколько полок" },
+        { ro: "o cutie",  roF: "niște cutii",   ru: "коробка", ruF: "несколько коробок" },
+        { ro: "un perete",roF: "niște pereți",  ru: "стена",  ruF: "несколько стен" }
       ],
       phrases: [
         { ro: "Un pix este pe masă.",  ru: "Ручка на столе." },
         { ro: "O carte este în geantă.", ru: "Книга в сумке." },
-        { ro: "Ana este lângă Vlad.",  ru: "Аня рядом с Владом." }
+        { ro: "Ana este lângă Vlad.",  ru: "Аня рядом с Владом." },
+        { ro: "Caietul este pe raft.", ru: "Тетрадь на полке." },
+        { ro: "Geanta este sub masă.", ru: "Сумка под столом." }
       ],
       gaps: [
         { text: "Un pix este ___ masă.",   answer: "pe",    options: ["pe", "sub", "în"] },
@@ -888,7 +908,10 @@ const COURSE = {
         { ro: "fără un sfert",  ru: "без четверти" },
         { ro: "o oră",          ru: "час (единица времени)" },
         { ro: "un minut",       ru: "минута" },
-        { ro: "ani",            ru: "лет (при числе)" }
+        { ro: "ani",            ru: "лет (при числе)" },
+        { ro: "dimineața",      ru: "утром" },
+        { ro: "seara",          ru: "вечером" },
+        { ro: "noaptea",        ru: "ночью" }
       ],
       phrases: [
         { ro: "E ora trei și un sfert.", ru: "Пятнадцать минут четвёртого." },
@@ -1000,7 +1023,15 @@ const COURSE = {
         { ro: "lucrăm",      ru: "мы работаем" },
         { ro: "lucrați",     ru: "вы работаете" },
         { ro: "întreb",      ru: "я спрашиваю" },
-        { ro: "intru",       ru: "я вхожу" }
+        { ro: "intru",       ru: "я вхожу" },
+        { ro: "cumpăr",  ru: "я покупаю" },
+        { ro: "ascult",  ru: "я слушаю" },
+        { ro: "caut",    ru: "я ищу" },
+        { ro: "ajut",    ru: "я помогаю" },
+        { ro: "salut",   ru: "я приветствую" },
+        { ro: "arăt",    ru: "я показываю" },
+        { ro: "explic",  ru: "я объясняю" },
+        { ro: "chem",    ru: "я зову" }
       ],
       phrases: [
         { ro: "Vlad lucrează.", ru: "Влад работает." },
@@ -1046,7 +1077,16 @@ const COURSE = {
         { ro: "unde",    ru: "где" },
         { ro: "când",    ru: "когда" },
         { ro: "câți",    ru: "сколько (м)" },
-        { ro: "câte",    ru: "сколько (ж)" }
+        { ro: "câte",    ru: "сколько (ж)" },
+        { ro: "un vecin",  roF: "o vecină",  ru: "сосед",       ruF: "соседка" },
+        { ro: "un oaspete", ru: "гость" },
+        { ro: "un musafir", ru: "гость (разг.)" },
+        { ro: "ceva",     ru: "что-то" },
+        { ro: "cineva",   ru: "кто-то" },
+        { ro: "domn",     ru: "господин" },
+        { ro: "doamnă",   ru: "госпожа" },
+        { ro: "domnișoară", ru: "барышня (незамужняя)" },
+        { ro: "tânăr",    roF: "tânără",   ru: "молодой",     ruF: "молодая" }
       ],
       phrases: [
         { ro: "Cine este acesta?", ru: "Кто это?" },
@@ -1057,7 +1097,9 @@ const COURSE = {
         { text: "___ este Vlad?", answer: "Cine",  options: ["Cine", "Ce", "Unde"] },
         { text: "___ lucrezi?",   answer: "Unde",  options: ["Unde", "Cine", "Când"] },
         { text: "___ este aceasta?",     answer: "Ce",   options: ["Ce", "Cine", "Câți"] },
-        { text: "___ colegi lucrează aici?", answer: "Câți", options: ["Câți", "Câte", "Cine"] }
+        { text: "___ colegi lucrează aici?", answer: "Câți", options: ["Câți", "Câte", "Cine"] },
+        { text: "___ lucrează Vlad?",    answer: "Când", options: ["Când", "Cine", "Ce"] },
+        { text: "___ cărți ai?",         answer: "Câte", options: ["Câte", "Câți", "Ce"] }
       ]
     },
 
@@ -1141,14 +1183,27 @@ const COURSE = {
         { ro: "o mie",         ru: "тысяча" },
         { ro: "o adresă",      ru: "адрес" },
         { ro: "o stradă",      ru: "улица" },
-        { ro: "un număr de telefon", ru: "номер телефона" }
+        { ro: "un număr de telefon", ru: "номер телефона" },
+        { ro: "bani",       ru: "деньги" },
+        { ro: "un leu",     roF: "niște lei", ru: "лей (валюта)", ruF: "несколько леев" },
+        { ro: "un salariu", ru: "зарплата" },
+        { ro: "o firmă",    ru: "фирма" },
+        { ro: "un birou",   ru: "офис" },
+        { ro: "o companie", ru: "компания" },
+        { ro: "un contract",ru: "контракт" },
+        { ro: "o factură",  ru: "счёт, квитанция" },
+        { ro: "un cod poștal", ru: "почтовый индекс" },
+        { ro: "un abonament", ru: "абонемент" },
+        { ro: "un cont",    ru: "счёт (банковский)" }
       ],
       phrases: [
         { ro: "Acesta este colegul meu.", ru: "Это мой коллега." },
         { ro: "Aceasta este prietena ta.", ru: "Это твоя подруга." },
         { ro: "Aceștia sunt colegii mei.", ru: "Это мои коллеги." },
         { ro: "Colegul meu are patruzeci de ani.", ru: "Моему коллеге сорок лет." },
-        { ro: "Adresa mea este strada Lenin, numărul doisprezece.", ru: "Мой адрес — улица Ленина, номер двенадцать." }
+        { ro: "Adresa mea este strada Lenin, numărul doisprezece.", ru: "Мой адрес — улица Ленина, номер двенадцать." },
+        { ro: "Anul acesta este 2026.", ru: "Этот год — 2026." },
+        { ro: "Numărul meu de telefon este 069 12 34 56.", ru: "Мой номер телефона — 069 12 34 56." }
       ],
       gaps: [
         { text: "Acesta este colegul ___.",  answer: "meu", options: ["meu", "mea", "tău"] },
@@ -1186,7 +1241,14 @@ const COURSE = {
         { ro: "un actor",     roF: "o actriță",    ru: "актёр",           ruF: "актриса" },
         { ro: "un vânzător",  roF: "o vânzătoare", ru: "продавец (м)",    ruF: "продавщица" },
         { ro: "un contabil",  roF: "o contabilă",  ru: "бухгалтер (м)",   ruF: "бухгалтер (ж)" },
-        { ro: "un doctor",    roF: "o doctoriță",  ru: "доктор (м)",      ruF: "доктор (ж)" }
+        { ro: "un doctor",    roF: "o doctoriță",  ru: "доктор (м)",      ruF: "доктор (ж)" },
+        { ro: "un bucătar",   roF: "o bucătăreasă", ru: "повар (м)",      ruF: "повар (ж)" },
+        { ro: "un croitor",   roF: "o croitoreasă",  ru: "портной",       ruF: "портниха" },
+        { ro: "un fermier",   roF: "o fermieră",     ru: "фермер (м)",    ruF: "фермер (ж)" },
+        { ro: "un electrician", ru: "электрик" },
+        { ro: "un avocat",    roF: "o avocată",      ru: "юрист (м)",     ruF: "юрист (ж)" },
+        { ro: "un brutar",    roF: "o brutăreasă",   ru: "пекарь (м)",    ruF: "пекарь (ж)" },
+        { ro: "un casier",    roF: "o casieră",       ru: "кассир (м)",   ruF: "кассир (ж)" }
       ],
       phrases: [
         { ro: "Ea este ingineră.",  ru: "Она инженер." },
@@ -1227,13 +1289,36 @@ const COURSE = {
         { ro: "frumos",  roF: "frumoasă", ru: "красивый", ruF: "красивая" },
         { ro: "negru",   roF: "neagră",   ru: "чёрный",   ruF: "чёрная" },
         { ro: "curat",   roF: "curată",   ru: "чистый",   ruF: "чистая" },
-        { ro: "nou",     roF: "nouă",     ru: "новый",    ruF: "новая" }
+        { ro: "nou",     roF: "nouă",     ru: "новый",    ruF: "новая" },
+        { ro: "un hol",     ru: "прихожая" },
+        { ro: "un balcon",  ru: "балкон" },
+        { ro: "o terasă",   ru: "терраса" },
+        { ro: "o curte",    ru: "двор" },
+        { ro: "o grădină",  ru: "сад" },
+        { ro: "o scară",    ru: "лестница" },
+        { ro: "un lift",    ru: "лифт" },
+        { ro: "un subsol",  ru: "подвал" },
+        { ro: "o mansardă", ru: "мансарда" },
+        { ro: "murdar",     roF: "murdară",     ru: "грязный",    ruF: "грязная" },
+        { ro: "înalt",      roF: "înaltă",      ru: "высокий",    ruF: "высокая" },
+        { ro: "luminos",    roF: "luminoasă",   ru: "светлый",    ruF: "светлая" },
+        { ro: "întunecos",  roF: "întunecoasă", ru: "тёмный",     ruF: "тёмная" },
+        { ro: "spațios",    roF: "spațioasă",   ru: "просторный", ruF: "просторная" },
+        { ro: "confortabil",roF: "confortabilă",ru: "удобный",    ruF: "удобная" },
+        { ro: "scump",      roF: "scumpă",      ru: "дорогой",    ruF: "дорогая" },
+        { ro: "ieftin",     roF: "ieftină",     ru: "дешёвый",    ruF: "дешёвая" },
+        { ro: "vechi",      roF: "veche",       ru: "старый",     ruF: "старая" },
+        { ro: "modern",     roF: "modernă",     ru: "современный",ruF: "современная" },
+        { ro: "un urs",     roF: "niște urși",  ru: "медведь",    ruF: "несколько медведей" },
+        { ro: "un brad",    roF: "niște brazi", ru: "ёлка",       ruF: "несколько ёлок" }
       ],
       phrases: [
         { ro: "Apartamentul este frumos.", ru: "Квартира красивая." },
         { ro: "Bucătăria este curată.",    ru: "Кухня чистая." },
         { ro: "Camera este mare.",         ru: "Комната большая." },
-        { ro: "Geanta este neagră.",       ru: "Сумка чёрная." }
+        { ro: "Geanta este neagră.",       ru: "Сумка чёрная." },
+        { ro: "Apartamentul este spațios și luminos.", ru: "Квартира просторная и светлая." },
+        { ro: "Holul este mic.",           ru: "Прихожая маленькая." }
       ],
       gaps: [
         { text: "Apartamentul este ___.", answer: "frumos",   options: ["frumos", "frumoasă", "frumoși"] },
@@ -1254,11 +1339,11 @@ const COURSE = {
       name: "Где что стоит",
       sub: "Мебель, наречия места, глагол a sta",
       grammar: {
-        title: "Глагол a sta и наречия места",
+        title: "Глаголы a sta и a vedea — полные таблицы",
         body: [
           "<b>A sta</b> — «находиться, стоять» (о вещи в комнате) или «жить» (о человеке), неправильный глагол.",
-          "Наречия места показывают, где что-то находится: <b>aproape</b> (близко), <b>departe</b> (далеко), <b>la dreapta</b> (справа), <b>la stânga</b> (слева), <b>sus</b> (наверху), <b>jos</b> (внизу).",
-          "Кстати, «видеть» — <b>a vedea</b>, тоже неправильный: <b>eu văd</b>. Пока хватит одной формы, полностью разберём его позже."
+          "<b>A vedea</b> — «видеть», тоже неправильный, и тоже нужен целиком.",
+          "Наречия места показывают, где что-то находится: <b>aproape</b> (близко), <b>departe</b> (далеко), <b>la dreapta</b> (справа), <b>la stânga</b> (слева), <b>sus</b> (наверху), <b>jos</b> (внизу)."
         ],
         table: [
           ["eu stau",     "я нахожусь / стою"],
@@ -1266,7 +1351,13 @@ const COURSE = {
           ["el / ea stă", "он / она находится"],
           ["noi stăm",    "мы находимся"],
           ["voi stați",   "вы находитесь"],
-          ["ei / ele stau","они находятся"]
+          ["ei / ele stau","они находятся"],
+          ["eu văd",       "я вижу"],
+          ["tu vezi",      "ты видишь"],
+          ["el / ea vede", "он / она видит"],
+          ["noi vedem",    "мы видим"],
+          ["voi vedeți",   "вы видите"],
+          ["ei / ele văd", "они видят"]
         ]
       },
       words: [
@@ -1280,18 +1371,34 @@ const COURSE = {
         { ro: "la stânga",  ru: "слева" },
         { ro: "sus",  ru: "наверху" },
         { ro: "jos",  ru: "внизу" },
-        { ro: "văd",  ru: "я вижу" }
+        { ro: "văd",  ru: "я вижу" },
+        { ro: "vezi", ru: "ты видишь" },
+        { ro: "vede", ru: "он/она видит" },
+        { ro: "vedem", ru: "мы видим" },
+        { ro: "vedeți", ru: "вы видите" },
+        { ro: "un covor",   roF: "niște covoare",  ru: "ковёр",   ruF: "несколько ковров" },
+        { ro: "o oglindă",  roF: "niște oglinzi",   ru: "зеркало", ruF: "несколько зеркал" },
+        { ro: "o lampă",    roF: "niște lămpi",     ru: "лампа",   ruF: "несколько ламп" },
+        { ro: "o perdea",   roF: "niește perdele",   ru: "занавеска", ruF: "несколько занавесок" },
+        { ro: "un fotoliu", roF: "niește fotolii",   ru: "кресло",  ruF: "несколько кресел" },
+        { ro: "o măsuță",   ru: "столик" },
+        { ro: "un ventilator", ru: "вентилятор" },
+        { ro: "un aer condiționat", ru: "кондиционер" }
       ],
       phrases: [
         { ro: "Patul stă lângă fereastră.", ru: "Кровать стоит рядом с окном." },
         { ro: "Dulapul este la dreapta.",   ru: "Шкаф справа." },
         { ro: "Canapeaua este departe.",    ru: "Диван далеко." },
-        { ro: "Văd un frigider.",           ru: "Я вижу холодильник." }
+        { ro: "Văd un frigider.",           ru: "Я вижу холодильник." },
+        { ro: "Vezi covorul?",              ru: "Ты видишь ковёр?" },
+        { ro: "Noi vedem o oglindă.",       ru: "Мы видим зеркало." }
       ],
       gaps: [
         { text: "Patul stă ___ fereastră.", answer: "lângă",      options: ["lângă", "sub", "sus"] },
         { text: "Dulapul este ___.",        answer: "la dreapta", options: ["la dreapta", "la stânga", "jos"] },
-        { text: "Eu ___ un frigider.",      answer: "văd",        options: ["văd", "stau", "am"] }
+        { text: "Eu ___ un frigider.",      answer: "văd",        options: ["văd", "stau", "am"] },
+        { text: "Tu ___ o lampă?",          answer: "vezi",       options: ["vezi", "văd", "vede"] },
+        { text: "Noi ___ un covor.",        answer: "vedem",      options: ["vedem", "vedeți", "văd"] }
       ]
     },
 
@@ -1303,11 +1410,11 @@ const COURSE = {
       name: "Никто ничего",
       sub: "nimeni, nimic, глагол a vrea",
       grammar: {
-        title: "Nimeni, nimic — и всё равно nu",
+        title: "Nimeni, nimic — и глаголы a vrea, a putea полными таблицами",
         body: [
           "«Никто» — <b>nimeni</b>, «ничто» — <b>nimic</b>. Как и в русском («никто не...», «ничего не...»), перед глаголом всё равно нужен <b>nu</b>: <b>Nu este nimeni acasă.</b> — буквально «не есть никто дома». Русскоязычному тут легко: конструкция знакомая, менять привычку не нужно.",
           "<b>A vrea</b> — «хотеть», неправильный глагол.",
-          "И ещё один неправильный — <b>a putea</b> («мочь»): <b>eu pot</b>. Пока одна форма, остальные — позже."
+          "<b>A putea</b> — «мочь», тоже неправильный, и тоже нужен целиком."
         ],
         table: [
           ["eu vreau",     "я хочу"],
@@ -1315,7 +1422,13 @@ const COURSE = {
           ["el / ea vrea", "он / она хочет"],
           ["noi vrem",     "мы хотим"],
           ["voi vreți",    "вы хотите"],
-          ["ei / ele vor", "они хотят"]
+          ["ei / ele vor", "они хотят"],
+          ["eu pot",       "я могу"],
+          ["tu poți",      "ты можешь"],
+          ["el / ea poate","он / она может"],
+          ["noi putem",    "мы можем"],
+          ["voi puteți",   "вы можете"],
+          ["ei / ele pot", "они могут"]
         ]
       },
       words: [
@@ -1325,19 +1438,33 @@ const COURSE = {
         { ro: "vreau",  ru: "я хочу" },
         { ro: "vrei",   ru: "ты хочешь" },
         { ro: "vrea",   ru: "он/она хочет" },
-        { ro: "pot",    ru: "я могу" }
+        { ro: "pot",    ru: "я могу" },
+        { ro: "poți",   ru: "ты можешь" },
+        { ro: "poate",  ru: "он/она может" },
+        { ro: "putem",  ru: "мы можем" },
+        { ro: "puteți", ru: "вы можете" },
+        { ro: "gol",     roF: "goală",  ru: "пустой", ruF: "пустая" },
+        { ro: "plin",    roF: "plină",  ru: "полный", ruF: "полная" },
+        { ro: "liniște",  ru: "тишина, покой" },
+        { ro: "zgomot",   ru: "шум" },
+        { ro: "întuneric",ru: "темнота" },
+        { ro: "lumină",   ru: "свет" }
       ],
       phrases: [
         { ro: "Nu este nimeni acasă.",  ru: "Никого нет дома." },
         { ro: "Nu vreau nimic.",        ru: "Я ничего не хочу." },
         { ro: "Nu pot vedea nimic.",    ru: "Я ничего не вижу." },
-        { ro: "Vlad vrea o carte.",     ru: "Влад хочет книгу." }
+        { ro: "Vlad vrea o carte.",     ru: "Влад хочет книгу." },
+        { ro: "Tu poți vedea camera.",  ru: "Ты можешь увидеть комнату." },
+        { ro: "Noi putem sta acasă.",   ru: "Мы можем остаться дома." }
       ],
       gaps: [
         { text: "Nu este ___ acasă.", answer: "nimeni", options: ["nimeni", "nimic", "acasă"] },
         { text: "Nu vreau ___.",      answer: "nimic",  options: ["nimic", "nimeni", "nou"] },
         { text: "Eu ___ o carte.",    answer: "vreau",  options: ["vreau", "vrei", "vrea"] },
-        { text: "Tu ___ un pix.",     answer: "vrei",   options: ["vrei", "vreau", "vrea"] }
+        { text: "Tu ___ un pix.",     answer: "vrei",   options: ["vrei", "vreau", "vrea"] },
+        { text: "Tu ___ vedea camera.", answer: "poți", options: ["poți", "pot", "poate"] },
+        { text: "Noi ___ sta acasă.",   answer: "putem", options: ["putem", "puteți", "pot"] }
       ]
     },
 
@@ -1349,12 +1476,12 @@ const COURSE = {
       name: "Квартира сдаётся",
       sub: "Объявление, глагол a da",
       grammar: {
-        title: "Читаем объявление: a da cu chirie",
+        title: "Глаголы a da и a lua — полные таблицы, читаем объявление",
         body: [
           "Объявление о съёме — хороший повод почитать на понимание, без перевода каждого слова. <b>A da</b> — «давать», неправильный глагол: хозяин <b>dă</b> квартиру <b>cu chirie</b> («в аренду»). <b>Se dă apartament cu chirie</b> — стандартное начало такого объявления, готовая фраза, без разбора «se».",
-          "Съёмщик, наоборот, <b>ia</b> — от глагола <b>a lua</b> («брать»), тоже неправильного: <b>eu iau</b>. Полностью разберём его позже.",
+          "Съёмщик, наоборот, <b>ia</b> — от глагола <b>a lua</b> («брать»), тоже неправильного, и тоже нужен целиком.",
           "«Se dă apartament cu chirie în Comrat, strada Lenin, etajul 2. Apartamentul are un dormitor, o bucătărie și o baie. Este mare și curat. Chiria este o mie cinci sute de lei pe lună.»",
-          "Про этаж: в Молдове первый этаж над землёй называется не «первый», а <b>parter</b>; <b>etajul 1</b> — уже следующий, выше. В объявлении «etajul 2» — по привычному русскому счёту это третий этаж."
+          "Про этаж: <b>parter</b> — этаж на уровне земли. Как считают дальше — <b>etajul 1</b> сразу над parter, или, как в русском, «первый этаж» и есть уровень земли — вопрос к носителю, в приложении пока не утверждаем ни то, ни другое (подробности в for-native.md)."
         ],
         table: [
           ["eu dau",     "я даю"],
@@ -1362,27 +1489,51 @@ const COURSE = {
           ["el / ea dă", "он / она даёт"],
           ["noi dăm",    "мы даём"],
           ["voi dați",   "вы даёте"],
-          ["ei / ele dau","они дают"]
+          ["ei / ele dau","они дают"],
+          ["eu iau",      "я беру"],
+          ["tu iei",      "ты берёшь"],
+          ["el / ea ia",  "он / она берёт"],
+          ["noi luăm",    "мы берём"],
+          ["voi luați",   "вы берёте"],
+          ["ei / ele iau","они берут"]
         ]
       },
       words: [
         { ro: "a da cu chirie",  ru: "давать в аренду" },
         { ro: "a lua cu chirie", ru: "снимать (арендовать)" },
         { ro: "iau",       ru: "я беру" },
+        { ro: "iei",       ru: "ты берёшь" },
+        { ro: "ia",        ru: "он/она берёт" },
+        { ro: "luăm",      ru: "мы берём" },
+        { ro: "luați",     ru: "вы берёте" },
         { ro: "un anunț",  ru: "объявление" },
         { ro: "o chirie",  ru: "аренда, плата за жильё" },
         { ro: "parter",    ru: "первый этаж (на уровне земли)" },
-        { ro: "un dormitor", roF: "niște dormitoare", ru: "спальня", ruF: "несколько спален" }
+        { ro: "un dormitor", roF: "niște dormitoare", ru: "спальня", ruF: "несколько спален" },
+        { ro: "gaz",       ru: "газ" },
+        { ro: "curent",    ru: "электричество (ток)" },
+        { ro: "cald",      roF: "caldă",      ru: "тёплый",           ruF: "тёплая" },
+        { ro: "mobilat",   roF: "mobilată",   ru: "меблированный",   ruF: "меблированная" },
+        { ro: "nemobilat", roF: "nemobilată", ru: "немеблированный", ruF: "немеблированная" },
+        { ro: "un depozit", ru: "депозит, залог" },
+        { ro: "un proprietar", roF: "o proprietară", ru: "владелец", ruF: "владелица" },
+        { ro: "un chiriaș",     roF: "o chiriașă",    ru: "съёмщик",  ruF: "съёмщица" },
+        { ro: "renovat",   roF: "renovată",  ru: "отремонтированный", ruF: "отремонтированная" },
+        { ro: "utilități", ru: "коммунальные услуги" }
       ],
       phrases: [
         { ro: "Se dă apartament cu chirie.", ru: "Сдаётся квартира." },
         { ro: "Eu iau apartamentul.",        ru: "Я снимаю квартиру." },
-        { ro: "Apartamentul este la parter.",ru: "Квартира на первом этаже." }
+        { ro: "Apartamentul este la parter.",ru: "Квартира на первом этаже." },
+        { ro: "Apartamentul este mobilat și renovat.", ru: "Квартира меблированная и отремонтированная." },
+        { ro: "Proprietarul dă apartamentul cu chirie.", ru: "Владелец сдаёт квартиру в аренду." }
       ],
       gaps: [
         { text: "Familia Gaidarji ___ apartamentul cu chirie.", answer: "dă",  options: ["dă", "dau", "dai"] },
         { text: "Eu ___ apartamentul.",   answer: "iau",    options: ["iau", "dau", "stau"] },
-        { text: "Apartamentul este la ___.", answer: "parter", options: ["parter", "etaj", "sus"] }
+        { text: "Apartamentul este la ___.", answer: "parter", options: ["parter", "etaj", "sus"] },
+        { text: "Voi ___ apartamentul cu chirie.", answer: "luați", options: ["luați", "dați", "luăm"] },
+        { text: "Noi ___ apartamentul.",  answer: "luăm",   options: ["luăm", "luați", "dăm"] }
       ]
     },
 
@@ -1417,7 +1568,18 @@ const COURSE = {
         { ro: "fiul lui",        ru: "его сын" },
         { ro: "soțul ei",        ru: "её муж" },
         { ro: "fiica Anei",      ru: "дочь Ани" },
-        { ro: "fiica ei",        ru: "её дочь" }
+        { ro: "fiica ei",        ru: "её дочь" },
+        { ro: "socru",   ru: "тесть, свёкор" },
+        { ro: "soacră",  ru: "тёща, свекровь" },
+        { ro: "cumnat",  ru: "шурин, зять" },
+        { ro: "cumnată", ru: "невестка, золовка" },
+        { ro: "naș",     ru: "крёстный" },
+        { ro: "nașă",    ru: "крёстная" },
+        { ro: "rudă",    ru: "родственник" },
+        { ro: "familie", ru: "семья" },
+        { ro: "nume",    ru: "имя (общее слово)" },
+        { ro: "prenume", ru: "имя (в отличие от фамилии)" },
+        { ro: "logodnic", roF: "logodnică", ru: "жених", ruF: "невеста" }
       ],
       phrases: [
         { ro: "Aceasta este mama lui Vlad.", ru: "Это мама Влада." },
@@ -1467,13 +1629,23 @@ const COURSE = {
         { ro: "cea mai mare",ru: "самая большая" },
         { ro: "merg",  ru: "я иду / еду" },
         { ro: "mergi", ru: "ты идёшь" },
-        { ro: "merge", ru: "он/она идёт" }
+        { ro: "merge", ru: "он/она идёт" },
+        { ro: "bătrân",   roF: "bătrână",  ru: "старый (о человеке)", ruF: "старая" },
+        { ro: "scund",    roF: "scundă",   ru: "низкий (о росте)",    ruF: "низкая" },
+        { ro: "puternic", roF: "puternică",ru: "сильный",             ruF: "сильная" },
+        { ro: "slab",     roF: "slabă",    ru: "слабый, худой",       ruF: "слабая, худая" },
+        { ro: "un autobuz",   ru: "автобус" },
+        { ro: "un tren",      ru: "поезд" },
+        { ro: "o bicicletă",  ru: "велосипед" },
+        { ro: "pe jos",       ru: "пешком" }
       ],
       phrases: [
         { ro: "Acela este bunicul meu.",   ru: "Тот — мой дедушка." },
         { ro: "Fratele meu este mai mare.",ru: "Мой брат старше." },
         { ro: "Sora mea este cea mai mare.",ru: "Моя сестра самая старшая." },
-        { ro: "Vlad merge la Taraclia.",   ru: "Влад едет в Тараклию." }
+        { ro: "Vlad merge la Taraclia.",   ru: "Влад едет в Тараклию." },
+        { ro: "Bunicul este bătrân, dar puternic.", ru: "Дедушка старый, но сильный." },
+        { ro: "Merg la Comrat cu autobuzul.", ru: "Я еду в Комрат автобусом." }
       ],
       gaps: [
         { text: "Fratele meu este ___.", answer: "mai mare",     options: ["mai mare", "cel mai mare", "mic"] },
@@ -1491,10 +1663,10 @@ const COURSE = {
       name: "Что они делают",
       sub: "Глаголы III спряжения: a spune и другие",
       grammar: {
-        title: "Глаголы III спряжения: a spune и другие",
+        title: "Глаголы III спряжения: spune, zice, râde, plânge — полные таблицы",
         body: [
           "Ещё один глагол на -e — <b>a spune</b> («говорить, сказать»).",
-          "По смыслу рядом — <b>a zice</b> («сказать», разговорное: <b>eu zic</b>), <b>a râde</b> («смеяться»: <b>eu râd</b>) и <b>a plânge</b> («плакать»: <b>eu plâng</b>). Пока по одной форме, спряжение целиком — при следующей встрече."
+          "По смыслу рядом — <b>a zice</b> («сказать», разговорное), <b>a râde</b> («смеяться») и <b>a plânge</b> («плакать»). Все четыре — того же III спряжения, и программа называет их по имени, так что даём каждый целиком."
         ],
         table: [
           ["eu spun",      "я говорю"],
@@ -1502,7 +1674,25 @@ const COURSE = {
           ["el / ea spune","он / она говорит"],
           ["noi spunem",   "мы говорим"],
           ["voi spuneți",  "вы говорите"],
-          ["ei / ele spun","они говорят"]
+          ["ei / ele spun","они говорят"],
+          ["eu zic",       "я говорю (разг.)"],
+          ["tu zici",      "ты говоришь (разг.)"],
+          ["el / ea zice", "он / она говорит (разг.)"],
+          ["noi zicem",    "мы говорим (разг.)"],
+          ["voi ziceți",   "вы говорите (разг.)"],
+          ["ei / ele zic", "они говорят (разг.)"],
+          ["eu râd",       "я смеюсь"],
+          ["tu râzi",      "ты смеёшься"],
+          ["el / ea râde", "он / она смеётся"],
+          ["noi râdem",    "мы смеёмся"],
+          ["voi râdeți",   "вы смеётесь"],
+          ["ei / ele râd", "они смеются"],
+          ["eu plâng",       "я плачу"],
+          ["tu plângi",      "ты плачешь"],
+          ["el / ea plânge", "он / она плачет"],
+          ["noi plângem",    "мы плачем"],
+          ["voi plângeți",   "вы плачете"],
+          ["ei / ele plâng", "они плачут"]
         ]
       },
       words: [
@@ -1510,18 +1700,36 @@ const COURSE = {
         { ro: "spui",  ru: "ты говоришь" },
         { ro: "spune", ru: "он/она говорит" },
         { ro: "zic",   ru: "я говорю (разг.)" },
+        { ro: "zici",  ru: "ты говоришь (разг.)" },
+        { ro: "zice",  ru: "он/она говорит (разг.)" },
         { ro: "râd",   ru: "я смеюсь" },
-        { ro: "plâng", ru: "я плачу (слёзы)" }
+        { ro: "râzi",  ru: "ты смеёшься" },
+        { ro: "râde",  ru: "он/она смеётся" },
+        { ro: "plâng", ru: "я плачу (слёзы)" },
+        { ro: "plângi",ru: "ты плачешь" },
+        { ro: "plânge",ru: "он/она плачет" },
+        { ro: "un răspuns",  ru: "ответ" },
+        { ro: "o întrebare", ru: "вопрос" },
+        { ro: "aud",   ru: "я слышу" },
+        { ro: "știu",  ru: "я знаю" },
+        { ro: "cred",  ru: "я думаю, я верю" },
+        { ro: "o poveste", ru: "история, рассказ" },
+        { ro: "o glumă",   ru: "шутка" },
+        { ro: "o lacrimă", ru: "слеза" }
       ],
       phrases: [
         { ro: "Ana spune mulțumesc.", ru: "Аня говорит «спасибо»." },
         { ro: "Copilul râde.",        ru: "Ребёнок смеётся." },
-        { ro: "Bunicul plânge.",      ru: "Дедушка плачет." }
+        { ro: "Bunicul plânge.",      ru: "Дедушка плачет." },
+        { ro: "Vlad spune o glumă și toți râd.", ru: "Влад рассказывает шутку, и все смеются." },
+        { ro: "Eu știu răspunsul.",   ru: "Я знаю ответ." }
       ],
       gaps: [
         { text: "Eu ___ mulțumesc.", answer: "spun", options: ["spun", "spui", "zic"] },
         { text: "Tu ___ mulțumesc.", answer: "spui", options: ["spui", "spun", "zic"] },
-        { text: "Eu ___ da.",        answer: "zic",  options: ["zic", "spun", "spui"] }
+        { text: "Eu ___ da.",        answer: "zic",  options: ["zic", "spun", "spui"] },
+        { text: "Copiii ___.",       answer: "râd",  options: ["râd", "râde", "plâng"] },
+        { text: "Bunica ___.",       answer: "plânge", options: ["plânge", "plâng", "râde"] }
       ]
     },
 
@@ -1553,18 +1761,243 @@ const COURSE = {
         { ro: "La mulți ani!", ru: "С днём рождения! (буквально «многих лет»)" },
         { ro: "o zi de naștere", ru: "день рождения" },
         { ro: "o horă",        ru: "хора (танец)" },
-        { ro: "dansăm",        ru: "мы танцуем" }
+        { ro: "dansăm",        ru: "мы танцуем" },
+        { ro: "un cadou",     roF: "niște cadouri", ru: "подарок",  ruF: "несколько подарков" },
+        { ro: "o petrecere",  ru: "вечеринка" },
+        { ro: "o lumânare",   roF: "niște lumânări", ru: "свеча",  ruF: "несколько свечей" },
+        { ro: "un tort",      ru: "торт" },
+        { ro: "invitat",      roF: "invitată",       ru: "приглашённый (гость)", ruF: "приглашённая" },
+        { ro: "o floare",     roF: "niște flori",     ru: "цветок", ruF: "несколько цветов" },
+        { ro: "un buchet",    ru: "букет" },
+        { ro: "felicitări",   ru: "поздравления" },
+        { ro: "o sărbătoare", ru: "праздник" }
       ],
       phrases: [
         { ro: "La mulți ani, mamă!",             ru: "С днём рождения, мама!" },
         { ro: "Astăzi este ziua mea de naștere.",ru: "Сегодня мой день рождения." },
-        { ro: "Dansăm o horă.",                  ru: "Мы танцуем хору." }
+        { ro: "Dansăm o horă.",                  ru: "Мы танцуем хору." },
+        { ro: "Am un cadou pentru Ana.",         ru: "У меня подарок для Ани." },
+        { ro: "Tortul este mare.",               ru: "Торт большой." }
       ],
       gaps: [
         { text: "La mulți ___!",                   answer: "ani",     options: ["ani", "an", "zi"] },
         { text: "Astăzi este ziua mea de ___.",     answer: "naștere", options: ["naștere", "zi", "lună"] },
         { text: "Aceștia sunt frații ___.",         answer: "mei",     options: ["mei", "mele", "meu"] },
         { text: "Acestea sunt surorile ___.",       answer: "mele",    options: ["mele", "mei", "mea"] }
+      ]
+    },
+
+    {
+      id: "s6-1",
+      section: 6,
+      level: "A1",
+      verified: false,
+      name: "Просыпаюсь",
+      sub: "Возвратные глаголы: частица перед глаголом",
+      extraGaps: 6,
+      grammar: {
+        title: "Возвратные глаголы: частица перед глаголом",
+        body: [
+          "Возвратные глаголы — с частицей <b>mă/te/se/ne/vă/se</b>. Главное отличие от русского: частица стоит <b>перед</b> глаголом, а не после, как русское «-ся»/«-сь». <b>Mă trezesc</b> — «просыпаюсь» (буквально «себя пробуждаю»), а не «trezescmă».",
+          "Образец — <b>a se trezi</b>, «просыпаться». Форма получается с добавкой <b>-esc-</b> перед окончанием — тот же образец, что у глаголов на -esc, которые встретятся дальше."
+        ],
+        table: [
+          ["eu mă trezesc",    "я просыпаюсь"],
+          ["tu te trezești",   "ты просыпаешься"],
+          ["el / ea se trezește","он / она просыпается"],
+          ["noi ne trezim",    "мы просыпаемся"],
+          ["voi vă treziți",   "вы просыпаетесь"],
+          ["ei / ele se trezesc","они просыпаются"]
+        ]
+      },
+      words: [
+        { ro: "mă trezesc",   ru: "я просыпаюсь" },
+        { ro: "te trezești",  ru: "ты просыпаешься" },
+        { ro: "se trezește",  ru: "он/она просыпается" },
+        { ro: "ne trezim",    ru: "мы просыпаемся" },
+        { ro: "vă treziți",   ru: "вы просыпаетесь" },
+        { ro: "se trezesc",   ru: "они просыпаются" },
+        { ro: "devreme",      ru: "рано" },
+        { ro: "târziu",       ru: "поздно" },
+        { ro: "un ceas cu alarmă", ru: "будильник" },
+        { ro: "somn",         ru: "сон" },
+        { ro: "obosit",  roF: "obosită", ru: "усталый", ruF: "усталая" },
+        { ro: "un vis",       ru: "сон, мечта" },
+        { ro: "o trezire",    ru: "пробуждение" },
+        { ro: "o pernă",      ru: "подушка" },
+        { ro: "o cuvertură",  ru: "покрывало" }
+      ],
+      phrases: [
+        { ro: "Eu mă trezesc la ora șapte.",   ru: "Я просыпаюсь в семь часов." },
+        { ro: "Copilul se trezește dimineața.", ru: "Ребёнок просыпается утром." },
+        { ro: "Voi vă treziți devreme.",        ru: "Вы просыпаетесь рано." },
+        { ro: "Sunt obosit dimineața.",         ru: "Я устал утром." }
+      ],
+      gaps: [
+        { text: "Eu ___ la ora șapte.",   answer: "mă trezesc",  options: ["mă trezesc", "te trezești", "se trezește"] },
+        { text: "Tu ___ la ora opt.",     answer: "te trezești", options: ["te trezești", "mă trezesc", "se trezește"] },
+        { text: "Copilul ___ dimineața.", answer: "se trezește", options: ["se trezește", "mă trezesc", "ne trezim"] },
+        { text: "Noi ___ la ora șase.",   answer: "ne trezim",   options: ["ne trezim", "vă treziți", "se trezesc"] },
+        { text: "Voi ___ devreme?",       answer: "vă treziți",  options: ["vă treziți", "ne trezim", "se trezesc"] },
+        { text: "Copiii ___ târziu.",     answer: "se trezesc",  options: ["se trezesc", "se trezește", "ne trezim"] },
+        { text: "Ana ___ la ora nouă.",   answer: "se trezește", options: ["se trezește", "se trezesc", "te trezești"] }
+      ]
+    },
+
+    {
+      id: "s6-2",
+      section: 6,
+      level: "A1",
+      verified: false,
+      name: "Умываюсь и одеваюсь",
+      sub: "a se spăla, a se îmbrăca — без -esc",
+      grammar: {
+        title: "Глаголы a se spăla и a se îmbrăca — полные таблицы",
+        body: [
+          "В отличие от <b>a se trezi</b> (образец на -esc), эти два глагола — без добавки: форма получается прямо из корня.",
+          "<b>A se spăla</b> — «мыться».",
+          "<b>A se îmbrăca</b> — «одеваться»."
+        ],
+        table: [
+          ["eu mă spăl",       "я моюсь"],
+          ["tu te speli",      "ты моешься"],
+          ["el / ea se spală", "он / она моется"],
+          ["noi ne spălăm",    "мы моемся"],
+          ["voi vă spălați",   "вы моетесь"],
+          ["ei / ele se spală","они моются"],
+          ["eu mă îmbrac",       "я одеваюсь"],
+          ["tu te îmbraci",      "ты одеваешься"],
+          ["el / ea se îmbracă", "он / она одевается"],
+          ["noi ne îmbrăcăm",    "мы одеваемся"],
+          ["voi vă îmbrăcați",   "вы одеваетесь"],
+          ["ei / ele se îmbracă","они одеваются"]
+        ]
+      },
+      words: [
+        { ro: "mă spăl",     ru: "я моюсь" },
+        { ro: "te speli",    ru: "ты моешься" },
+        { ro: "se spală",    ru: "он/она моется" },
+        { ro: "mă îmbrac",     ru: "я одеваюсь" },
+        { ro: "te îmbraci",    ru: "ты одеваешься" },
+        { ro: "se îmbracă",    ru: "он/она одевается" },
+        { ro: "un prosop",   ru: "полотенце" },
+        { ro: "săpun",       ru: "мыло" },
+        { ro: "o periuță de dinți", ru: "зубная щётка" },
+        { ro: "pastă de dinți",     ru: "зубная паста" },
+        { ro: "dinți",       ru: "зубы" },
+        { ro: "o față",      ru: "лицо" },
+        { ro: "rapid",       ru: "быстро" },
+        { ro: "un pieptene", ru: "гребень" },
+        { ro: "șampon",      ru: "шампунь" },
+        { ro: "o cremă",     ru: "крем" },
+        { ro: "haine",       ru: "одежда" },
+        { ro: "pantaloni",   ru: "штаны" },
+        { ro: "o cămașă",    ru: "рубашка" },
+        { ro: "pantofi",     ru: "туфли" },
+        { ro: "o rochie",    ru: "платье" },
+        { ro: "o jachetă",   ru: "куртка" },
+        { ro: "o pălărie",   ru: "шапка, шляпа" },
+        { ro: "șosete",      ru: "носки" }
+      ],
+      phrases: [
+        { ro: "Mă spăl pe față.",       ru: "Я умываюсь (мою лицо)." },
+        { ro: "Copilul se spală cu săpun.", ru: "Ребёнок моется с мылом." },
+        { ro: "Mă îmbrac rapid.",       ru: "Я быстро одеваюсь." }
+      ],
+      gaps: [
+        { text: "Eu ___ pe față.",     answer: "mă spăl",  options: ["mă spăl", "te speli", "se spală"] },
+        { text: "Tu ___ cu săpun.",    answer: "te speli", options: ["te speli", "mă spăl", "se spală"] },
+        { text: "Eu ___ rapid.",       answer: "mă îmbrac", options: ["mă îmbrac", "te îmbraci", "se îmbracă"] },
+        { text: "Copilul ___ rapid.",  answer: "se îmbracă", options: ["se îmbracă", "mă îmbrac", "te îmbraci"] }
+      ]
+    },
+
+    {
+      id: "s6-3",
+      section: 6,
+      level: "A1",
+      verified: false,
+      name: "Мой день",
+      sub: "zilnic, uneori, apoi, după ce",
+      grammar: {
+        title: "Частота и порядок: zilnic, uneori, apoi, după ce",
+        body: [
+          "Наречия частоты: <b>zilnic</b> (ежедневно), <b>în fiecare zi</b> (каждый день), <b>adesea</b> (часто), <b>uneori</b> (иногда), <b>rar</b> (редко), <b>niciodată</b> (никогда).",
+          "Порядок действий: <b>apoi</b> («потом»), <b>după ce</b> («после того как» — перед целым действием, а не одним словом).",
+          "Культура: <b>mămăligă</b> — мамалыга, кукурузная каша, повседневное блюдо, а не только праздничное."
+        ],
+        table: [
+          ["zilnic",        "ежедневно"],
+          ["în fiecare zi",  "каждый день"],
+          ["uneori",         "иногда"],
+          ["niciodată",      "никогда"]
+        ]
+      },
+      words: [
+        { ro: "zilnic",        ru: "ежедневно" },
+        { ro: "în fiecare zi", ru: "каждый день" },
+        { ro: "adesea",        ru: "часто" },
+        { ro: "uneori",        ru: "иногда" },
+        { ro: "rar",           ru: "редко" },
+        { ro: "niciodată",     ru: "никогда" },
+        { ro: "apoi",          ru: "потом" },
+        { ro: "după ce",       ru: "после того как" },
+        { ro: "o mămăligă",    ru: "мамалыга" },
+        { ro: "de obicei",     ru: "обычно" },
+        { ro: "imediat",       ru: "немедленно" },
+        { ro: "curând",        ru: "скоро" },
+        { ro: "mereu",         ru: "всегда" },
+        { ro: "noapte bună",   ru: "спокойной ночи" }
+      ],
+      phrases: [
+        { ro: "Mă trezesc zilnic la ora șapte.",    ru: "Я просыпаюсь ежедневно в семь." },
+        { ro: "După ce mă trezesc, mă spăl.",       ru: "После того как я просыпаюсь, я моюсь." },
+        { ro: "Apoi mă îmbrac.",                     ru: "Потом я одеваюсь." },
+        { ro: "Uneori mă trezesc târziu.",           ru: "Иногда я просыпаюсь поздно." }
+      ],
+      gaps: [
+        { text: "___ mă trezesc, mă spăl.",      answer: "După ce",  options: ["După ce", "Apoi", "Uneori"] },
+        { text: "Mă spăl. ___ mă îmbrac.",       answer: "Apoi",     options: ["Apoi", "După ce", "Zilnic"] },
+        { text: "Mă trezesc ___ la ora șapte.",  answer: "zilnic",   options: ["zilnic", "niciodată", "rar"] },
+        { text: "___ mă trezesc târziu.",        answer: "Uneori",   options: ["Uneori", "Zilnic", "Apoi"] }
+      ]
+    },
+
+    {
+      id: "s6-4",
+      section: 6,
+      level: "A1",
+      verified: false,
+      name: "Домашние дела",
+      sub: "Повтор: возвратные глаголы и прилагательные",
+      grammar: null,
+      words: [
+        { ro: "vase",         ru: "посуда" },
+        { ro: "o mătură",     ru: "веник" },
+        { ro: "un aspirator", ru: "пылесос" },
+        { ro: "gunoi",        ru: "мусор" },
+        { ro: "spăl",         ru: "я мою (что-то)" },
+        { ro: "fac",          ru: "я делаю" },
+        { ro: "praf",         ru: "пыль" },
+        { ro: "o cârpă",      ru: "тряпка" },
+        { ro: "detergent",    ru: "средство для мытья" },
+        { ro: "o găleată",    ru: "ведро" },
+        { ro: "un coș de gunoi", ru: "мусорное ведро" },
+        { ro: "rufe",         ru: "белье (для стирки)" },
+        { ro: "o mașină de spălat", ru: "стиральная машина" },
+        { ro: "un coș",       ru: "корзина" },
+        { ro: "curățenie",    ru: "уборка, чистота" }
+      ],
+      phrases: [
+        { ro: "Spăl vasele zilnic.",       ru: "Я мою посуду ежедневно." },
+        { ro: "Fac curat în cameră.",      ru: "Я убираюсь в комнате." },
+        { ro: "Camera este murdară.",      ru: "Комната грязная." },
+        { ro: "Acum camera este curată.",  ru: "Теперь комната чистая." }
+      ],
+      gaps: [
+        { text: "Spăl ___ zilnic.",       answer: "vasele",  options: ["vasele", "gunoi", "mătura"] },
+        { text: "Fac curat cu ___.",      answer: "aspiratorul", options: ["aspiratorul", "vasele", "gunoi"] },
+        { text: "Camera este ___, apoi este curată.", answer: "murdară", options: ["murdară", "curată", "nouă"] }
       ]
     }
   ]
@@ -2273,7 +2706,65 @@ const SETS = [
       { ro: "unchi",    ru: "дядя" },
       { ro: "mătușă",   ru: "тётя" },
       { ro: "nepot",    ru: "внук, племянник" },
-      { ro: "nepoată",  ru: "внучка, племянница" }
+      { ro: "nepoată",  ru: "внучка, племянница" },
+      { ro: "socru",    ru: "тесть, свёкор" },
+      { ro: "soacră",   ru: "тёща, свекровь" },
+      { ro: "cumnat",   ru: "шурин, зять" },
+      { ro: "cumnată",  ru: "невестка, золовка" },
+      { ro: "naș",      ru: "крёстный" },
+      { ro: "nașă",     ru: "крёстная" },
+      { ro: "rudă",     ru: "родственник" },
+      { ro: "familie",  ru: "семья" },
+      { ro: "nume",     ru: "имя (общее слово)" },
+      { ro: "prenume",  ru: "имя (в отличие от фамилии)" },
+      { ro: "logodnic", roF: "logodnică", ru: "жених", ruF: "невеста" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "people",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "🧑",
+    name: "Люди вокруг",
+    sub: "Из секций 3 и 5: соседи, гости, возраст",
+    words: [
+      { ro: "un vecin",  roF: "o vecină",  ru: "сосед",       ruF: "соседка" },
+      { ro: "un oaspete", ru: "гость" },
+      { ro: "un musafir", ru: "гость (разг.)" },
+      { ro: "domn",     ru: "господин" },
+      { ro: "doamnă",   ru: "госпожа" },
+      { ro: "domnișoară", ru: "барышня (незамужняя)" },
+      { ro: "tânăr",    roF: "tânără",   ru: "молодой",     ruF: "молодая" },
+      { ro: "bătrân",   roF: "bătrână",  ru: "старый (о человеке)", ruF: "старая" },
+      { ro: "un proprietar", roF: "o proprietară", ru: "владелец", ruF: "владелица" },
+      { ro: "un chiriaș",     roF: "o chiriașă",    ru: "съёмщик",  ruF: "съёмщица" }
+    ],
+    phrases: []
+  },
+
+  {
+    id: "money",
+    group: "topic",
+    level: "A1",
+    verified: false,
+    icon: "💵",
+    name: "Деньги и документы",
+    sub: "Из секции 3: зарплата, счета, номера",
+    words: [
+      { ro: "bani",       ru: "деньги" },
+      { ro: "un leu",     roF: "niște lei", ru: "лей (валюта)", ruF: "несколько леев" },
+      { ro: "un salariu", ru: "зарплата" },
+      { ro: "o firmă",    ru: "фирма" },
+      { ro: "un birou",   ru: "офис" },
+      { ro: "o companie", ru: "компания" },
+      { ro: "un contract",ru: "контракт" },
+      { ro: "o factură",  ru: "счёт, квитанция" },
+      { ro: "un cod poștal", ru: "почтовый индекс" },
+      { ro: "un abonament", ru: "абонемент" },
+      { ro: "un cont",    ru: "счёт (банковский)" }
     ],
     phrases: []
   },
@@ -2294,8 +2785,25 @@ const SETS = [
       { ro: "o ușă",       roF: "niște uși",       ru: "дверь",           ruF: "несколько дверей" },
       { ro: "o fereastră", roF: "niște ferestre",  ru: "окно",            ruF: "несколько окон" },
       { ro: "un telefon",  roF: "niște telefoane", ru: "телефон",         ruF: "несколько телефонов" },
-      { ro: "o clasă",     roF: "niște clase",     ru: "класс (кабинет)", ruF: "несколько классов" },
-      { ro: "o geantă",    ru: "сумка" }
+      { ro: "o clasă",     roF: "niește clase",     ru: "класс (кабинет)", ruF: "несколько классов" },
+      { ro: "o geantă",    ru: "сумка" },
+      { ro: "un creion",   roF: "niște creioane",   ru: "карандаш",           ruF: "несколько карандашей" },
+      { ro: "o riglă",     roF: "niște rigle",      ru: "линейка",            ruF: "несколько линеек" },
+      { ro: "o gumă",      roF: "niște gume",       ru: "ластик",             ruF: "несколько ластиков" },
+      { ro: "un rucsac",   roF: "niște rucsacuri",  ru: "рюкзак",             ruF: "несколько рюкзаков" },
+      { ro: "o hartă",     roF: "niește hărți",     ru: "карта (география)",  ruF: "несколько карт" },
+      { ro: "o tablă",     roF: "niește table",     ru: "доска",              ruF: "несколько досок" },
+      { ro: "un ceas",     roF: "niște ceasuri",    ru: "часы (прибор)",      ruF: "несколько часов" },
+      { ro: "o umbrelă",   roF: "niește umbrele",   ru: "зонт",               ruF: "несколько зонтов" },
+      { ro: "un card",     roF: "niște carduri",    ru: "карта (банковская)", ruF: "несколько карт" },
+      { ro: "o cheie",     roF: "niște chei",       ru: "ключ",               ruF: "несколько ключей" },
+      { ro: "un raft",     roF: "niște rafturi",    ru: "полка",              ruF: "несколько полок" },
+      { ro: "o cutie",     roF: "niște cutii",      ru: "коробка",            ruF: "несколько коробок" },
+      { ro: "un perete",   roF: "niște pereți",     ru: "стена",              ruF: "несколько стен" },
+      { ro: "un autobuz",  ru: "автобус" },
+      { ro: "un tren",     ru: "поезд" },
+      { ro: "o bicicletă", ru: "велосипед" },
+      { ro: "pe jos",      ru: "пешком" }
     ],
     phrases: []
   },
@@ -2321,7 +2829,10 @@ const SETS = [
       { ro: "un an",         ru: "год" },
       { ro: "astăzi",        ru: "сегодня" },
       { ro: "mâine",         ru: "завтра" },
-      { ro: "zi liberă",     ru: "выходной день" }
+      { ro: "zi liberă",     ru: "выходной день" },
+      { ro: "dimineața",     ru: "утром" },
+      { ro: "seara",         ru: "вечером" },
+      { ro: "noaptea",       ru: "ночью" }
     ],
     phrases: []
   },
@@ -2343,7 +2854,14 @@ const SETS = [
       { ro: "un vânzător", roF: "o vânzătoare", ru: "продавец (м)",    ruF: "продавщица" },
       { ro: "un contabil", roF: "o contabilă",  ru: "бухгалтер (м)",   ruF: "бухгалтер (ж)" },
       { ro: "un doctor",   roF: "o doctoriță",  ru: "доктор (м)",      ruF: "доктор (ж)" },
-      { ro: "un medic",    ru: "врач (м и ж, не меняется)" }
+      { ro: "un medic",    ru: "врач (м и ж, не меняется)" },
+      { ro: "un bucătar",   roF: "o bucătăreasă", ru: "повар (м)",      ruF: "повар (ж)" },
+      { ro: "un croitor",   roF: "o croitoreasă",  ru: "портной",       ruF: "портниха" },
+      { ro: "un fermier",   roF: "o fermieră",     ru: "фермер (м)",    ruF: "фермер (ж)" },
+      { ro: "un electrician", ru: "электрик" },
+      { ro: "un avocat",    roF: "o avocată",      ru: "юрист (м)",     ruF: "юрист (ж)" },
+      { ro: "un brutar",    roF: "o brutăreasă",   ru: "пекарь (м)",    ruF: "пекарь (ж)" },
+      { ro: "un casier",    roF: "o casieră",       ru: "кассир (м)",   ruF: "кассир (ж)" }
     ],
     phrases: []
   },
@@ -2378,7 +2896,50 @@ const SETS = [
       { ro: "jos",  ru: "внизу" },
       { ro: "parter",   ru: "первый этаж (на уровне земли)" },
       { ro: "un anunț", ru: "объявление" },
-      { ro: "o chirie", ru: "аренда, плата за жильё" }
+      { ro: "o chirie", ru: "аренда, плата за жильё" },
+      { ro: "un hol",     ru: "прихожая" },
+      { ro: "un balcon",  ru: "балкон" },
+      { ro: "o terasă",   ru: "терраса" },
+      { ro: "o curte",    ru: "двор" },
+      { ro: "o grădină",  ru: "сад" },
+      { ro: "o scară",    ru: "лестница" },
+      { ro: "un lift",    ru: "лифт" },
+      { ro: "un subsol",  ru: "подвал" },
+      { ro: "o mansardă", ru: "мансарда" },
+      { ro: "murdar",     roF: "murdară",     ru: "грязный",    ruF: "грязная" },
+      { ro: "înalt",      roF: "înaltă",      ru: "высокий",    ruF: "высокая" },
+      { ro: "luminos",    roF: "luminoasă",   ru: "светлый",    ruF: "светлая" },
+      { ro: "întunecos",  roF: "întunecoasă", ru: "тёмный",     ruF: "тёмная" },
+      { ro: "spațios",    roF: "spațioasă",   ru: "просторный", ruF: "просторная" },
+      { ro: "confortabil",roF: "confortabilă",ru: "удобный",    ruF: "удобная" },
+      { ro: "scump",      roF: "scumpă",      ru: "дорогой",    ruF: "дорогая" },
+      { ro: "ieftin",     roF: "ieftină",     ru: "дешёвый",    ruF: "дешёвая" },
+      { ro: "vechi",      roF: "veche",       ru: "старый",     ruF: "старая" },
+      { ro: "modern",     roF: "modernă",     ru: "современный",ruF: "современная" },
+      { ro: "un urs",     roF: "niște urși",  ru: "медведь",    ruF: "несколько медведей" },
+      { ro: "un brad",    roF: "niște brazi", ru: "ёлка",       ruF: "несколько ёлок" },
+      { ro: "un covor",   roF: "niește covoare",  ru: "ковёр",   ruF: "несколько ковров" },
+      { ro: "o oglindă",  roF: "niește oglinzi",   ru: "зеркало", ruF: "несколько зеркал" },
+      { ro: "o lampă",    roF: "niește lămpi",     ru: "лампа",   ruF: "несколько ламп" },
+      { ro: "o perdea",   roF: "niește perdele",   ru: "занавеска", ruF: "несколько занавесок" },
+      { ro: "un fotoliu", roF: "niește fotolii",   ru: "кресло",  ruF: "несколько кресел" },
+      { ro: "o măsuță",   ru: "столик" },
+      { ro: "un ventilator", ru: "вентилятор" },
+      { ro: "un aer condiționat", ru: "кондиционер" },
+      { ro: "gol",     roF: "goală",  ru: "пустой", ruF: "пустая" },
+      { ro: "plin",    roF: "plină",  ru: "полный", ruF: "полная" },
+      { ro: "liniște",  ru: "тишина, покой" },
+      { ro: "zgomot",   ru: "шум" },
+      { ro: "întuneric",ru: "темнота" },
+      { ro: "lumină",   ru: "свет" },
+      { ro: "gaz",       ru: "газ" },
+      { ro: "curent",    ru: "электричество (ток)" },
+      { ro: "cald",      roF: "caldă",      ru: "тёплый",           ruF: "тёплая" },
+      { ro: "mobilat",   roF: "mobilată",   ru: "меблированный",   ruF: "меблированная" },
+      { ro: "nemobilat", roF: "nemobilată", ru: "немеблированный", ruF: "немеблированная" },
+      { ro: "un depozit", ru: "депозит, залог" },
+      { ro: "renovat",   roF: "renovată",  ru: "отремонтированный", ruF: "отремонтированная" },
+      { ro: "utilități", ru: "коммунальные услуги" }
     ],
     phrases: []
   }
