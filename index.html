@@ -215,6 +215,21 @@
   .note td:last-child { color: var(--muted); text-align: right; }
   .note tr:last-child td { border-bottom: none; }
 
+  /* ============ Сценка и история ============ */
+
+  .scene-line { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .scene-line:last-child { border-bottom: none; }
+  .scene-who { font-size: 12px; font-weight: 800; color: var(--secondary); text-transform: uppercase; margin-bottom: 3px; }
+  .scene-ro { display: block; width: 100%; text-align: left; background: none; border: none;
+    padding: 0; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .scene-ru { margin-top: 5px; font-size: 14px; color: var(--muted); }
+  .story-line { padding: 10px 0; border-bottom: 1px solid var(--line); }
+  .story-line:last-child { border-bottom: none; }
+  .story-q { padding: 20px 22px; margin-bottom: 14px; text-align: center; }
+  .story-q p { font-size: 18px; font-weight: 700; margin: 0 0 16px; }
+  .story-tf { display: flex; gap: 10px; justify-content: center; }
+  .story-tf button { flex: 1; max-width: 140px; }
+
   /* ============ Урок ============ */
 
   .top { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; }
@@ -401,11 +416,12 @@
   }
 
   .navbtn {
-    flex: 1; background: none; border: none;
-    color: var(--muted); font-size: 13px; padding: 6px 0; font-weight: 700;
+    flex: 1; min-width: 0; background: none; border: none;
+    color: var(--muted); font-size: 10.5px; padding: 6px 1px 0; font-weight: 700;
+    line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   }
   .navbtn[aria-current="page"] { color: var(--primary); }
-  .navbtn .glyph { display: block; font-size: 19px; margin-bottom: 2px; }
+  .navbtn .glyph { display: block; font-size: 18px; margin-bottom: 2px; }
 
   @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
 </style>
@@ -425,14 +441,22 @@
 <main>
   <section id="screen-home"></section>
   <section id="screen-note" class="hidden"></section>
+  <section id="screen-scene" class="hidden"></section>
   <section id="screen-lesson" class="hidden"></section>
   <section id="screen-result" class="hidden"></section>
-  <section id="screen-dict" class="hidden"></section>
+  <section id="screen-story" class="hidden"></section>
+  <section id="screen-words" class="hidden"></section>
+  <section id="screen-sets" class="hidden"></section>
+  <section id="screen-practice" class="hidden"></section>
+  <section id="screen-progress" class="hidden"></section>
 </main>
 
 <nav id="nav" class="hidden">
   <button class="navbtn" data-go="home"><span class="glyph">◈</span>Курс</button>
-  <button class="navbtn" data-go="dict"><span class="glyph">☰</span>Словарь</button>
+  <button class="navbtn" data-go="words"><span class="glyph">📖</span>Словарь</button>
+  <button class="navbtn" data-go="sets"><span class="glyph">☰</span>Наборы</button>
+  <button class="navbtn" data-go="practice"><span class="glyph">⚡</span>Тренировка</button>
+  <button class="navbtn" data-go="progress"><span class="glyph">◐</span>Прогресс</button>
 </nav>
 
 <script>
@@ -510,6 +534,8 @@ const COURSE = {
         body: [
           "В румынском четыре буквы, которых нет в русском: <b>ă</b>, <b>î</b> (в начале и конце слова, в середине — <b>â</b>), <b>ș</b>, <b>ț</b>. Каждая — свой отдельный звук.",
           "Сочетания <b>ce, ci</b> читаются как «че, чи», а <b>che, chi</b> — как «ке, ки»: буква после <b>c</b> решает, мягкий звук или твёрдый. Так же работают <b>ge, gi</b> («дже, джи») и <b>ghe, ghi</b> («ге, ги»).",
+          "В румынском много дифтонгов — двух гласных в одном слоге (<b>ea, oa, ia, io</b>) — и несколько трифтонгов, трёх гласных (<b>oai, iai</b>). Читаются слитно, одним слогом, а не по отдельным буквам.",
+          "Алфавит — тот же порядок букв, что в русском латиницей, плюс пять особых: <b>ă, â/î, ș, ț</b>. Буквы <b>k, q, w, x, y</b> встречаются только в заимствованных словах.",
           "Ударение почти всегда на последнем или предпоследнем слоге — но проще слушать и повторять, чем считать слоги.",
           "Кстати: 31 августа в Молдове — Ziua Limbii Române, день румынского языка."
         ],
@@ -545,7 +571,9 @@ const COURSE = {
         { ro: "Vorbiți mai tare, vă rog.", ru: "Говорите громче, пожалуйста." },
         { ro: "Am o întrebare.",         ru: "У меня вопрос." },
         { ro: "Nu vorbesc bine româna.", ru: "Я плохо говорю по-румынски." },
-        { ro: "Am nevoie de ajutor.",    ru: "Мне нужна помощь." }
+        { ro: "Am nevoie de ajutor.",    ru: "Мне нужна помощь." },
+        { ro: "Poftim?",                 ru: "Простите? (не расслышал)" },
+        { ro: "Am înțeles.",             ru: "Я понял(а)." }
       ],
       phrases: [],
       gaps: []
@@ -564,7 +592,9 @@ const COURSE = {
         { ro: "Cum se spune în română…?",   ru: "Как по-румынски…?" },
         { ro: "Puteți scrie, vă rog?",      ru: "Можете написать, пожалуйста?" },
         { ro: "Învăț limba română.",        ru: "Я учу румынский язык." },
-        { ro: "Vorbiți rusește?",           ru: "Вы говорите по-русски?" }
+        { ro: "Vorbiți rusește?",           ru: "Вы говорите по-русски?" },
+        { ro: "Cum se scrie?",               ru: "Как это пишется?" },
+        { ro: "Puteți vorbi în engleză?",    ru: "Вы можете говорить по-английски?" }
       ],
       phrases: [],
       gaps: []
@@ -607,7 +637,9 @@ const COURSE = {
         title: "Глагол a fi — «быть»",
         body: [
           "В русском мы говорим «я студент» — без глагола. В румынском глагол обязателен: <b>Eu sunt student</b>. Пропустить его нельзя.",
-          "Местоимение при этом часто опускают: форма глагола и так показывает, о ком речь. <b>Sunt student</b> — этого достаточно."
+          "Местоимение при этом часто опускают: форма глагола и так показывает, о ком речь. <b>Sunt student</b> — этого достаточно.",
+          "Отрицание — просто <b>nu</b> перед глаголом: <b>Eu nu sunt student.</b> — «Я не студент».",
+          "На «ты» — с друзьями и детьми: <b>tu ești</b>. С незнакомым человеком или официально — вежливое <b>dumneavoastră</b>, и глагол берётся в форме «вы», та же <b>sunteți</b>, что и у обычного «вы» между друзьями (<b>voi</b>): <b>Dumneavoastră sunteți din Comrat?</b> Готовые фразы для знакомства: <b>Cum vă numiți?</b> («Как вас зовут?»), <b>De unde sunteți dumneavoastră?</b> («Откуда вы?»), и при встрече — <b>Bine ați venit!</b> / <b>Bine v-am găsit!</b> («Добро пожаловать!» / «Рад(а) вас видеть!», буквально «хорошо я вас нашёл»)."
         ],
         table: [
           ["eu sunt",       "я есть"],
@@ -615,7 +647,8 @@ const COURSE = {
           ["el / ea este",  "он / она есть"],
           ["noi suntem",    "мы есть"],
           ["voi sunteți",   "вы есть"],
-          ["ei / ele sunt", "они есть"]
+          ["ei / ele sunt", "они есть"],
+          ["dumneavoastră sunteți", "вы (вежливо) есть"]
         ]
       },
       words: [
@@ -629,17 +662,27 @@ const COURSE = {
         { ro: "mă numesc",     ru: "меня зовут" },
         { ro: "îmi pare bine", ru: "приятно познакомиться" },
         { ro: "prieten",       ru: "друг" },
-        { ro: "prietenă",      ru: "подруга" }
+        { ro: "prietenă",      ru: "подруга" },
+        { ro: "dumneavoastră", ru: "вы (вежливо, к незнакомым)" },
+        { ro: "Cum vă numiți?", ru: "Как вас зовут?" },
+        { ro: "De unde sunteți dumneavoastră?", ru: "Откуда вы?" },
+        { ro: "Bine ați venit!", ru: "Добро пожаловать!" },
+        { ro: "Bine v-am găsit!", ru: "Рад(а) вас видеть! (в ответ на приветствие)" }
       ],
       phrases: [
         { ro: "Eu sunt Ana",     ru: "Я Ана" },
         { ro: "Tu ești prieten", ru: "Ты друг" },
-        { ro: "El este prieten", ru: "Он друг" }
+        { ro: "El este prieten", ru: "Он друг" },
+        { ro: "Eu nu sunt student.", ru: "Я не студент." },
+        { ro: "Dumneavoastră sunteți din Comrat?", ru: "Вы из Комрата?" },
+        { ro: "Cum vă numiți? — Mă numesc Ana.", ru: "Как вас зовут? — Меня зовут Аня." }
       ],
       gaps: [
         { text: "Eu ___ Ana.",      answer: "sunt", options: ["sunt", "ești", "este"] },
         { text: "Tu ___ prieten.",  answer: "ești", options: ["sunt", "ești", "este"] },
-        { text: "Ea ___ prietenă.", answer: "este", options: ["sunt", "ești", "este"] }
+        { text: "Ea ___ prietenă.", answer: "este", options: ["sunt", "ești", "este"] },
+        { text: "Dumneavoastră ___ din Bălți?", answer: "sunteți", options: ["sunteți", "ești", "suntem"] },
+        { text: "Eu ___ sunt student.", answer: "nu", options: ["nu", "da", "și"] }
       ]
     },
 
@@ -653,7 +696,8 @@ const COURSE = {
         title: "Неопределённый артикль: un и o",
         body: [
           "У румынского существительного есть род, и артикль его показывает: <b>un</b> для мужского, <b>o</b> для женского.",
-          "Род румынского слова часто не совпадает с русским. Поэтому запоминать слово нужно сразу с артиклем: не «prieten», а <b>un prieten</b>."
+          "Род румынского слова часто не совпадает с русским. Поэтому запоминать слово нужно сразу с артиклем: не «prieten», а <b>un prieten</b>.",
+          "В Молдове говорят на разных языках — <b>limba română</b> (румынский), <b>limba rusă</b> (русский), <b>limba găgăuză</b> (гагаузский), <b>limba bulgară</b> (болгарский), <b>limba ucraineană</b> (украинский). Национальность — отдельное слово, тоже с родом: <b>un moldovean / o moldoveancă</b>, <b>un rus / o rusă</b>, <b>un găgăuz / o găgăuză</b>."
         ],
         table: [
           ["un prieten", "друг"],
@@ -673,19 +717,41 @@ const COURSE = {
         { ro: "un oraș",     ru: "город" },
         { ro: "de unde",     ru: "откуда" },
         { ro: "din",         ru: "из" },
-        { ro: "aici",        ru: "здесь" }
+        { ro: "aici",        ru: "здесь" },
+        { ro: "Moldova",     ru: "Молдова" },
+        { ro: "România",     ru: "Румыния" },
+        { ro: "Rusia",       ru: "Россия" },
+        { ro: "un moldovean", roF: "o moldoveancă", ru: "молдаванин", ruF: "молдаванка" },
+        { ro: "un rus",        roF: "o rusă",         ru: "русский (нац.)", ruF: "русская (нац.)" },
+        { ro: "un român",      roF: "o română",       ru: "румын",  ruF: "румынка" },
+        { ro: "un găgăuz",     roF: "o găgăuză",      ru: "гагауз", ruF: "гагаузка" },
+        { ro: "un bulgar",     roF: "o bulgară",      ru: "болгарин", ruF: "болгарка" },
+        { ro: "un ucrainean",  roF: "o ucraineancă",  ru: "украинец", ruF: "украинка" },
+        { ro: "o limbă",       ru: "язык (речь)" },
+        { ro: "limba română",  ru: "румынский язык" },
+        { ro: "limba rusă",    ru: "русский язык" },
+        { ro: "limba găgăuză", ru: "гагаузский язык" },
+        { ro: "limba bulgară", ru: "болгарский язык" },
+        { ro: "limba ucraineană", ru: "украинский язык" },
+        { ro: "vorbesc",       ru: "я говорю" },
+        { ro: "vorbește",      ru: "он/она говорит" }
       ],
       phrases: [
         { ro: "Eu sunt student",  ru: "Я студент" },
         { ro: "Ea este studentă", ru: "Она студентка" },
         { ro: "De unde ești",     ru: "Откуда ты" },
-        { ro: "Sunt din Moldova", ru: "Я из Молдовы" }
+        { ro: "Sunt din Moldova", ru: "Я из Молдовы" },
+        { ro: "Eu sunt moldovean.", ru: "Я молдаванин." },
+        { ro: "Eu vorbesc limba rusă.", ru: "Я говорю по-русски." },
+        { ro: "Ea vorbește limba găgăuză.", ru: "Она говорит по-гагаузски." }
       ],
       gaps: [
         { text: "___ prieten",  answer: "un", options: ["un", "o"] },
         { text: "___ casă",     answer: "o",  options: ["un", "o"] },
         { text: "___ medic",    answer: "un", options: ["un", "o"] },
-        { text: "___ studentă", answer: "o",  options: ["un", "o"] }
+        { text: "___ studentă", answer: "o",  options: ["un", "o"] },
+        { text: "Eu sunt din Rusia. Eu sunt ___.", answer: "rus", options: ["rus", "rusă", "român"] },
+        { text: "Ea este din Moldova. Ea este ___.", answer: "moldoveancă", options: ["moldoveancă", "moldovean", "rusă"] }
       ]
     },
 
@@ -700,7 +766,8 @@ const COURSE = {
         body: [
           "Как и в русском, румынское прилагательное меняется по роду: <b>un prieten bun</b>, но <b>o prietenă bună</b>.",
           "Разница в другом: в румынском прилагательное обычно стоит <b>после</b> существительного. Не «хороший друг», а «друг хороший».",
-          "И приятная новость: половина слов здесь вам уже знакома. Румынский полон славянских заимствований — <b>a iubi</b>, <b>drag</b>, <b>da</b>, <b>a citi</b>."
+          "И приятная новость: половина слов здесь вам уже знакома. Румынский полон славянских заимствований — <b>a iubi</b>, <b>drag</b>, <b>da</b>, <b>a citi</b>.",
+          "Культура: 27 августа — День независимости Молдовы (Ziua Independenței)."
         ],
         table: [
           ["bun / bună",   "хороший"],
@@ -2257,6 +2324,13 @@ const COURSE = {
       name: "Мне нравится",
       sub: "Îmi place / îmi plac, a mânca, a bea",
       extraGaps: 6,
+      scene: [
+        { who: "Ana",  ro: "Bună, Vlad!",                    ru: "Привет, Влад!" },
+        { who: "Vlad", ro: "Bună, Ana!",                     ru: "Привет, Аня!" },
+        { who: "Ana",  ro: "Am mere și pâine. Vrei?",        ru: "У меня есть яблоки и хлеб. Хочешь?" },
+        { who: "Vlad", ro: "Da, vreau mere. Mulțumesc!",     ru: "Да, хочу яблоки. Спасибо!" },
+        { who: "Ana",  ro: "Cu plăcere!",                    ru: "Пожалуйста!" }
+      ],
       grammar: {
         title: "Îmi place / îmi plac — как в русском",
         body: [
@@ -2361,6 +2435,12 @@ const COURSE = {
       verified: false,
       name: "Что я буду делать",
       sub: "Будущее время: voi + глагол",
+      scene: [
+        { who: "Vlad", ro: "Ana, unde mâncăm astăzi?",   ru: "Аня, где мы едим сегодня?" },
+        { who: "Ana",  ro: "Îmi place o cafenea din Comrat.", ru: "Мне нравится одно кафе в Комрате." },
+        { who: "Vlad", ro: "Bine. Eu beau ceai, tu?",     ru: "Хорошо. Я пью чай, а ты?" },
+        { who: "Ana",  ro: "Eu beau cafea.",              ru: "Я пью кофе." }
+      ],
       grammar: {
         title: "Будущее время: voi / vei / va / vom / veți / vor",
         body: [
@@ -2403,7 +2483,7 @@ const COURSE = {
         { ro: "Noi vom merge la cafenea.", ru: "Мы пойдём в кафе." },
         { ro: "Nu voi mânca la cafenea.",  ru: "Я не буду есть в кафе." },
         { ro: "La cafenea vom vedea meniul.", ru: "В кафе мы увидим меню." },
-        { ro: "Ospătarul are nota de plată.", ru: "У официанта счёт." }
+        { ro: "Nota, vă rog!", ru: "Счёт, пожалуйста!" }
       ],
       gaps: [
         { text: "Eu ___ mânca la cafenea.", answer: "voi",  options: ["voi", "vei", "va"] },
@@ -2421,6 +2501,12 @@ const COURSE = {
       verified: false,
       name: "Приходи!",
       sub: "Повелительное наклонение (бытовые формы)",
+      scene: [
+        { who: "Ana",  ro: "Vlad, vom mânca acasă astăzi.", ru: "Влад, сегодня мы поедим дома." },
+        { who: "Vlad", ro: "Bine! Eu am farfurii și pahare.", ru: "Хорошо! У меня есть тарелки и стаканы." },
+        { who: "Ana",  ro: "Eu am linguri și furculițe.",  ru: "У меня есть ложки и вилки." },
+        { who: "Vlad", ro: "Perfect, mulțumesc pentru ajutor!", ru: "Отлично, спасибо за помощь!" }
+      ],
       grammar: {
         title: "Повелительное наклонение — готовыми парами",
         body: [
@@ -2446,7 +2532,8 @@ const COURSE = {
         { ro: "venim",   ru: "мы приходим" },
         { ro: "vino",    ru: "приходи!" },
         { ro: "dumneavoastră", ru: "вы (вежливо, к незнакомым)" },
-        { ro: "un fel principal", ru: "основное блюдо" }
+        { ro: "un fel principal", ru: "основное блюдо" },
+        { ro: "rece",              ru: "холодный" }
       ],
       phrases: [
         { ro: "Vino la cafenea!",       ru: "Приходи в кафе!" },
@@ -2460,6 +2547,41 @@ const COURSE = {
         { text: "___ mâine, vă rog!", answer: "Veniți",  options: ["Veniți", "Vino", "Venim"] },
         { text: "___ desertul!",     answer: "Mănâncă", options: ["Mănâncă", "Mănânci", "Mâncați"] },
         { text: "___ meniul, vă rog.", answer: "Luați", options: ["Luați", "Ia", "Luăm"] }
+      ]
+    },
+
+    {
+      id: "s8-story",
+      section: 8,
+      level: "A1",
+      verified: false,
+      isStory: true,
+      name: "История",
+      sub: "Диалог и вопросы верно / неверно",
+      words: [],
+      phrases: [],
+      gaps: [],
+      dialogue: [
+        { who: "Ana",       ro: "Vlad, mergem la cafenea?",              ru: "Влад, пойдём в кафе?" },
+        { who: "Vlad",      ro: "Bine! Vreau ceva bun.",                 ru: "Хорошо! Хочу что-нибудь вкусное." },
+        { who: "Ospătarul", ro: "Bună ziua! Ce doriți?",                 ru: "Добрый день! Что желаете?" },
+        { who: "Ana",       ro: "Eu vreau o cafea și o supă.",           ru: "Я хочу кофе и суп." },
+        { who: "Vlad",      ro: "Eu voi mânca sarmale și voi bea un ceai.", ru: "Я поем сармале и выпью чай." },
+        { who: "Ospătarul", ro: "Bine. Imediat!",                        ru: "Хорошо. Сейчас!" },
+        { who: "Ospătarul", ro: "Poftim! Sarmalele și supa.",            ru: "Вот, пожалуйста! Сармале и суп." },
+        { who: "Ana",       ro: "Mulțumesc! Vlad, mănâncă!",             ru: "Спасибо! Влад, ешь!" },
+        { who: "Vlad",      ro: "Sarmalele sunt foarte bune! Îmi plac mult.", ru: "Сармале очень вкусные! Мне очень нравятся." },
+        { who: "Ana",       ro: "Și mie îmi place cafeaua.",             ru: "И мне нравится кофе." },
+        { who: "Vlad",      ro: "Nota, vă rog!",                         ru: "Счёт, пожалуйста!" },
+        { who: "Ospătarul", ro: "Poftim nota. La revedere!",             ru: "Вот счёт. До свидания!" }
+      ],
+      questions: [
+        { ro: "Ana și Vlad merg la cafenea.",       answer: true },
+        { ro: "Vlad vrea ceva bun.",                 answer: true },
+        { ro: "Ana vrea un ceai.",                   answer: false },
+        { ro: "Vlad va mânca sarmale.",              answer: true },
+        { ro: "Sarmalele sunt foarte bune, spune Vlad.", answer: true },
+        { ro: "Vlad nu cere nota de plată.",         answer: false }
       ]
     }
   ]
@@ -2496,7 +2618,11 @@ const SETS = [
       { ro: "Învăț limba română.",        ru: "Я учу румынский язык." },
       { ro: "Vorbiți rusește?",           ru: "Вы говорите по-русски?" },
       { ro: "Nu știu.",                   ru: "Я не знаю." },
-      { ro: "Am nevoie de ajutor.",       ru: "Мне нужна помощь." }
+      { ro: "Am nevoie de ajutor.",       ru: "Мне нужна помощь." },
+      { ro: "Poftim?",                    ru: "Простите? (не расслышал)" },
+      { ro: "Am înțeles.",                ru: "Я понял(а)." },
+      { ro: "Cum se scrie?",              ru: "Как это пишется?" },
+      { ro: "Puteți vorbi în engleză?",   ru: "Вы можете говорить по-английски?" }
     ],
     phrases: []
   },
@@ -3483,7 +3609,7 @@ const SETS = [
 const state = {
   done: [], streak: 0, lastDay: null,
   current: null, step: 0, score: 0, answered: false,
-  tab: "course", query: "", openSet: null,
+  query: "", openSet: null,
   sound: true
 };
 
@@ -3557,6 +3683,37 @@ function resetProgress() {
   state.lastDay = null;
 }
 
+/* ---------- Работа над ошибками ----------
+   Отдельное хранилище от прогресса юнитов: список слов/фраз, на
+   которые был дан неверный ответ (по парам ro/ru — этого достаточно
+   для карточки на повтор). Юнит помечается пройденным независимо от
+   ошибок внутри урока — это к «работе над ошибками» не относится. */
+
+const MISTAKES_KEY = "romana:mistakes";
+
+function loadMistakes() {
+  try { return JSON.parse(localStorage.getItem(MISTAKES_KEY)) || []; }
+  catch (e) { return []; }
+}
+
+function saveMistakes(list) {
+  try { localStorage.setItem(MISTAKES_KEY, JSON.stringify(list)); }
+  catch (e) {}
+}
+
+function recordMistake(ro, ru) {
+  if (!ro || !ru) return;
+  const list = loadMistakes();
+  if (!list.some(m => m.ro === ro)) {
+    list.push({ ro, ru });
+    saveMistakes(list);
+  }
+}
+
+function clearMistake(ro) {
+  saveMistakes(loadMistakes().filter(m => m.ro !== ro));
+}
+
 function shuffle(list) {
   const a = list.slice();
   for (let i = a.length - 1; i > 0; i--) {
@@ -3581,6 +3738,19 @@ function speak(text) {
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "ro-RO"; u.rate = 0.9;
   speechSynthesis.speak(u);
+}
+
+// Несколько фраз подряд одной очередью — для «прослушать» у сценки
+// и истории: speak() каждый раз отменяет предыдущее, а здесь реплики
+// нужно проговорить одну за другой.
+function speakSequence(texts) {
+  if (!("speechSynthesis" in window)) return;
+  speechSynthesis.cancel();
+  texts.forEach(t => {
+    const u = new SpeechSynthesisUtterance(t);
+    u.lang = "ro-RO"; u.rate = 0.9;
+    speechSynthesis.speak(u);
+  });
 }
 
 /* ---------- Звук ответа ----------
@@ -3632,8 +3802,8 @@ function isUnlocked(i) {
 
 function buildLesson(unit) {
   const idx = unitIndex(unit.id);
-  const oldWords = COURSE.units.slice(0, idx).flatMap(u => u.words);
-  const allWords = COURSE.units.flatMap(u => u.words);
+  const oldWords = COURSE.units.slice(0, idx).filter(u => !u.isStory).flatMap(u => u.words);
+  const allWords = COURSE.units.filter(u => !u.isStory).flatMap(u => u.words);
   const tasks = [];
 
   shuffle(unit.words).slice(0, 5).forEach(w =>
@@ -3692,34 +3862,44 @@ function buildLesson(unit) {
    ========================================================================== */
 
 const screens = {
-  welcome: document.getElementById("screen-welcome"),
-  home:    document.getElementById("screen-home"),
-  note:    document.getElementById("screen-note"),
-  lesson:  document.getElementById("screen-lesson"),
-  result:  document.getElementById("screen-result"),
-  dict:    document.getElementById("screen-dict")
+  welcome:  document.getElementById("screen-welcome"),
+  home:     document.getElementById("screen-home"),
+  note:     document.getElementById("screen-note"),
+  scene:    document.getElementById("screen-scene"),
+  lesson:   document.getElementById("screen-lesson"),
+  result:   document.getElementById("screen-result"),
+  story:    document.getElementById("screen-story"),
+  words:    document.getElementById("screen-words"),
+  sets:     document.getElementById("screen-sets"),
+  practice: document.getElementById("screen-practice"),
+  progress: document.getElementById("screen-progress")
 };
 
 const nav = document.getElementById("nav");
 
 const MOTIF = '<svg class="motif" aria-hidden="true"><rect width="100%" height="14" fill="url(#rhomb)"/></svg>';
 
+// Экраны, на которых нижняя навигация скрыта — это середина урока,
+// сценка или история, а не самостоятельный раздел приложения.
+const NAV_HIDDEN_SCREENS = ["welcome", "scene", "lesson", "story"];
+
 function show(name) {
   Object.entries(screens).forEach(([k, el]) => el.classList.toggle("hidden", k !== name));
-  // навигация видна везде, кроме вводного экрана и самого урока
-  nav.classList.toggle("hidden", name === "welcome" || name === "lesson");
+  nav.classList.toggle("hidden", NAV_HIDDEN_SCREENS.includes(name));
   nav.querySelectorAll(".navbtn").forEach(b => {
-    const active = (b.dataset.go === "dict" && name === "dict") ||
-                   (b.dataset.go === "home" && name !== "dict");
-    b.setAttribute("aria-current", active ? "page" : "false");
+    b.setAttribute("aria-current", b.dataset.go === name ? "page" : "false");
   });
   window.scrollTo(0, 0);
 }
 
 nav.querySelectorAll(".navbtn").forEach(b => {
   b.onclick = () => {
-    if (b.dataset.go === "home") { renderHome(); show("home"); }
-    else { state.openSet = null; renderDict(); show("dict"); }
+    const go = b.dataset.go;
+    if (go === "home")     { renderHome(); show("home"); }
+    else if (go === "words")    { renderWords(); show("words"); }
+    else if (go === "sets")     { state.openSet = null; renderSets(); show("sets"); }
+    else if (go === "practice") { renderPractice(); show("practice"); }
+    else if (go === "progress") { renderProgress(); show("progress"); }
   };
 });
 
@@ -3736,7 +3916,7 @@ function welcomeSkipLink() {
 function wireWelcomeButtons() {
   screens.welcome.querySelector("#start").onclick = goToPath;
   screens.welcome.querySelector("#skip-dict").onclick = () => {
-    state.openSet = null; renderDict(); show("dict");
+    renderWords(); show("words");
   };
 }
 
@@ -3815,13 +3995,15 @@ function renderHome() {
   // этой константы, а не из захардкоженных текстов ниже: A2 подключится
   // добавлением записи в LEVELS без переделки этой функции.
   const level = "A1";
-  const levelUnits = COURSE.units.filter(u => u.level === level);
+  // «История» (unit.isStory) — не юнит, в счёт «N из 40» не входит,
+  // но всё равно идёт на пути внутри своей секции (см. ниже).
+  const levelUnits = COURSE.units.filter(u => u.level === level && !u.isStory);
   const levelDone = levelUnits.filter(u => state.done.includes(u.id)).length;
 
   // Юниты сгруппированы по секциям — у каждой секции свой заголовок
   // и своя дорожка (собственная соединяющая линия, см. .path в CSS).
   const sections = [];
-  levelUnits.forEach(unit => {
+  COURSE.units.filter(u => u.level === level).forEach(unit => {
     let group = sections.find(s => s.num === unit.section);
     if (!group) { group = { num: unit.section, units: [] }; sections.push(group); }
     group.units.push(unit);
@@ -3851,11 +4033,12 @@ function renderHome() {
   const list = screens.home.querySelector("#unit-list");
 
   sections.forEach(group => {
-    const sectionDone = group.units.filter(u => state.done.includes(u.id)).length;
+    const countedUnits = group.units.filter(u => !u.isStory);
+    const sectionDone = countedUnits.filter(u => state.done.includes(u.id)).length;
     const heading = document.createElement("p");
     heading.className = "section-title";
     heading.textContent =
-      `Секция ${group.num} · ${SECTION_TITLES[level][group.num]} · ${sectionDone} из ${group.units.length}`;
+      `Секция ${group.num} · ${SECTION_TITLES[level][group.num]} · ${sectionDone} из ${countedUnits.length}`;
     list.appendChild(heading);
 
     const path = document.createElement("div");
@@ -3871,7 +4054,8 @@ function renderHome() {
       btn.className = "path-item" + (i % 2 ? " side-right" : "");
       btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
       btn.disabled = !unlocked;
-      const nodeContent = finished ? "✓" : unlocked ? String(i + 1) : "🔒";
+      const nodeContent = unit.isStory ? (unlocked ? "📖" : "🔒")
+        : finished ? "✓" : unlocked ? String(i + 1) : "🔒";
       btn.innerHTML = `
         <span class="path-node">${nodeContent}</span>
         <span class="path-card">
@@ -3897,6 +4081,12 @@ function dayWord(n) {
 /* ---------- Грамматика ---------- */
 
 function startUnit(unit) {
+  if (unit.isStory) return startStory(unit);
+  if (unit.scene) return showScene(unit);
+  return startNoteOrLesson(unit);
+}
+
+function startNoteOrLesson(unit) {
   if (!unit.grammar) return startLesson(unit);
   const g = unit.grammar;
   screens.note.innerHTML = `
@@ -3910,6 +4100,42 @@ function startUnit(unit) {
   `;
   screens.note.querySelector("#note-go").onclick = () => startLesson(unit);
   show("note");
+}
+
+/* ---------- Сценка ----------
+   Короткий диалог перед заметкой: 4-6 реплик, «прослушать» целиком
+   и перевод по нажатию на реплику. Проба новой подачи — только для
+   секции 8 (unit.scene), остальные юниты этого поля не имеют. */
+
+function showScene(unit) {
+  const scene = unit.scene;
+  screens.scene.innerHTML = `
+    <div class="head"><h1 class="ro">${unit.name}</h1></div>
+    <button class="icon-btn" id="scene-listen" aria-label="Прослушать сценку" style="margin-bottom:12px">🔊 Прослушать</button>
+    <div class="card" style="padding:16px 18px;" id="scene-lines"></div>
+    <button class="primary" id="scene-next" style="margin-top:16px">Продолжить</button>
+  `;
+
+  const linesEl = screens.scene.querySelector("#scene-lines");
+  scene.forEach((line, i) => {
+    const row = document.createElement("div");
+    row.className = "scene-line";
+    row.innerHTML = `
+      <div class="scene-who">${line.who}</div>
+      <button class="scene-ro" data-i="${i}">${line.ro}</button>
+      <div class="scene-ru hidden" id="scene-ru-${i}">${line.ru}</div>
+    `;
+    linesEl.appendChild(row);
+  });
+  linesEl.querySelectorAll(".scene-ro").forEach(btn => {
+    btn.onclick = () => {
+      screens.scene.querySelector("#scene-ru-" + btn.dataset.i).classList.toggle("hidden");
+    };
+  });
+
+  screens.scene.querySelector("#scene-listen").onclick = () => speakSequence(scene.map(l => l.ro));
+  screens.scene.querySelector("#scene-next").onclick = () => startNoteOrLesson(unit);
+  show("scene");
 }
 
 /* ---------- Урок ---------- */
@@ -4215,6 +4441,12 @@ function finishTask(ok, correctAnswer, spellNote) {
     fb.className = "feedback bad";
     fb.innerHTML = `Правильно: <span class="ro">${correctAnswer}</span>`;
     playWrong();
+    // «Работа над ошибками» запоминает только задания с понятной парой
+    // ro/ru (выбор перевода, ввод слова, сборка фразы) — у пропуска
+    // слова и «Найди пары» такой пары нет.
+    const task = state.current.tasks[state.step];
+    if (task.type === "choice" || task.type === "input") recordMistake(task.word.ro, task.word.ru);
+    else if (task.type === "assemble") recordMistake(task.phrase.ro, task.phrase.ru);
   }
   next.disabled = false;
   next.focus();
@@ -4262,28 +4494,104 @@ function spawnConfetti(container) {
   }
 }
 
-/* ---------- Словарь ---------- */
+/* ---------- История ----------
+   Не юнит: отдельный кружок на пути после последнего юнита секции,
+   в счёт «N из 40» не входит (unit.isStory). Диалог целиком, потом
+   вопросы «верно / неверно» по одному. */
 
-function renderDict() {
-  if (state.openSet) return renderSet(state.openSet);
-
-  screens.dict.innerHTML = `
-    <div class="head"><h1 class="ro">Словарь</h1></div>
-    <div class="tabs">
-      <button class="tab" data-tab="course" aria-selected="${state.tab === "course"}">Слова курса</button>
-      <button class="tab" data-tab="topic"  aria-selected="${state.tab === "topic"}">Темы</button>
-      <button class="tab" data-tab="work"   aria-selected="${state.tab === "work"}">Работа</button>
-    </div>
-    <div id="dict-body"></div>
+function startStory(unit) {
+  screens.story.innerHTML = `
+    <div class="head"><h1 class="ro">${unit.name}</h1></div>
+    <button class="icon-btn" id="story-listen" aria-label="Прослушать" style="margin-bottom:12px">🔊 Прослушать</button>
+    <div class="card" style="padding:16px 18px; margin-bottom:16px;" id="story-lines"></div>
+    <button class="primary" id="story-go">Ответить на вопросы</button>
   `;
 
-  screens.dict.querySelectorAll(".tab").forEach(t => {
-    t.onclick = () => { state.tab = t.dataset.tab; state.query = ""; renderDict(); };
+  const linesEl = screens.story.querySelector("#story-lines");
+  unit.dialogue.forEach(line => {
+    const row = document.createElement("div");
+    row.className = "story-line";
+    row.innerHTML = `
+      <div class="scene-who">${line.who}</div>
+      <div class="ro" style="font-weight:700">${line.ro}</div>
+      <div class="scene-ru" style="margin-top:3px">${line.ru}</div>
+    `;
+    linesEl.appendChild(row);
   });
 
-  const body = screens.dict.querySelector("#dict-body");
-  if (state.tab === "course") renderCourseWords(body);
-  else renderSetList(body, state.tab);
+  screens.story.querySelector("#story-listen").onclick = () => speakSequence(unit.dialogue.map(l => l.ro));
+  screens.story.querySelector("#story-go").onclick = () => storyQuestion(unit, 0, 0);
+  show("story");
+}
+
+function storyQuestion(unit, idx, score) {
+  const qs = unit.questions;
+
+  if (idx >= qs.length) {
+    if (!state.done.includes(unit.id)) state.done.push(unit.id);
+    saveProgress();
+    screens.story.innerHTML = `
+      <div class="result">
+        ${MOTIF}
+        <p class="score">${score}/${qs.length}</p>
+        <p>История прочитана</p>
+        <button class="primary" id="story-back">Дальше</button>
+      </div>
+    `;
+    screens.story.querySelector("#story-back").onclick = () => { renderHome(); show("home"); };
+    return;
+  }
+
+  const q = qs[idx];
+  screens.story.innerHTML = `
+    <div class="head"><h1 class="ro">${unit.name}</h1></div>
+    <p class="section-title" style="margin-top:0">Вопрос ${idx + 1} из ${qs.length}</p>
+    <div class="card story-q"><p class="ro">${q.ro}</p></div>
+    <div class="story-tf">
+      <button class="primary" id="tf-true">Верно</button>
+      <button class="primary" id="tf-false">Неверно</button>
+    </div>
+    <p class="feedback" id="story-fb" role="status" aria-live="polite"></p>
+  `;
+
+  let answered = false;
+  function answer(val) {
+    if (answered) return;
+    answered = true;
+    const ok = val === q.answer;
+    const fb = screens.story.querySelector("#story-fb");
+    fb.className = "feedback " + (ok ? "ok" : "bad");
+    fb.textContent = ok ? "Верно" : ("На самом деле — " + (q.answer ? "верно" : "неверно"));
+    if (ok) playCorrect(); else playWrong();
+    setTimeout(() => storyQuestion(unit, idx + 1, score + (ok ? 1 : 0)), 900);
+  }
+  screens.story.querySelector("#tf-true").onclick = () => answer(true);
+  screens.story.querySelector("#tf-false").onclick = () => answer(false);
+}
+
+/* ---------- Словарь ---------- */
+
+function renderWords() {
+  screens.words.innerHTML = `
+    <div class="head"><h1 class="ro">Словарь</h1></div>
+    <div id="words-body"></div>
+  `;
+  renderCourseWords(screens.words.querySelector("#words-body"));
+}
+
+function renderSets() {
+  if (state.openSet) return renderSet(state.openSet);
+
+  screens.sets.innerHTML = `
+    <div class="head"><h1 class="ro">Наборы</h1></div>
+    <p class="group-title" style="margin-top:0">Бытовые темы</p>
+    <div id="sets-topic"></div>
+    <p class="group-title">Для работы</p>
+    <div id="sets-work"></div>
+  `;
+
+  renderSetList(screens.sets.querySelector("#sets-topic"), "topic");
+  renderSetList(screens.sets.querySelector("#sets-work"), "work");
 }
 
 function renderCourseWords(body) {
@@ -4334,7 +4642,7 @@ function renderSetList(body, group) {
       <div class="setcard-name">${icon}${set.name}</div>
       <div class="setcard-sub">${set.sub}</div>
     `;
-    btn.onclick = () => { state.openSet = set; state.query = ""; renderDict(); };
+    btn.onclick = () => { state.openSet = set; state.query = ""; renderSets(); };
     body.appendChild(btn);
   });
 }
@@ -4347,7 +4655,7 @@ function renderSet(set) {
     </div>
   ` : "";
 
-  screens.dict.innerHTML = `
+  screens.sets.innerHTML = `
     <button class="back" id="back">← Все наборы</button>
     <div class="head"><h1 class="ro">${set.name}</h1></div>
     ${rule}
@@ -4356,15 +4664,15 @@ function renderSet(set) {
     <div id="list"></div>
   `;
 
-  screens.dict.querySelector("#back").onclick = () => {
-    state.openSet = null; state.query = ""; renderDict();
+  screens.sets.querySelector("#back").onclick = () => {
+    state.openSet = null; state.query = ""; renderSets();
   };
 
-  const input = screens.dict.querySelector("#q");
+  const input = screens.sets.querySelector("#q");
   input.oninput = () => { state.query = input.value; paint(); };
 
   function paint() {
-    const list = screens.dict.querySelector("#list");
+    const list = screens.sets.querySelector("#list");
     list.innerHTML = "";
     const q = normalize(state.query);
     const match = arr => (arr || []).filter(w =>
@@ -4412,6 +4720,246 @@ function entryRow(w) {
   `;
   row.querySelector("button").onclick = () => speak(w.ro);
   return row;
+}
+
+/* ---------- Тренировка ----------
+   Три режима поверх уже пройденного материала — не замена урокам,
+   а дополнительная практика. Блиц и аудирование берут слова только
+   из пройденных юнитов; работа над ошибками — из отдельного
+   хранилища MISTAKES_KEY, которое пополняет finishTask. */
+
+function donePool() {
+  return COURSE.units.filter(u => state.done.includes(u.id)).flatMap(u => u.words);
+}
+
+function renderPractice() {
+  const pool = donePool();
+  const enoughForQuiz = pool.length >= 4;
+  const mistakes = loadMistakes();
+  const blitzBest = Number(localStorage.getItem("romana:blitzBest") || 0);
+
+  screens.practice.innerHTML = `
+    <div class="head"><h1 class="ro">Тренировка</h1></div>
+    ${enoughForQuiz ? "" : '<p class="empty">Сначала пройдите хотя бы один юнит курса — тренировка берёт слова из пройденного.</p>'}
+    <div id="practice-list"></div>
+  `;
+
+  const list = screens.practice.querySelector("#practice-list");
+
+  const items = [
+    {
+      id: "blitz", icon: "⚡", name: "Блиц",
+      sub: blitzBest ? `60 секунд на скорость · лучший счёт: ${blitzBest}` : "60 секунд, выбор перевода на скорость",
+      enabled: enoughForQuiz, onClick: startBlitz
+    },
+    {
+      id: "listen", icon: "🔊", name: "Аудирование",
+      sub: "Послушайте слово, выберите перевод",
+      enabled: enoughForQuiz, onClick: startListening
+    },
+    {
+      id: "mistakes", icon: "🔁", name: "Работа над ошибками",
+      sub: mistakes.length ? `${mistakes.length} слов на повтор` : "Пока нет ошибок — и хорошо",
+      enabled: mistakes.length > 0, onClick: startMistakes
+    }
+  ];
+
+  items.forEach(item => {
+    const btn = document.createElement("button");
+    btn.className = "setcard";
+    btn.disabled = !item.enabled;
+    btn.innerHTML = `
+      <div class="setcard-name">${item.icon} ${item.name}</div>
+      <div class="setcard-sub">${item.sub}</div>
+    `;
+    if (item.enabled) btn.onclick = item.onClick;
+    list.appendChild(btn);
+  });
+}
+
+function practiceOptions(pool, correct, dir) {
+  // dir: "ro-ru" — вопрос на румынском, варианты перевода на русском.
+  const wrong = shuffle(pool.filter(x => x.ru !== correct.ru)).slice(0, 3).map(x => x.ru);
+  return shuffle(wrong.concat(correct.ru));
+}
+
+function startBlitz() {
+  const pool = donePool();
+  if (pool.length < 4) return renderPractice();
+  let score = 0;
+  let timeLeft = 60;
+
+  function ask() {
+    const w = shuffle(pool)[0];
+    const opts = practiceOptions(pool, w);
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Блиц</h1></div>
+      <p class="section-title" style="margin-top:0">Осталось: <span id="time">${timeLeft}</span> с · Счёт: <span id="score">${score}</span></p>
+      <div class="card prompt"><p class="subject ro">${w.ro}</p></div>
+      <ul class="options" id="opts"></ul>
+    `;
+    screens.practice.querySelector("#back").onclick = () => { clearInterval(timer); renderPractice(); };
+    const optList = screens.practice.querySelector("#opts");
+    opts.forEach(opt => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (timeLeft <= 0) return;
+        if (opt === w.ru) score++;
+        ask();
+      };
+      li.appendChild(btn);
+      optList.appendChild(li);
+    });
+  }
+
+  function finish() {
+    clearInterval(timer);
+    const best = Math.max(score, Number(localStorage.getItem("romana:blitzBest") || 0));
+    try { localStorage.setItem("romana:blitzBest", String(best)); } catch (e) {}
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Блиц окончен</h1></div>
+      <p class="section-title" style="margin-top:0">Счёт: ${score} · Лучший результат: ${best}</p>
+      <button class="primary" id="again">Ещё раз</button>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    screens.practice.querySelector("#again").onclick = () => startBlitz();
+  }
+
+  const timer = setInterval(() => {
+    timeLeft--;
+    const t = screens.practice.querySelector("#time");
+    if (t) t.textContent = timeLeft;
+    if (timeLeft <= 0) finish();
+  }, 1000);
+
+  ask();
+}
+
+function startListening() {
+  const pool = donePool();
+  if (pool.length < 4) return renderPractice();
+  const total = Math.min(10, pool.length);
+  const queue = shuffle(pool).slice(0, total);
+  let idx = 0, score = 0;
+
+  function ask() {
+    if (idx >= queue.length) return finish();
+    const w = queue[idx];
+    const opts = practiceOptions(pool, w);
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Аудирование</h1></div>
+      <p class="section-title" style="margin-top:0">${idx + 1} из ${total}</p>
+      <div class="card prompt">
+        <button class="icon-btn" id="say" aria-label="Прослушать">🔊</button>
+      </div>
+      <ul class="options" id="opts"></ul>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    screens.practice.querySelector("#say").onclick = () => speak(w.ro);
+    speak(w.ro);
+    const optList = screens.practice.querySelector("#opts");
+    opts.forEach(opt => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        optList.querySelectorAll("button").forEach(b => b.disabled = true);
+        if (opt === w.ru) { score++; btn.classList.add("is-correct"); }
+        else btn.classList.add("is-wrong");
+        setTimeout(() => { idx++; ask(); }, 600);
+      };
+      li.appendChild(btn);
+      optList.appendChild(li);
+    });
+  }
+
+  function finish() {
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Аудирование окончено</h1></div>
+      <p class="section-title" style="margin-top:0">Правильно: ${score} из ${total}</p>
+      <button class="primary" id="again">Ещё раз</button>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    screens.practice.querySelector("#again").onclick = () => startListening();
+  }
+
+  ask();
+}
+
+function startMistakes() {
+  const words = loadMistakes();
+  if (!words.length) return renderPractice();
+  const pool = COURSE.units.flatMap(u => u.words);
+  let idx = 0;
+
+  function ask() {
+    const remaining = loadMistakes();
+    if (idx >= words.length || !remaining.length) return renderPractice();
+    const w = words[idx];
+    if (!remaining.some(m => m.ro === w.ro)) { idx++; return ask(); }
+    const opts = practiceOptions(pool.length ? pool : words, w);
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Работа над ошибками</h1></div>
+      <p class="section-title" style="margin-top:0">Осталось: ${remaining.length}</p>
+      <div class="card prompt"><p class="subject ro">${w.ro}</p></div>
+      <ul class="options" id="opts"></ul>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    const optList = screens.practice.querySelector("#opts");
+    opts.forEach(opt => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        optList.querySelectorAll("button").forEach(b => b.disabled = true);
+        if (opt === w.ru) { btn.classList.add("is-correct"); clearMistake(w.ro); }
+        else btn.classList.add("is-wrong");
+        setTimeout(() => { idx++; ask(); }, opt === w.ru ? 500 : 900);
+      };
+      li.appendChild(btn);
+      optList.appendChild(li);
+    });
+  }
+
+  ask();
+}
+
+/* ---------- Прогресс ---------- */
+
+function renderProgress() {
+  const level = "A1";
+  const levelUnits = COURSE.units.filter(u => u.level === level && !u.isStory);
+  const doneUnits = levelUnits.filter(u => state.done.includes(u.id));
+  const wordsLearned = doneUnits.flatMap(u => u.words)
+    .filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i).length;
+
+  screens.progress.innerHTML = `
+    <div class="head"><h1 class="ro">Мой прогресс</h1></div>
+    <div class="card" style="padding:20px; margin-bottom:14px;">
+      <p class="section-title" style="margin-top:0">Стрик</p>
+      <p style="font-size:32px; font-weight:900; margin:0;">${state.streak > 0 ? state.streak + " " + dayWord(state.streak) : "0 дней"}</p>
+    </div>
+    <div class="card" style="padding:20px; margin-bottom:14px;">
+      <p class="section-title" style="margin-top:0">Юниты курса</p>
+      <p style="font-size:32px; font-weight:900; margin:0;">${doneUnits.length} из ${LEVELS[level].totalUnits}</p>
+    </div>
+    <div class="card" style="padding:20px;">
+      <p class="section-title" style="margin-top:0">Слова курса</p>
+      <p style="font-size:32px; font-weight:900; margin:0;">${wordsLearned}</p>
+    </div>
+  `;
 }
 
 /* ==========================================================================
