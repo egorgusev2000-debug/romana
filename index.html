@@ -809,18 +809,26 @@ const COURSE = {
       verified: false,
       name: "В классе",
       sub: "un / o / niște, средний род",
+      extraGaps: 6,
       grammar: {
         title: "Артикль un / o / niște и средний род",
         body: [
           "Неопределённый артикль показывает число и род: <b>un</b> — мужской, <b>o</b> — женский, <b>niște</b> — множественное число (несколько).",
           "У части слов — средний род. В единственном числе он ведёт себя как мужской (<b>un pix</b>), а во множественном — как женский: <b>două pixuri</b>, а не «doi pixuri».",
-          "Множественное число обычно получается окончанием <b>-e</b>, <b>-i</b> или <b>-uri</b> — легче запомнить сразу парой, чем по правилу."
+          "Множественное число обычно получается окончанием <b>-e</b>, <b>-i</b> или <b>-uri</b> — легче запомнить сразу парой, чем по правилу.",
+          "У части слов на <b>-t, -c, -g</b> перед окончанием <b>-i</b> согласная смягчается: <b>t → ți</b> (<b>student → studenți</b>), <b>c → ci</b> (<b>medic → medici</b>), <b>g → gi</b> (<b>coleg → colegi</b>). Это самые частые случаи — дальше по курсу они будут повторяться."
         ],
         table: [
           ["un pix",   "два — două pixuri"],
           ["un caiet", "два — două caiete"],
           ["un scaun", "два — două scaune"],
-          ["o masă",   "два — două mese"]
+          ["o masă",   "два — două mese"],
+          ["un student", "несколько — studenți (t → ți)"],
+          ["un băiat",   "несколько — băieți (t → ți)"],
+          ["un medic",   "несколько — medici (c → ci)"],
+          ["un porc",    "несколько — porci (c → ci)"],
+          ["un coleg",   "несколько — colegi (g → gi)"],
+          ["un pedagog", "несколько — pedagogi (g → gi)"]
         ]
       },
       words: [
@@ -837,18 +845,32 @@ const COURSE = {
         { ro: "o gumă",      roF: "niște gume",       ru: "ластик",             ruF: "несколько ластиков" },
         { ro: "un rucsac",   roF: "niște rucsacuri",  ru: "рюкзак",             ruF: "несколько рюкзаков" },
         { ro: "o hartă",     roF: "niște hărți",      ru: "карта (география)",  ruF: "несколько карт" },
-        { ro: "o tablă",     roF: "niște table",      ru: "доска",              ruF: "несколько досок" }
+        { ro: "o tablă",     roF: "niște table",      ru: "доска",              ruF: "несколько досок" },
+        { ro: "un student",  roF: "niște studenți",   ru: "студент",            ruF: "несколько студентов" },
+        { ro: "un băiat",    roF: "niște băieți",     ru: "мальчик",            ruF: "несколько мальчиков" },
+        { ro: "un medic",    roF: "niște medici",     ru: "врач",               ruF: "несколько врачей" },
+        { ro: "un porc",     roF: "niește porci",     ru: "свинья",             ruF: "несколько свиней" },
+        { ro: "un coleg",    roF: "niește colegi",    ru: "коллега",            ruF: "несколько коллег" },
+        { ro: "un pedagog",  roF: "niește pedagogi",  ru: "педагог",            ruF: "несколько педагогов" }
       ],
       phrases: [
         { ro: "Este un pix.", ru: "Это ручка." },
         { ro: "Este o masă.", ru: "Это стол." },
         { ro: "Este un creion.", ru: "Это карандаш." },
-        { ro: "Este o hartă.",   ru: "Это карта." }
+        { ro: "Este o hartă.",   ru: "Это карта." },
+        { ro: "Sunt niște studenți.", ru: "Это несколько студентов." },
+        { ro: "Sunt niește colegi.",   ru: "Это несколько коллег." }
       ],
       gaps: [
         { text: "___ pix",   answer: "un", options: ["un", "o"] },
         { text: "___ masă",  answer: "o",  options: ["un", "o"] },
-        { text: "___ caiet", answer: "un", options: ["un", "o"] }
+        { text: "___ caiet", answer: "un", options: ["un", "o"] },
+        { text: "un student → niște ___", answer: "studenți", options: ["studenți", "studente", "studenturi"] },
+        { text: "un băiat → niește ___",   answer: "băieți",   options: ["băieți", "băiați", "băiate"] },
+        { text: "un medic → niește ___",   answer: "medici",   options: ["medici", "mediți", "medicuri"] },
+        { text: "un porc → niește ___",    answer: "porci",    options: ["porci", "porcuri", "porce"] },
+        { text: "un coleg → niește ___",   answer: "colegi",   options: ["colegi", "colegiuri", "colege"] },
+        { text: "un pedagog → niește ___", answer: "pedagogi", options: ["pedagogi", "pedagoge", "pedagoguri"] }
       ]
     },
 
@@ -982,7 +1004,28 @@ const COURSE = {
         { ro: "ani",            ru: "лет (при числе)" },
         { ro: "dimineața",      ru: "утром" },
         { ro: "seara",          ru: "вечером" },
-        { ro: "noaptea",        ru: "ночью" }
+        { ro: "noaptea",        ru: "ночью" },
+        { ro: "zero",                    ru: "ноль" },
+        { ro: "unu / una",               ru: "один / одна" },
+        { ro: "doi / două",              ru: "два / две" },
+        { ro: "trei",                    ru: "три" },
+        { ro: "patru",                   ru: "четыре" },
+        { ro: "cinci",                   ru: "пять" },
+        { ro: "șase",                    ru: "шесть" },
+        { ro: "șapte",                   ru: "семь" },
+        { ro: "opt",                     ru: "восемь" },
+        { ro: "nouă",                    ru: "девять" },
+        { ro: "zece",                    ru: "десять" },
+        { ro: "unsprezece",              ru: "одиннадцать" },
+        { ro: "doisprezece / douăsprezece", ru: "двенадцать" },
+        { ro: "treisprezece",            ru: "тринадцать" },
+        { ro: "paisprezece",             ru: "четырнадцать" },
+        { ro: "cincisprezece",           ru: "пятнадцать" },
+        { ro: "șaisprezece",             ru: "шестнадцать" },
+        { ro: "șaptesprezece",           ru: "семнадцать" },
+        { ro: "optsprezece",             ru: "восемнадцать" },
+        { ro: "nouăsprezece",            ru: "девятнадцать" },
+        { ro: "douăzeci",                ru: "двадцать" }
       ],
       phrases: [
         { ro: "E ora trei și un sfert.", ru: "Пятнадцать минут четвёртого." },
@@ -1343,17 +1386,24 @@ const COURSE = {
         title: "Прилагательные: согласование и чередования в корне",
         body: [
           "Прилагательное после существительного меняется по роду — это уже знакомо (<b>bun / bună</b>). Но у некоторых слов при этом меняется не только окончание, а гласная внутри корня: <b>frumos → frumoasă</b> (о → оa, «красивый»), <b>negru → neagră</b> (е → еа, «чёрный»). Это главная фонетическая сложность языка — нужно много практики.",
-          "У других прилагательных проще, без чередования в корне: <b>curat / curată</b> («чистый»), <b>nou / nouă</b> («новый»)."
+          "У других прилагательных проще, без чередования в корне: <b>curat / curată</b> («чистый»), <b>nou / nouă</b> («новый»).",
+          "Похожее чередование, что и у существительных (t → ți, c → ci, g → gi), бывает у прилагательных во множественном числе мужского рода перед окончанием <b>-i</b>: <b>t → ți</b> (<b>curat → curați</b>, <b>înalt → înalți</b>), <b>d → zi</b> (<b>rotund → rotunzi</b>, <b>solid → solizi</b>), <b>s → și</b> (<b>frumos → frumoși</b>, <b>gros → groși</b>). Женский род множественного числа этого не знает: curate, rotunde, solide, frumoase, groase."
         ],
         table: [
           ["frumos / frumoasă", "красивый — o → oa"],
           ["negru / neagră",    "чёрный — e → ea"],
           ["curat / curată",    "чистый"],
-          ["nou / nouă",        "новый"]
+          ["nou / nouă",        "новый"],
+          ["curat / curați",   "чистые (мн.ч., м.р.) — t → ți"],
+          ["înalt / înalți",   "высокие (мн.ч., м.р.) — t → ți"],
+          ["rotund / rotunzi", "круглые (мн.ч., м.р.) — d → zi"],
+          ["solid / solizi",   "прочные (мн.ч., м.р.) — d → zi"],
+          ["frumos / frumoși", "красивые (мн.ч., м.р.) — s → și"],
+          ["gros / groși",     "толстые (мн.ч., м.р.) — s → și"]
         ]
       },
       words: [
-        { ro: "un apartament", roF: "niște apartamente", ru: "квартира", ruF: "несколько квартир" },
+        { ro: "un apartament", roF: "niește apartamente", ru: "квартира", ruF: "несколько квартир" },
         { ro: "o cameră",      roF: "niște camere",       ru: "комната",  ruF: "несколько комнат" },
         { ro: "o bucătărie",   ru: "кухня" },
         { ro: "o baie",        ru: "ванная" },
@@ -1361,6 +1411,9 @@ const COURSE = {
         { ro: "negru",   roF: "neagră",   ru: "чёрный",   ruF: "чёрная" },
         { ro: "curat",   roF: "curată",   ru: "чистый",   ruF: "чистая" },
         { ro: "nou",     roF: "nouă",     ru: "новый",    ruF: "новая" },
+        { ro: "rotund",  roF: "rotundă",  ru: "круглый",  ruF: "круглая" },
+        { ro: "solid",   roF: "solidă",   ru: "прочный",  ruF: "прочная" },
+        { ro: "gros",    roF: "groasă",   ru: "толстый",  ruF: "толстая" },
         { ro: "un hol",     ru: "прихожая" },
         { ro: "un balcon",  ru: "балкон" },
         { ro: "o terasă",   ru: "терраса" },
@@ -1389,7 +1442,9 @@ const COURSE = {
         { ro: "Camera este mare.",         ru: "Комната большая." },
         { ro: "Geanta este neagră.",       ru: "Сумка чёрная." },
         { ro: "Apartamentul este spațios și luminos.", ru: "Квартира просторная и светлая." },
-        { ro: "Holul este mic.",           ru: "Прихожая маленькая." }
+        { ro: "Holul este mic.",           ru: "Прихожая маленькая." },
+        { ro: "Pereții sunt curați.",      ru: "Стены чистые." },
+        { ro: "Pereții sunt înalți.",      ru: "Стены высокие." }
       ],
       gaps: [
         { text: "Apartamentul este ___.", answer: "frumos",   options: ["frumos", "frumoasă", "frumoși"] },
@@ -1398,7 +1453,13 @@ const COURSE = {
         { text: "Caietul este ___.",      answer: "negru",    options: ["negru", "neagră", "negri"] },
         { text: "Bucătăria este ___.",    answer: "curată",   options: ["curată", "curat", "curați"] },
         { text: "Apartamentul este ___.", answer: "nou",      options: ["nou", "nouă", "noi"] },
-        { text: "Masa este ___.",         answer: "nouă",     options: ["nouă", "nou", "noi"] }
+        { text: "Masa este ___.",         answer: "nouă",     options: ["nouă", "nou", "noi"] },
+        { text: "curat (мн.ч., м.р.) → ___",   answer: "curați",   options: ["curați", "curate", "curatzi"] },
+        { text: "înalt (мн.ч., м.р.) → ___",   answer: "înalți",   options: ["înalți", "înalte", "înalturi"] },
+        { text: "rotund (мн.ч., м.р.) → ___",  answer: "rotunzi",  options: ["rotunzi", "rotunde", "rotunduri"] },
+        { text: "solid (мн.ч., м.р.) → ___",   answer: "solizi",   options: ["solizi", "solide", "soliduri"] },
+        { text: "frumos (мн.ч., м.р.) → ___",  answer: "frumoși",  options: ["frumoși", "frumoase", "frumosuri"] },
+        { text: "gros (мн.ч., м.р.) → ___",    answer: "groși",    options: ["groși", "groase", "grosuri"] }
       ]
     },
 
@@ -1870,7 +1931,8 @@ const COURSE = {
         title: "Возвратные глаголы: частица перед глаголом",
         body: [
           "Возвратные глаголы — с частицей <b>mă/te/se/ne/vă/se</b>. Главное отличие от русского: частица стоит <b>перед</b> глаголом, а не после, как русское «-ся»/«-сь». <b>Mă trezesc</b> — «просыпаюсь» (буквально «себя пробуждаю»), а не «trezescmă».",
-          "Образец — <b>a se trezi</b>, «просыпаться». Форма получается с добавкой <b>-esc-</b> перед окончанием — тот же образец, что у глаголов на -esc, которые встретятся дальше."
+          "Образец — <b>a se trezi</b>, «просыпаться». Форма получается с добавкой <b>-esc-</b> перед окончанием — тот же образец, что у глаголов на -esc, которые встретятся дальше.",
+          "У глаголов первого спряжения (на -a) — два образца окончаний. Один — на <b>-esc</b>, как a se trezi выше. Другой — на <b>-ez</b>: он уже знаком по глаголу <b>a lucra</b> («работать») — <b>eu lucrez, tu lucrezi, el/ea lucrează, noi lucrăm, voi lucrați, ei/ele lucrează</b>. Разница видна в 1-м лице единственного числа и в 3-м лице: у -esc там «-esc»/«-esc», у -ez — «-ez»/«-ează»."
         ],
         table: [
           ["eu mă trezesc",    "я просыпаюсь"],
@@ -1878,7 +1940,13 @@ const COURSE = {
           ["el / ea se trezește","он / она просыпается"],
           ["noi ne trezim",    "мы просыпаемся"],
           ["voi vă treziți",   "вы просыпаетесь"],
-          ["ei / ele se trezesc","они просыпаются"]
+          ["ei / ele se trezesc","они просыпаются"],
+          ["eu lucrez",        "я работаю (образец -ez)"],
+          ["tu lucrezi",       "ты работаешь"],
+          ["el / ea lucrează", "он / она работает"],
+          ["noi lucrăm",       "мы работаем"],
+          ["voi lucrați",      "вы работаете"],
+          ["ei / ele lucrează","они работают"]
         ]
       },
       words: [
@@ -1991,17 +2059,19 @@ const COURSE = {
       name: "Мой день",
       sub: "zilnic, uneori, apoi, după ce",
       grammar: {
-        title: "Частота и порядок: zilnic, uneori, apoi, după ce",
+        title: "Частота и порядок: zilnic, uneori, apoi, după ce, când",
         body: [
           "Наречия частоты: <b>zilnic</b> (ежедневно), <b>în fiecare zi</b> (каждый день), <b>adesea</b> (часто), <b>uneori</b> (иногда), <b>rar</b> (редко), <b>niciodată</b> (никогда).",
           "Порядок действий: <b>apoi</b> («потом»), <b>după ce</b> («после того как» — перед целым действием, а не одним словом).",
+          "<b>Când</b> уже знаком как вопросительное слово («когда?», секция 3). То же слово соединяет два действия в одном предложении: <b>Când mă trezesc, sunt obosit</b> — «Когда я просыпаюсь, я усталый». Похоже на după ce, но не подчёркивает, что первое действие уже завершилось — просто называет момент.",
           "Культура: <b>mămăligă</b> — мамалыга, кукурузная каша, повседневное блюдо, а не только праздничное."
         ],
         table: [
           ["zilnic",        "ежедневно"],
           ["în fiecare zi",  "каждый день"],
           ["uneori",         "иногда"],
-          ["niciodată",      "никогда"]
+          ["niciodată",      "никогда"],
+          ["când (союз)",    "когда — соединяет два действия"]
         ]
       },
       words: [
@@ -2024,13 +2094,17 @@ const COURSE = {
         { ro: "Mă trezesc zilnic la ora șapte.",    ru: "Я просыпаюсь ежедневно в семь." },
         { ro: "După ce mă trezesc, mă spăl.",       ru: "После того как я просыпаюсь, я моюсь." },
         { ro: "Apoi mă îmbrac.",                     ru: "Потом я одеваюсь." },
-        { ro: "Uneori mă trezesc târziu.",           ru: "Иногда я просыпаюсь поздно." }
+        { ro: "Uneori mă trezesc târziu.",           ru: "Иногда я просыпаюсь поздно." },
+        { ro: "Când mă trezesc, sunt obosit.",       ru: "Когда я просыпаюсь, я усталый." },
+        { ro: "Este devreme când mă trezesc.",       ru: "Ещё рано, когда я просыпаюсь." }
       ],
       gaps: [
         { text: "___ mă trezesc, mă spăl.",      answer: "După ce",  options: ["După ce", "Apoi", "Uneori"] },
         { text: "Mă spăl. ___ mă îmbrac.",       answer: "Apoi",     options: ["Apoi", "După ce", "Zilnic"] },
         { text: "Mă trezesc ___ la ora șapte.",  answer: "zilnic",   options: ["zilnic", "niciodată", "rar"] },
-        { text: "___ mă trezesc târziu.",        answer: "Uneori",   options: ["Uneori", "Zilnic", "Apoi"] }
+        { text: "___ mă trezesc târziu.",        answer: "Uneori",   options: ["Uneori", "Zilnic", "Apoi"] },
+        { text: "___ mă trezesc, sunt obosit.",  answer: "Când",     options: ["Când", "Apoi", "Niciodată"] },
+        { text: "Este devreme ___ mă trezesc.",  answer: "când",     options: ["când", "apoi", "uneori"] }
       ]
     },
 
@@ -2701,7 +2775,8 @@ const COURSE = {
           "Прошедшее время возвратных глаголов строится как обычное (секция 7: <b>am/ai/a/am/ați/au</b> + причастие), только частица <b>mă/te/se/ne/vă/se</b> сливается с ней через дефис: <b>m-am, te-ai, s-a, ne-am, v-ați, s-au</b>.",
           "Образец — уже знакомый <b>a se trezi</b> (секция 6): <b>m-am trezit</b> — «я проснулся/проснулась» (форма не меняется по роду, как и в обычном прошедшем).",
           "Отрицание встаёт перед всем этим: <b>nu m-am trezit</b> — «я не проснулся».",
-          "Пригодится готовыми фразами, без разбора: <b>M-am simțit rău</b> — «мне было плохо», <b>M-am simțit mai bine</b> — «мне стало лучше», <b>S-a îmbolnăvit</b> — «он/она заболел(а)»."
+          "<b>A se simți</b> («чувствовать себя») — тот же образец, полностью: <b>m-am simțit, te-ai simțit, s-a simțit, ne-am simțit, v-ați simțit, s-au simțit</b>. <b>S-a îmbolnăvit</b> («он/она заболел(а)») пригодится готовой фразой, без разбора.",
+          "Культура: при простуде часто пьют <b>ceai de tei</b> (чай с цветками липы) с <b>miere</b> (мёд) — домашнее средство, а не замена визита к врачу при высокой температуре."
         ],
         table: [
           ["m-am trezit",  "я проснулся(лась)"],
@@ -2709,7 +2784,13 @@ const COURSE = {
           ["s-a trezit",   "он/она проснулся(лась)"],
           ["ne-am trezit", "мы проснулись"],
           ["v-ați trezit", "вы проснулись"],
-          ["s-au trezit",  "они проснулись"]
+          ["s-au trezit",  "они проснулись"],
+          ["m-am simțit",  "я почувствовал(а) себя"],
+          ["te-ai simțit", "ты почувствовал(а) себя"],
+          ["s-a simțit",   "он/она почувствовал(а) себя"],
+          ["ne-am simțit", "мы почувствовали себя"],
+          ["v-ați simțit", "вы почувствовали себя"],
+          ["s-au simțit",  "они почувствовали себя"]
         ]
       },
       words: [
@@ -2738,9 +2819,16 @@ const COURSE = {
         { ro: "nu m-am trezit",  ru: "я не проснулся(лась)" },
         { ro: "m-am simțit rău",      ru: "мне было плохо" },
         { ro: "m-am simțit mai bine", ru: "мне стало лучше" },
+        { ro: "te-ai simțit",    ru: "ты почувствовал(а) себя" },
+        { ro: "s-a simțit",      ru: "он/она почувствовал(а) себя" },
+        { ro: "ne-am simțit",    ru: "мы почувствовали себя" },
+        { ro: "v-ați simțit",    ru: "вы почувствовали себя" },
+        { ro: "s-au simțit",     ru: "они почувствовали себя" },
         { ro: "s-a îmbolnăvit",  ru: "он/она заболел(а)" },
         { ro: "bine", ru: "хорошо" },
-        { ro: "rău",  ru: "плохо" }
+        { ro: "rău",  ru: "плохо" },
+        { ro: "tei",   ru: "липа" },
+        { ro: "miere", ru: "мёд" }
       ],
       phrases: [
         { ro: "Am fost la farmacie.",       ru: "Я был(а) в аптеке." },
@@ -2749,7 +2837,10 @@ const COURSE = {
         { ro: "M-am simțit rău ieri.",      ru: "Мне было плохо вчера." },
         { ro: "Astăzi m-am simțit mai bine.", ru: "Сегодня мне стало лучше." },
         { ro: "Copilul s-a îmbolnăvit.",    ru: "Ребёнок заболел." },
-        { ro: "Am nevoie de o rețetă.",     ru: "Мне нужен рецепт." }
+        { ro: "Am nevoie de o rețetă.",     ru: "Мне нужен рецепт." },
+        { ro: "Tu te-ai simțit rău ieri?",  ru: "Тебе было плохо вчера?" },
+        { ro: "Noi ne-am simțit mai bine astăzi.", ru: "Нам стало лучше сегодня." },
+        { ro: "Beau ceai de tei cu miere.", ru: "Я пью чай с липой и мёдом." }
       ],
       gaps: [
         { text: "Eu ___ la ora șapte.",  answer: "m-am trezit",  options: ["m-am trezit", "te-ai trezit", "s-a trezit"] },
@@ -2760,7 +2851,13 @@ const COURSE = {
         { text: "Copiii ___ devreme.",   answer: "s-au trezit",  options: ["s-au trezit", "s-a trezit", "ne-am trezit"] },
         { text: "Eu ___ repede.",        answer: "m-am îmbrăcat",options: ["m-am îmbrăcat", "m-am trezit", "s-a îmbolnăvit"] },
         { text: "Ieri eu ___.",          answer: "nu m-am trezit", options: ["nu m-am trezit", "m-am trezit", "s-a trezit"] },
-        { text: "Ana ___ ieri.",         answer: "s-a îmbolnăvit", options: ["s-a îmbolnăvit", "s-a trezit", "m-am simțit rău"] }
+        { text: "Ana ___ ieri.",         answer: "s-a îmbolnăvit", options: ["s-a îmbolnăvit", "s-a trezit", "m-am simțit rău"] },
+        { text: "Eu ___ rău ieri.",      answer: "m-am simțit",  options: ["m-am simțit", "te-ai simțit", "s-a simțit"] },
+        { text: "Tu ___ rău ieri?",      answer: "te-ai simțit", options: ["te-ai simțit", "m-am simțit", "s-a simțit"] },
+        { text: "Ana ___ mai bine astăzi.", answer: "s-a simțit", options: ["s-a simțit", "m-am simțit", "ne-am simțit"] },
+        { text: "Noi ___ mai bine astăzi.", answer: "ne-am simțit", options: ["ne-am simțit", "v-ați simțit", "s-au simțit"] },
+        { text: "Voi ___ rău ieri?",     answer: "v-ați simțit", options: ["v-ați simțit", "ne-am simțit", "s-au simțit"] },
+        { text: "Copiii ___ rău ieri.",  answer: "s-au simțit",  options: ["s-au simțit", "s-a simțit", "ne-am simțit"] }
       ]
     },
 
@@ -2853,7 +2950,8 @@ const COURSE = {
           "<b>Trebuie</b> (нужно, надо) — одна форма на все лица, меняется только второй глагол: <b>trebuie să merg</b> (мне), <b>trebuie să mergi</b> (тебе), <b>trebuie să meargă</b> (ему/ей/им).",
           "Ловушка: после <b>să</b> форма «он/она» у второго глагола часто меняется — <b>el merge</b> → <b>el vrea să meargă</b>; <b>el vine</b> → <b>el vrea să vină</b>. Правила на все случаи нет — вот список для уже пройденных глаголов:",
           "<b>vine → vină</b>, <b>mănâncă → mănânce</b>, <b>cumpără → cumpere</b>, <b>este → fie</b>, <b>are → aibă</b>, <b>bea → bea</b> (без изменений), <b>lucrează → lucreze</b>, <b>vede → vadă</b>, <b>citește → citească</b>, <b>spune → spună</b>, <b>dă → dea</b>, <b>ia → ia</b> (без изменений).",
-          "<b>o să</b> здесь не берём — это уровень A2."
+          "<b>o să</b> здесь не берём — это уровень A2.",
+          "Культура: страну по-румынски описывают «от края до края» тем же оборотом <b>de la … până la</b>: <b>de la Naslavcea până la Giurgiulești</b> — «от Наслэвчи до Джюрджулешть». Naslavcea — самое северное село, Giurgiulești — самый южный порт на Дунае, на другом конце страны."
         ],
         table: [
           ["vreau să merg",  "я хочу идти"],
@@ -2916,7 +3014,8 @@ const COURSE = {
         { ro: "Ana vrea să cumpere pâine.",    ru: "Аня хочет купить хлеб." },
         { ro: "Copilul vrea să mănânce.",      ru: "Ребёнок хочет есть." },
         { ro: "Puteți să veniți mâine?",       ru: "Можете прийти завтра?" },
-        { ro: "Trebuie să cumpărăm bilete.",   ru: "Нам нужно купить билеты." }
+        { ro: "Trebuie să cumpărăm bilete.",   ru: "Нам нужно купить билеты." },
+        { ro: "Vreau să merg de la Naslavcea până la Giurgiulești.", ru: "Хочу проехать от Наслэвчи до Джюрджулешть." }
       ],
       gaps: [
         { text: "Eu ___ la magazin.",   answer: "vreau să merg",   options: ["vreau să merg", "pot să merg", "trebuie să merg"] },
