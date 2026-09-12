@@ -398,6 +398,11 @@
   .setcard-sub { font-size: 14px; color: var(--muted); margin-top: 2px; }
   .setcard-count { float: right; font-size: 13px; color: var(--muted); }
 
+  .set-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+  }
+  .set-grid .setcard { margin-bottom: 0; }
+
   .back {
     background: none; border: none; color: var(--muted);
     padding: 0; margin-bottom: 14px; font-size: 15px; font-weight: 700;
@@ -852,7 +857,10 @@ const COURSE = {
         { ro: "un medic",    roF: "niește medici",     ru: "врач",               ruF: "несколько врачей" },
         { ro: "un coleg",    roF: "niește colegi",    ru: "коллега",            ruF: "несколько коллег" },
         { ro: "un pedagog",  roF: "niește pedagogi",  ru: "педагог",            ruF: "несколько педагогов" },
-        { ro: "doi / două",  ru: "два / две" }
+        { ro: "doi / două",  ru: "два / две" },
+        { ro: "zero",        ru: "ноль" },
+        { ro: "patru",       ru: "четыре" },
+        { ro: "cinci",       ru: "пять" }
       ],
       phrases: [
         { ro: "Este un pix.", ru: "Это ручка." },
@@ -861,18 +869,23 @@ const COURSE = {
         { ro: "Este o hartă.",   ru: "Это карта." },
         { ro: "Sunt niște studenți.", ru: "Это несколько студентов." },
         { ro: "Sunt niește colegi.",   ru: "Это несколько коллег." },
-        { ro: "Sunt niește frați.",    ru: "Это несколько братьев." }
+        { ro: "Sunt niește frați.",    ru: "Это несколько братьев." },
+        { ro: "Sunt patru pixuri pe masă.",   ru: "На столе четыре ручки." },
+        { ro: "Sunt cinci caiete în rucsac.", ru: "В рюкзаке пять тетрадей." }
       ],
       gaps: [
         { text: "___ pix",   answer: "un", options: ["un", "o"] },
         { text: "___ masă",  answer: "o",  options: ["un", "o"] },
         { text: "___ caiet", answer: "un", options: ["un", "o"] },
-        { text: "un frate → niște ___",    answer: "frați",    options: ["frați", "frate", "frateuri"] },
+        { text: "un frate → niește ___",    answer: "frați",    options: ["frați", "frate", "frateuri"] },
         { text: "un student → niește ___", answer: "studenți", options: ["studenți", "studente", "studenturi"] },
         { text: "un bunic → niește ___",   answer: "bunici",   options: ["bunici", "bunicuri", "bunice"] },
         { text: "un medic → niește ___",   answer: "medici",   options: ["medici", "mediți", "medicuri"] },
         { text: "un coleg → niește ___",   answer: "colegi",   options: ["colegi", "colegiuri", "colege"] },
-        { text: "un pedagog → niește ___", answer: "pedagogi", options: ["pedagogi", "pedagoge", "pedagoguri"] }
+        { text: "un pedagog → niește ___", answer: "pedagogi", options: ["pedagogi", "pedagoge", "pedagoguri"] },
+        { text: "Sunt ___ pixuri pe masă.",   answer: "patru", options: ["patru", "cinci", "doi"] },
+        { text: "Sunt ___ caiete în rucsac.", answer: "cinci", options: ["cinci", "patru", "zece"] },
+        { text: "0 = ___", answer: "zero", options: ["zero", "zece", "doi"] }
       ]
     },
 
@@ -910,19 +923,25 @@ const COURSE = {
         { ro: "un ceas",    roF: "niște ceasuri", ru: "часы (прибор)", ruF: "несколько часов" },
         { ro: "o umbrelă",  roF: "niște umbrele",  ru: "зонт",          ruF: "несколько зонтов" },
         { ro: "un card",    roF: "niște carduri",  ru: "карта (банковская)", ruF: "несколько карт" },
-        { ro: "o cheie",    roF: "niște chei",     ru: "ключ",          ruF: "несколько ключей" }
+        { ro: "o cheie",    roF: "niște chei",     ru: "ключ",          ruF: "несколько ключей" },
+        { ro: "șapte",      ru: "семь" },
+        { ro: "nouă",       ru: "девять" }
       ],
       phrases: [
         { ro: "Am un pix.",      ru: "У меня есть ручка." },
         { ro: "Ai o carte?",     ru: "У тебя есть книга?" },
         { ro: "Are un telefon.", ru: "У него есть телефон." },
         { ro: "Am un ceas nou.", ru: "У меня новые часы." },
-        { ro: "Ai o cheie?",     ru: "У тебя есть ключ?" }
+        { ro: "Ai o cheie?",     ru: "У тебя есть ключ?" },
+        { ro: "Am șapte ani.",   ru: "Мне семь лет." },
+        { ro: "Ai nouă ani?",    ru: "Тебе девять лет?" }
       ],
       gaps: [
         { text: "Eu ___ un pix.",     answer: "am",   options: ["am", "ai", "are"] },
         { text: "Tu ___ o carte?",    answer: "ai",   options: ["am", "ai", "are"] },
-        { text: "Ea ___ un telefon.", answer: "are",  options: ["am", "ai", "are"] }
+        { text: "Ea ___ un telefon.", answer: "are",  options: ["am", "ai", "are"] },
+        { text: "Am ___ ani.",  answer: "șapte", options: ["șapte", "nouă", "patru"] },
+        { text: "Ai ___ ani?",  answer: "nouă",  options: ["nouă", "șapte", "cinci"] }
       ]
     },
 
@@ -958,19 +977,25 @@ const COURSE = {
         { ro: "o geantă", ru: "сумка" },
         { ro: "un raft",  roF: "niște rafturi", ru: "полка",  ruF: "несколько полок" },
         { ro: "o cutie",  roF: "niște cutii",   ru: "коробка", ruF: "несколько коробок" },
-        { ro: "un perete",roF: "niște pereți",  ru: "стена",  ruF: "несколько стен" }
+        { ro: "un perete",roF: "niște pereți",  ru: "стена",  ruF: "несколько стен" },
+        { ro: "unsprezece",   ru: "одиннадцать" },
+        { ro: "treisprezece", ru: "тринадцать" }
       ],
       phrases: [
         { ro: "Un pix este pe masă.",  ru: "Ручка на столе." },
         { ro: "O carte este în geantă.", ru: "Книга в сумке." },
         { ro: "Ana este lângă Vlad.",  ru: "Аня рядом с Владом." },
         { ro: "Caietul este pe raft.", ru: "Тетрадь на полке." },
-        { ro: "Geanta este sub masă.", ru: "Сумка под столом." }
+        { ro: "Geanta este sub masă.", ru: "Сумка под столом." },
+        { ro: "Sunt unsprezece pixuri în cutie.", ru: "В коробке одиннадцать ручек." },
+        { ro: "Sunt treisprezece caiete pe raft.", ru: "На полке тринадцать тетрадей." }
       ],
       gaps: [
         { text: "Un pix este ___ masă.",   answer: "pe",    options: ["pe", "sub", "în"] },
         { text: "O carte este ___ geantă.", answer: "în",   options: ["în", "pe", "sub"] },
-        { text: "Ana este ___ Vlad.",      answer: "lângă", options: ["lângă", "între", "sub"] }
+        { text: "Ana este ___ Vlad.",      answer: "lângă", options: ["lângă", "între", "sub"] },
+        { text: "Sunt ___ pixuri în cutie.",  answer: "unsprezece",   options: ["unsprezece", "treisprezece", "zece"] },
+        { text: "Sunt ___ caiete pe raft.",   answer: "treisprezece", options: ["treisprezece", "unsprezece", "paisprezece"] }
       ]
     },
 
@@ -986,7 +1011,8 @@ const COURSE = {
         title: "Который час",
         body: [
           "«Час» по-румынски женского рода, поэтому «один» и «два» в других случаях — <b>una</b> и <b>două</b>. Но в самом вопросе о времени говорят <b>E ora unu</b> — устойчивое выражение, так и запоминается.",
-          "«Четверть» и «половина» добавляются через <b>și</b> («и»), а без четверти — через <b>fără</b> («без»)."
+          "«Четверть» и «половина» добавляются через <b>și</b> («и»), а без четверти — через <b>fără</b> («без»).",
+          "Числа читаются по одной цифре и в номерах телефонов: <b>doi, opt, trei, șase</b>."
         ],
         table: [
           ["Cât e ora?",              "Который час?"],
@@ -1023,7 +1049,8 @@ const COURSE = {
       ],
       gaps: [
         { text: "Ana are ___ ani.",  answer: "doisprezece", options: ["doisprezece", "douăzeci", "zece"] },
-        { text: "Vlad are douăzeci ___ ani.", answer: "de", options: ["de", "și", "din"] }
+        { text: "Vlad are douăzeci ___ ani.", answer: "de", options: ["de", "și", "din"] },
+        { text: "Telefon: doi – opt – ___ – șase", answer: "trei", options: ["trei", "patru", "cinci"] }
       ]
     },
 
@@ -1080,19 +1107,33 @@ const COURSE = {
         { ro: "mâine",        ru: "завтра" },
         { ro: "zi liberă",      ru: "выходной день" },
         { ro: "zi lucrătoare",  ru: "рабочий день" },
-        { ro: "un mărțișor",    ru: "мэрцишор (весенний оберег)" }
+        { ro: "un mărțișor",    ru: "мэрцишор (весенний оберег)" },
+        { ro: "paisprezece",     ru: "четырнадцать" },
+        { ro: "cincisprezece",   ru: "пятнадцать" },
+        { ro: "șaisprezece",     ru: "шестнадцать" },
+        { ro: "șaptesprezece",   ru: "семнадцать" },
+        { ro: "optsprezece",     ru: "восемнадцать" },
+        { ro: "nouăsprezece",    ru: "девятнадцать" }
       ],
       phrases: [
         { ro: "Astăzi este luni.", ru: "Сегодня понедельник." },
         { ro: "Mâine este marți.", ru: "Завтра вторник." },
         { ro: "Luni este zi lucrătoare.", ru: "Понедельник — рабочий день." },
         { ro: "Sâmbăta este zi liberă.",  ru: "Суббота — выходной день." },
-        { ro: "Mărțișorul este pe 1 martie.", ru: "Мэрцишор — 1 марта." }
+        { ro: "Mărțișorul este pe 1 martie.", ru: "Мэрцишор — 1 марта." },
+        { ro: "Astăzi este paisprezece iunie.", ru: "Сегодня четырнадцатое июня." },
+        { ro: "Mâine este cincisprezece iunie.", ru: "Завтра пятнадцатое июня." }
       ],
       gaps: [
         { text: "Sâmbăta este zi ___.",  answer: "liberă",     options: ["liberă", "lucrătoare", "mare"] },
         { text: "Luni este zi ___.",     answer: "lucrătoare", options: ["lucrătoare", "liberă", "mică"] },
-        { text: "Mărțișorul este pe 1 ___.", answer: "martie", options: ["martie", "mai", "iunie"] }
+        { text: "Mărțișorul este pe 1 ___.", answer: "martie", options: ["martie", "mai", "iunie"] },
+        { text: "Astăzi este ___ iunie.", answer: "paisprezece",   options: ["paisprezece", "cincisprezece", "treisprezece"] },
+        { text: "Mâine este ___ iunie.",  answer: "cincisprezece", options: ["cincisprezece", "paisprezece", "șaisprezece"] },
+        { text: "16 = ___", answer: "șaisprezece",   options: ["șaisprezece", "șaptesprezece", "șasesprezece"] },
+        { text: "17 = ___", answer: "șaptesprezece", options: ["șaptesprezece", "șaisprezece", "optsprezece"] },
+        { text: "18 = ___", answer: "optsprezece",   options: ["optsprezece", "nouăsprezece", "șaptesprezece"] },
+        { text: "19 = ___", answer: "nouăsprezece",  options: ["nouăsprezece", "optsprezece", "douăzeci"] }
       ]
     },
 
@@ -4087,7 +4128,7 @@ const SETS = [
 const state = {
   done: [], streak: 0, lastDay: null,
   current: null, step: 0, score: 0, answered: false,
-  query: "", openSet: null,
+  query: "", openSet: null, setsTab: "topic",
   sound: true
 };
 
@@ -4375,7 +4416,7 @@ nav.querySelectorAll(".navbtn").forEach(b => {
     const go = b.dataset.go;
     if (go === "home")     { renderHome(); show("home"); }
     else if (go === "words")    { renderWords(); show("words"); }
-    else if (go === "sets")     { state.openSet = null; renderSets(); show("sets"); }
+    else if (go === "sets")     { state.openSet = null; state.setsTab = "topic"; renderSets(); show("sets"); }
     else if (go === "practice") { renderPractice(); show("practice"); }
     else if (go === "progress") { renderProgress(); show("progress"); }
   };
@@ -4513,10 +4554,14 @@ function renderHome() {
   sections.forEach(group => {
     const countedUnits = group.units.filter(u => !u.isStory);
     const sectionDone = countedUnits.filter(u => state.done.includes(u.id)).length;
+    // Секция 0 показывается пользователю как «Подготовка», без номера —
+    // нумерация секций 1–10 для пользователя от этого не меняется, она
+    // и так с них начинается. Внутренние id (s0-1 и так далее) не трогаем.
+    const sectionLabel = group.num === 0 ? "Подготовка" : `Секция ${group.num}`;
     const heading = document.createElement("p");
     heading.className = "section-title";
     heading.textContent =
-      `Секция ${group.num} · ${SECTION_TITLES[level][group.num]} · ${sectionDone} из ${countedUnits.length}`;
+      `${sectionLabel} · ${SECTION_TITLES[level][group.num]} · ${sectionDone} из ${countedUnits.length}`;
     list.appendChild(heading);
 
     const path = document.createElement("div");
@@ -5062,14 +5107,17 @@ function renderSets() {
 
   screens.sets.innerHTML = `
     <div class="head"><h1 class="ro">Наборы</h1></div>
-    <p class="group-title" style="margin-top:0">Бытовые темы</p>
-    <div id="sets-topic"></div>
-    <p class="group-title">Для работы</p>
-    <div id="sets-work"></div>
+    <div class="tabs" role="tablist">
+      <button class="tab" id="tab-topic" role="tab" aria-selected="${state.setsTab === "topic"}">Бытовые</button>
+      <button class="tab" id="tab-work" role="tab" aria-selected="${state.setsTab === "work"}">Для работы</button>
+    </div>
+    <div class="set-grid" id="sets-grid"></div>
   `;
 
-  renderSetList(screens.sets.querySelector("#sets-topic"), "topic");
-  renderSetList(screens.sets.querySelector("#sets-work"), "work");
+  screens.sets.querySelector("#tab-topic").onclick = () => { state.setsTab = "topic"; renderSets(); };
+  screens.sets.querySelector("#tab-work").onclick = () => { state.setsTab = "work"; renderSets(); };
+
+  renderSetList(screens.sets.querySelector("#sets-grid"), state.setsTab);
 }
 
 function renderCourseWords(body) {
@@ -5116,9 +5164,8 @@ function renderSetList(body, group) {
       : (set.words.length + (set.phrases ? set.phrases.length : 0)) + " слов";
     const icon = set.icon ? `${set.icon} ` : "";
     btn.innerHTML = `
-      <span class="setcard-count">${count}</span>
       <div class="setcard-name">${icon}${set.name}</div>
-      <div class="setcard-sub">${set.sub}</div>
+      <div class="setcard-sub">${count}</div>
     `;
     btn.onclick = () => { state.openSet = set; state.query = ""; renderSets(); };
     body.appendChild(btn);
@@ -5210,9 +5257,43 @@ function donePool() {
   return COURSE.units.filter(u => state.done.includes(u.id)).flatMap(u => u.words);
 }
 
-function formRulePool() {
-  // Правило = юнит: у него уже есть sub (тема) и gaps (однотипные примеры).
-  return COURSE.units.filter(u => !u.isStory && state.done.includes(u.id) && u.gaps && u.gaps.length);
+/* Темы для тренажёра формы: юниты сгруппированы по грамматическому
+   правилу (таблица «юнит → правило» — a1-inventory.md, часть 2),
+   а не по одному юниту, как раньше. Список тем и состав юнитов внутри
+   каждой — по фактическому содержанию gaps (не по одному только
+   заголовку заметки): например, `s3-2` озаглавлен «указательные», но
+   реально его gaps — вопросительные слова, поэтому он в теме
+   «Вопросительные слова», а не «Указательные». Юнит `s6-4` (повтор,
+   без своей грамматики) и юниты без gaps (секция 0, `u1`) ни в одну
+   тему не включены — им нечего дать однозначно. */
+const FORM_TRAINER_THEMES = [
+  { name: "Артикль: un/o/niște, определённый артикль", unitIds: ["u3", "s2-1", "s3-3"] },
+  { name: "Прилагательные и согласование", unitIds: ["u4", "s4-1", "s7-3", "s3-5"] },
+  { name: "Настоящее время глаголов", unitIds: ["u2", "s2-2", "s3-1", "s4-2", "s4-3", "s4-4", "s5-2", "s5-3", "s6-1", "s6-2", "s7-2"] },
+  { name: "Прошедшее время", unitIds: ["s7-4", "s9-2"] },
+  { name: "Будущее время", unitIds: ["s8-2"] },
+  { name: "Предлоги", unitIds: ["s2-3", "s7-1", "s10-1"] },
+  { name: "Принадлежность: lui / -ei", unitIds: ["s5-1"] },
+  { name: "Числа", unitIds: ["s2-4", "s2-5"] },
+  { name: "Притяжательные местоимения", unitIds: ["s3-4", "s5-4"] },
+  { name: "Вопросительные слова", unitIds: ["s3-2"] },
+  { name: "Îmi place — кому что нравится", unitIds: ["s8-1"] },
+  { name: "Mă doare / mă dor, am nevoie de", unitIds: ["s9-1"] },
+  { name: "vreau să, pot să, trebuie să", unitIds: ["s10-2"] },
+  { name: "Повелительное наклонение", unitIds: ["s8-3"] },
+  { name: "Наречия частоты и союзы времени", unitIds: ["s6-3"] }
+];
+
+function formThemePool() {
+  // Тема доступна, если хотя бы один её юнит пройден — примеры берутся
+  // только из уже пройденных юнитов темы, не из всех сразу.
+  return FORM_TRAINER_THEMES.map(theme => {
+    const units = theme.unitIds
+      .map(id => COURSE.units.find(u => u.id === id))
+      .filter(u => u && state.done.includes(u.id) && u.gaps && u.gaps.length);
+    const gaps = units.flatMap(u => u.gaps);
+    return { name: theme.name, units, gaps };
+  }).filter(t => t.gaps.length > 0);
 }
 
 function renderPractice() {
@@ -5220,7 +5301,7 @@ function renderPractice() {
   const enoughForQuiz = pool.length >= 4;
   const mistakes = loadMistakes();
   const blitzBest = Number(localStorage.getItem("romana:blitzBest") || 0);
-  const rules = formRulePool();
+  const themes = formThemePool();
 
   screens.practice.innerHTML = `
     <div class="head"><h1 class="ro">Тренировка</h1></div>
@@ -5243,8 +5324,8 @@ function renderPractice() {
     },
     {
       id: "formTrainer", icon: "🎯", name: "Тренажёр формы",
-      sub: rules.length ? "20 примеров подряд на одно правило — выберите правило" : "Сначала пройдите юнит с грамматикой",
-      enabled: rules.length > 0, onClick: renderFormTrainerPicker
+      sub: themes.length ? "20 примеров подряд на одну тему — выберите тему" : "Сначала пройдите юнит с грамматикой",
+      enabled: themes.length > 0, onClick: renderFormTrainerPicker
     },
     {
       id: "mistakes", icon: "🔁", name: "Работа над ошибками",
@@ -5267,31 +5348,31 @@ function renderPractice() {
 }
 
 function renderFormTrainerPicker() {
-  const rules = formRulePool();
+  const themes = formThemePool();
   screens.practice.innerHTML = `
     <button class="back" id="back">← Тренировка</button>
     <div class="head"><h1 class="ro">Тренажёр формы</h1></div>
-    <p class="section-title" style="margin-top:0">Выберите правило</p>
+    <p class="section-title" style="margin-top:0">Выберите тему</p>
     <div id="rule-list"></div>
   `;
   screens.practice.querySelector("#back").onclick = () => renderPractice();
   const list = screens.practice.querySelector("#rule-list");
-  rules.forEach(unit => {
+  themes.forEach(theme => {
     const btn = document.createElement("button");
     btn.className = "setcard";
     btn.innerHTML = `
-      <div class="setcard-name">${unit.sub || unit.name}</div>
-      <div class="setcard-sub">${unit.name}</div>
+      <div class="setcard-name">${theme.name}</div>
+      <div class="setcard-sub">${theme.gaps.length} примеров из ${theme.units.length} ${theme.units.length === 1 ? "юнита" : "юнитов"}</div>
     `;
-    btn.onclick = () => startFormTrainer(unit);
+    btn.onclick = () => startFormTrainer(theme);
     list.appendChild(btn);
   });
 }
 
-function startFormTrainer(unit) {
+function startFormTrainer(theme) {
   const TOTAL = 20;
   const queue = [];
-  while (queue.length < TOTAL) queue.push(...shuffle(unit.gaps));
+  while (queue.length < TOTAL) queue.push(...shuffle(theme.gaps));
   queue.length = TOTAL;
   let idx = 0, score = 0;
 
@@ -5301,7 +5382,7 @@ function startFormTrainer(unit) {
     screens.practice.innerHTML = `
       <button class="back" id="back">← Тренировка</button>
       <div class="head"><h1 class="ro">Тренажёр формы</h1></div>
-      <p class="section-title" style="margin-top:0">${unit.sub || unit.name} · ${idx + 1} из ${TOTAL}</p>
+      <p class="section-title" style="margin-top:0">${theme.name} · ${idx + 1} из ${TOTAL}</p>
       <div class="card prompt">
         <p class="task">Выберите правильную форму</p>
         <p class="subject small ro">${g.text}</p>
@@ -5334,12 +5415,12 @@ function startFormTrainer(unit) {
     screens.practice.innerHTML = `
       <button class="back" id="back">← Тренировка</button>
       <div class="head"><h1 class="ro">Тренажёр формы окончен</h1></div>
-      <p class="section-title" style="margin-top:0">${unit.sub || unit.name}</p>
+      <p class="section-title" style="margin-top:0">${theme.name}</p>
       <p style="font-size:32px; font-weight:900; margin:0 0 14px;">${score} из ${TOTAL}</p>
       <button class="primary" id="again">Пройти ещё раз</button>
     `;
     screens.practice.querySelector("#back").onclick = () => renderPractice();
-    screens.practice.querySelector("#again").onclick = () => startFormTrainer(unit);
+    screens.practice.querySelector("#again").onclick = () => startFormTrainer(theme);
   }
 
   ask();
