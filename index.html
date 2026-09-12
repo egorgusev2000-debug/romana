@@ -17,7 +17,7 @@
   его не будет.
 -->
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Româna — румынский с нуля</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -61,7 +61,11 @@
   main {
     max-width: 460px;
     margin: 0 auto;
-    padding: 18px 16px 96px;
+    /* 96px с запасом покрывает нижнюю навигацию (~71px в обычном
+       браузере) даже без вырезa; env(...) добавляет безопасную зону
+       снизу на iPhone с домашней полосой (без физической кнопки) —
+       без viewport-fit=cover в <meta> она всегда была бы нулевой. */
+    padding: 18px 16px calc(96px + env(safe-area-inset-bottom));
   }
 
   button { font: inherit; color: inherit; cursor: pointer; }
@@ -417,7 +421,7 @@
   nav {
     position: fixed; bottom: 0; left: 0; right: 0;
     background: var(--card); box-shadow: 0 -2px 12px rgba(36,26,20,.08);
-    display: flex; padding: 8px 0 22px;
+    display: flex; padding: 8px 0 calc(22px + env(safe-area-inset-bottom));
   }
 
   .navbtn {
@@ -4464,7 +4468,7 @@ function renderWelcome() {
       </ul>
       <button class="primary" id="start">Начать обучение</button>
       ${welcomeSkipLink()}
-      <p class="welcome-foot">${totalWords} слов и фраз · без регистрации</p>
+      <p class="welcome-foot">${wordCount(totalWords)} и фраз · без регистрации</p>
     </div>
   `;
   wireWelcomeButtons();
@@ -4600,6 +4604,16 @@ function dayWord(n) {
   if (last >= 2 && last <= 4) return "дня";
   return "дней";
 }
+
+function wordWord(n) {
+  const last = n % 10, two = n % 100;
+  if (two >= 11 && two <= 14) return "слов";
+  if (last === 1) return "слово";
+  if (last >= 2 && last <= 4) return "слова";
+  return "слов";
+}
+
+function wordCount(n) { return `${n} ${wordWord(n)}`; }
 
 /* ---------- Грамматика ---------- */
 
@@ -5161,7 +5175,7 @@ function renderSetList(body, group) {
     btn.dataset.soon = set.soon ? "1" : "0";
     btn.disabled = !!set.soon;
     const count = set.soon ? "скоро"
-      : (set.words.length + (set.phrases ? set.phrases.length : 0)) + " слов";
+      : wordCount(set.words.length + (set.phrases ? set.phrases.length : 0));
     const icon = set.icon ? `${set.icon} ` : "";
     btn.innerHTML = `
       <div class="setcard-name">${icon}${set.name}</div>
@@ -5180,10 +5194,16 @@ function renderSet(set) {
     </div>
   ` : "";
 
+  const learnCount = Math.min(20, set.words.length);
+  const learnButton = set.words.length ? `
+    <button class="primary" id="learn-set" style="margin-bottom:16px">Учить набор · ${wordCount(learnCount)}</button>
+  ` : "";
+
   screens.sets.innerHTML = `
     <button class="back" id="back">← Все наборы</button>
     <div class="head"><h1 class="ro">${set.name}</h1></div>
     ${rule}
+    ${learnButton}
     <input class="search" id="q" placeholder="Поиск в наборе"
            autocomplete="off" spellcheck="false" value="${state.query}">
     <div id="list"></div>
@@ -5192,6 +5212,9 @@ function renderSet(set) {
   screens.sets.querySelector("#back").onclick = () => {
     state.openSet = null; state.query = ""; renderSets();
   };
+
+  const learnBtn = screens.sets.querySelector("#learn-set");
+  if (learnBtn) learnBtn.onclick = () => startSetDrill(set);
 
   const input = screens.sets.querySelector("#q");
   input.oninput = () => { state.query = input.value; paint(); };
@@ -5222,6 +5245,63 @@ function renderSet(set) {
       list.innerHTML = '<p class="empty">Ничего не нашлось</p>';
   }
   paint();
+}
+
+function startSetDrill(set) {
+  const pool = set.words;
+  const total = Math.min(20, pool.length);
+  // Один проход перемешанного набора без повторов, а не независимая
+  // выборка на каждый вопрос (как у Блица) — так одно слово не может
+  // встретиться дважды подряд.
+  const queue = shuffle(pool).slice(0, total);
+  let idx = 0, score = 0;
+
+  function ask() {
+    if (idx >= total) return finish();
+    const w = queue[idx];
+    const opts = practiceOptions(pool, w);
+    screens.sets.innerHTML = `
+      <button class="back" id="back">← ${set.name}</button>
+      <div class="head"><h1 class="ro">Учить набор</h1></div>
+      <p class="section-title" style="margin-top:0">${set.name} · ${idx + 1} из ${total}</p>
+      <div class="card prompt"><p class="subject ro">${w.ro}</p></div>
+      <ul class="options" id="opts"></ul>
+    `;
+    screens.sets.querySelector("#back").onclick = () => renderSet(set);
+    const optList = screens.sets.querySelector("#opts");
+    opts.forEach(opt => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        optList.querySelectorAll("button").forEach(b => b.disabled = true);
+        if (opt === w.ru) { score++; btn.classList.add("is-correct"); }
+        else {
+          btn.classList.add("is-wrong");
+          optList.querySelectorAll("button").forEach(b => { if (b.textContent === w.ru) b.classList.add("is-correct"); });
+        }
+        setTimeout(() => { idx++; ask(); }, opt === w.ru ? 500 : 900);
+      };
+      li.appendChild(btn);
+      optList.appendChild(li);
+    });
+  }
+
+  function finish() {
+    screens.sets.innerHTML = `
+      <button class="back" id="back">← ${set.name}</button>
+      <div class="head"><h1 class="ro">Набор пройден</h1></div>
+      <p class="section-title" style="margin-top:0">${set.name}</p>
+      <p style="font-size:32px; font-weight:900; margin:0 0 14px;">${score} из ${total}</p>
+      <button class="primary" id="again">Пройти ещё раз</button>
+    `;
+    screens.sets.querySelector("#back").onclick = () => renderSet(set);
+    screens.sets.querySelector("#again").onclick = () => startSetDrill(set);
+  }
+
+  ask();
 }
 
 function entryRow(w) {
@@ -5329,7 +5409,7 @@ function renderPractice() {
     },
     {
       id: "mistakes", icon: "🔁", name: "Работа над ошибками",
-      sub: mistakes.length ? `${mistakes.length} слов на повтор` : "Пока нет ошибок — и хорошо",
+      sub: mistakes.length ? `${wordCount(mistakes.length)} на повтор` : "Пока нет ошибок — и хорошо",
       enabled: mistakes.length > 0, onClick: startMistakes
     }
   ];
@@ -5606,7 +5686,7 @@ function renderProgress() {
     </div>
     <div class="card" style="padding:20px;">
       <p class="section-title" style="margin-top:0">Слова курса</p>
-      <p style="font-size:32px; font-weight:900; margin:0;">${wordsLearned}</p>
+      <p style="font-size:32px; font-weight:900; margin:0;">${wordCount(wordsLearned)}</p>
     </div>
   `;
 }
