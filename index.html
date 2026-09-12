@@ -816,42 +816,43 @@ const COURSE = {
           "Неопределённый артикль показывает число и род: <b>un</b> — мужской, <b>o</b> — женский, <b>niște</b> — множественное число (несколько).",
           "У части слов — средний род. В единственном числе он ведёт себя как мужской (<b>un pix</b>), а во множественном — как женский: <b>două pixuri</b>, а не «doi pixuri».",
           "Множественное число обычно получается окончанием <b>-e</b>, <b>-i</b> или <b>-uri</b> — легче запомнить сразу парой, чем по правилу.",
-          "У части слов на <b>-t, -c, -g</b> перед окончанием <b>-i</b> согласная смягчается: <b>t → ți</b> (<b>student → studenți</b>), <b>c → ci</b> (<b>medic → medici</b>), <b>g → gi</b> (<b>coleg → colegi</b>). Это самые частые случаи — дальше по курсу они будут повторяться."
+          "У части слов на <b>-t, -c, -g</b> перед окончанием <b>-i</b> согласная смягчается: <b>t → ți</b> (<b>frate → frați</b>, <b>student → studenți</b>), <b>c → ci</b> (<b>bunic → bunici</b>, <b>medic → medici</b>), <b>g → gi</b> (<b>coleg → colegi</b>, <b>pedagog → pedagogi</b>). Это самые частые случаи — дальше по курсу они будут повторяться."
         ],
         table: [
           ["un pix",   "два — două pixuri"],
           ["un caiet", "два — două caiete"],
           ["un scaun", "два — două scaune"],
           ["o masă",   "два — două mese"],
+          ["un frate",   "несколько — frați (t → ți)"],
           ["un student", "несколько — studenți (t → ți)"],
-          ["un băiat",   "несколько — băieți (t → ți)"],
+          ["un bunic",   "несколько — bunici (c → ci)"],
           ["un medic",   "несколько — medici (c → ci)"],
-          ["un porc",    "несколько — porci (c → ci)"],
           ["un coleg",   "несколько — colegi (g → gi)"],
           ["un pedagog", "несколько — pedagogi (g → gi)"]
         ]
       },
       words: [
         { ro: "un pix",      roF: "niște pixuri",    ru: "ручка",              ruF: "несколько ручек" },
-        { ro: "un caiet",    roF: "niște caiete",     ru: "тетрадь",            ruF: "несколько тетрадей" },
-        { ro: "un scaun",    roF: "niște scaune",     ru: "стул",               ruF: "несколько стульев" },
-        { ro: "o masă",      roF: "niște mese",       ru: "стол",               ruF: "несколько столов" },
-        { ro: "o ușă",       roF: "niște uși",        ru: "дверь",              ruF: "несколько дверей" },
-        { ro: "o fereastră", roF: "niște ferestre",   ru: "окно",               ruF: "несколько окон" },
-        { ro: "un telefon",  roF: "niște telefoane",  ru: "телефон",            ruF: "несколько телефонов" },
-        { ro: "o clasă",     roF: "niște clase",      ru: "класс (кабинет)",    ruF: "несколько классов" },
-        { ro: "un creion",   roF: "niște creioane",   ru: "карандаш",           ruF: "несколько карандашей" },
-        { ro: "o riglă",     roF: "niște rigle",      ru: "линейка",            ruF: "несколько линеек" },
-        { ro: "o gumă",      roF: "niște gume",       ru: "ластик",             ruF: "несколько ластиков" },
-        { ro: "un rucsac",   roF: "niște rucsacuri",  ru: "рюкзак",             ruF: "несколько рюкзаков" },
-        { ro: "o hartă",     roF: "niște hărți",      ru: "карта (география)",  ruF: "несколько карт" },
-        { ro: "o tablă",     roF: "niște table",      ru: "доска",              ruF: "несколько досок" },
-        { ro: "un student",  roF: "niște studenți",   ru: "студент",            ruF: "несколько студентов" },
-        { ro: "un băiat",    roF: "niște băieți",     ru: "мальчик",            ruF: "несколько мальчиков" },
-        { ro: "un medic",    roF: "niște medici",     ru: "врач",               ruF: "несколько врачей" },
-        { ro: "un porc",     roF: "niește porci",     ru: "свинья",             ruF: "несколько свиней" },
+        { ro: "un caiet",    roF: "niește caiete",     ru: "тетрадь",            ruF: "несколько тетрадей" },
+        { ro: "un scaun",    roF: "niește scaune",     ru: "стул",               ruF: "несколько стульев" },
+        { ro: "o masă",      roF: "niește mese",       ru: "стол",               ruF: "несколько столов" },
+        { ro: "o ușă",       roF: "niește uși",        ru: "дверь",              ruF: "несколько дверей" },
+        { ro: "o fereastră", roF: "niește ferestre",   ru: "окно",               ruF: "несколько окон" },
+        { ro: "un telefon",  roF: "niește telefoane",  ru: "телефон",            ruF: "несколько телефонов" },
+        { ro: "o clasă",     roF: "niește clase",      ru: "класс (кабинет)",    ruF: "несколько классов" },
+        { ro: "un creion",   roF: "niește creioane",   ru: "карандаш",           ruF: "несколько карандашей" },
+        { ro: "o riglă",     roF: "niește rigle",      ru: "линейка",            ruF: "несколько линеек" },
+        { ro: "o gumă",      roF: "niește gume",       ru: "ластик",             ruF: "несколько ластиков" },
+        { ro: "un rucsac",   roF: "niește rucsacuri",  ru: "рюкзак",             ruF: "несколько рюкзаков" },
+        { ro: "o hartă",     roF: "niește hărți",      ru: "карта (география)",  ruF: "несколько карт" },
+        { ro: "o tablă",     roF: "niește table",      ru: "доска",              ruF: "несколько досок" },
+        { ro: "un frate",    roF: "niște frați",       ru: "брат",               ruF: "несколько братьев" },
+        { ro: "un student",  roF: "niește studenți",   ru: "студент",            ruF: "несколько студентов" },
+        { ro: "un bunic",    roF: "niște bunici",      ru: "дедушка",            ruF: "несколько дедушек" },
+        { ro: "un medic",    roF: "niește medici",     ru: "врач",               ruF: "несколько врачей" },
         { ro: "un coleg",    roF: "niește colegi",    ru: "коллега",            ruF: "несколько коллег" },
-        { ro: "un pedagog",  roF: "niește pedagogi",  ru: "педагог",            ruF: "несколько педагогов" }
+        { ro: "un pedagog",  roF: "niește pedagogi",  ru: "педагог",            ruF: "несколько педагогов" },
+        { ro: "doi / două",  ru: "два / две" }
       ],
       phrases: [
         { ro: "Este un pix.", ru: "Это ручка." },
@@ -859,16 +860,17 @@ const COURSE = {
         { ro: "Este un creion.", ru: "Это карандаш." },
         { ro: "Este o hartă.",   ru: "Это карта." },
         { ro: "Sunt niște studenți.", ru: "Это несколько студентов." },
-        { ro: "Sunt niește colegi.",   ru: "Это несколько коллег." }
+        { ro: "Sunt niește colegi.",   ru: "Это несколько коллег." },
+        { ro: "Sunt niește frați.",    ru: "Это несколько братьев." }
       ],
       gaps: [
         { text: "___ pix",   answer: "un", options: ["un", "o"] },
         { text: "___ masă",  answer: "o",  options: ["un", "o"] },
         { text: "___ caiet", answer: "un", options: ["un", "o"] },
-        { text: "un student → niște ___", answer: "studenți", options: ["studenți", "studente", "studenturi"] },
-        { text: "un băiat → niește ___",   answer: "băieți",   options: ["băieți", "băiați", "băiate"] },
+        { text: "un frate → niște ___",    answer: "frați",    options: ["frați", "frate", "frateuri"] },
+        { text: "un student → niește ___", answer: "studenți", options: ["studenți", "studente", "studenturi"] },
+        { text: "un bunic → niește ___",   answer: "bunici",   options: ["bunici", "bunicuri", "bunice"] },
         { text: "un medic → niește ___",   answer: "medici",   options: ["medici", "mediți", "medicuri"] },
-        { text: "un porc → niește ___",    answer: "porci",    options: ["porci", "porcuri", "porce"] },
         { text: "un coleg → niește ___",   answer: "colegi",   options: ["colegi", "colegiuri", "colege"] },
         { text: "un pedagog → niește ___", answer: "pedagogi", options: ["pedagogi", "pedagoge", "pedagoguri"] }
       ]
@@ -1005,26 +1007,12 @@ const COURSE = {
         { ro: "dimineața",      ru: "утром" },
         { ro: "seara",          ru: "вечером" },
         { ro: "noaptea",        ru: "ночью" },
-        { ro: "zero",                    ru: "ноль" },
         { ro: "unu / una",               ru: "один / одна" },
-        { ro: "doi / două",              ru: "два / две" },
         { ro: "trei",                    ru: "три" },
-        { ro: "patru",                   ru: "четыре" },
-        { ro: "cinci",                   ru: "пять" },
         { ro: "șase",                    ru: "шесть" },
-        { ro: "șapte",                   ru: "семь" },
         { ro: "opt",                     ru: "восемь" },
-        { ro: "nouă",                    ru: "девять" },
         { ro: "zece",                    ru: "десять" },
-        { ro: "unsprezece",              ru: "одиннадцать" },
         { ro: "doisprezece / douăsprezece", ru: "двенадцать" },
-        { ro: "treisprezece",            ru: "тринадцать" },
-        { ro: "paisprezece",             ru: "четырнадцать" },
-        { ro: "cincisprezece",           ru: "пятнадцать" },
-        { ro: "șaisprezece",             ru: "шестнадцать" },
-        { ro: "șaptesprezece",           ru: "семнадцать" },
-        { ro: "optsprezece",             ru: "восемнадцать" },
-        { ro: "nouăsprezece",            ru: "девятнадцать" },
         { ro: "douăzeci",                ru: "двадцать" }
       ],
       phrases: [
@@ -5222,11 +5210,17 @@ function donePool() {
   return COURSE.units.filter(u => state.done.includes(u.id)).flatMap(u => u.words);
 }
 
+function formRulePool() {
+  // Правило = юнит: у него уже есть sub (тема) и gaps (однотипные примеры).
+  return COURSE.units.filter(u => !u.isStory && state.done.includes(u.id) && u.gaps && u.gaps.length);
+}
+
 function renderPractice() {
   const pool = donePool();
   const enoughForQuiz = pool.length >= 4;
   const mistakes = loadMistakes();
   const blitzBest = Number(localStorage.getItem("romana:blitzBest") || 0);
+  const rules = formRulePool();
 
   screens.practice.innerHTML = `
     <div class="head"><h1 class="ro">Тренировка</h1></div>
@@ -5248,6 +5242,11 @@ function renderPractice() {
       enabled: enoughForQuiz, onClick: startListening
     },
     {
+      id: "formTrainer", icon: "🎯", name: "Тренажёр формы",
+      sub: rules.length ? "20 примеров подряд на одно правило — выберите правило" : "Сначала пройдите юнит с грамматикой",
+      enabled: rules.length > 0, onClick: renderFormTrainerPicker
+    },
+    {
       id: "mistakes", icon: "🔁", name: "Работа над ошибками",
       sub: mistakes.length ? `${mistakes.length} слов на повтор` : "Пока нет ошибок — и хорошо",
       enabled: mistakes.length > 0, onClick: startMistakes
@@ -5265,6 +5264,85 @@ function renderPractice() {
     if (item.enabled) btn.onclick = item.onClick;
     list.appendChild(btn);
   });
+}
+
+function renderFormTrainerPicker() {
+  const rules = formRulePool();
+  screens.practice.innerHTML = `
+    <button class="back" id="back">← Тренировка</button>
+    <div class="head"><h1 class="ro">Тренажёр формы</h1></div>
+    <p class="section-title" style="margin-top:0">Выберите правило</p>
+    <div id="rule-list"></div>
+  `;
+  screens.practice.querySelector("#back").onclick = () => renderPractice();
+  const list = screens.practice.querySelector("#rule-list");
+  rules.forEach(unit => {
+    const btn = document.createElement("button");
+    btn.className = "setcard";
+    btn.innerHTML = `
+      <div class="setcard-name">${unit.sub || unit.name}</div>
+      <div class="setcard-sub">${unit.name}</div>
+    `;
+    btn.onclick = () => startFormTrainer(unit);
+    list.appendChild(btn);
+  });
+}
+
+function startFormTrainer(unit) {
+  const TOTAL = 20;
+  const queue = [];
+  while (queue.length < TOTAL) queue.push(...shuffle(unit.gaps));
+  queue.length = TOTAL;
+  let idx = 0, score = 0;
+
+  function ask() {
+    if (idx >= TOTAL) return finish();
+    const g = queue[idx];
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Тренажёр формы</h1></div>
+      <p class="section-title" style="margin-top:0">${unit.sub || unit.name} · ${idx + 1} из ${TOTAL}</p>
+      <div class="card prompt">
+        <p class="task">Выберите правильную форму</p>
+        <p class="subject small ro">${g.text}</p>
+      </div>
+      <ul class="options" id="opts"></ul>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    const optList = screens.practice.querySelector("#opts");
+    shuffle(g.options).forEach(opt => {
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "option ro";
+      btn.textContent = opt;
+      btn.onclick = () => {
+        if (btn.disabled) return;
+        optList.querySelectorAll("button").forEach(b => b.disabled = true);
+        if (opt === g.answer) { score++; btn.classList.add("is-correct"); }
+        else {
+          btn.classList.add("is-wrong");
+          optList.querySelectorAll("button").forEach(b => { if (b.textContent === g.answer) b.classList.add("is-correct"); });
+        }
+        setTimeout(() => { idx++; ask(); }, opt === g.answer ? 500 : 900);
+      };
+      li.appendChild(btn);
+      optList.appendChild(li);
+    });
+  }
+
+  function finish() {
+    screens.practice.innerHTML = `
+      <button class="back" id="back">← Тренировка</button>
+      <div class="head"><h1 class="ro">Тренажёр формы окончен</h1></div>
+      <p class="section-title" style="margin-top:0">${unit.sub || unit.name}</p>
+      <p style="font-size:32px; font-weight:900; margin:0 0 14px;">${score} из ${TOTAL}</p>
+      <button class="primary" id="again">Пройти ещё раз</button>
+    `;
+    screens.practice.querySelector("#back").onclick = () => renderPractice();
+    screens.practice.querySelector("#again").onclick = () => startFormTrainer(unit);
+  }
+
+  ask();
 }
 
 function practiceOptions(pool, correct, dir) {
