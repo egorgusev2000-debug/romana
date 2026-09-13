@@ -473,12 +473,13 @@
    ЧАСТЬ 1. СОДЕРЖАНИЕ КУРСА
    ========================================================================== */
 
-// Уровни курса (A1, потом A2, A3…). Переключателя в интерфейсе пока
-// нет — он появится вместе с A2, — но данные уже размечены по уровням,
-// чтобы новый уровень не потребовал переделки. totalUnits — из
-// course-a1.md, для строки «Уровень A1 · N из 38» над путём курса.
+// Уровни курса (A1, потом A2, A3…). Переключатель A1/A2 — над путём
+// курса на экране «Курс» (см. renderHome). totalUnits — число юнитов
+// уровня; 0 значит «программа ещё не построена» — тогда экран курса
+// показывает только заглушку «Уровень N в работе».
 const LEVELS = {
-  A1: { title: "Уровень A1", totalUnits: 40 }
+  A1: { title: "Уровень A1", totalUnits: 40 },
+  A2: { title: "Уровень A2", totalUnits: 0 }
 };
 
 // Названия секций по уровням: SECTION_TITLES[level][номер секции].
@@ -4133,7 +4134,7 @@ const state = {
   done: [], streak: 0, lastDay: null,
   current: null, step: 0, score: 0, answered: false,
   query: "", openSet: null, setsTab: "topic",
-  sound: true
+  sound: true, level: "A1"
 };
 
 /* ---------- Сохранение прогресса ----------
@@ -4166,6 +4167,7 @@ function loadProgress() {
 
     state.done = Array.isArray(saved.done) ? saved.done : [];
     state.lastDay = saved.lastDay || null;
+    state.level = saved.level === "A2" ? "A2" : "A1";
 
     // Стрик жив, если последний урок был сегодня или вчера. Иначе сгорел.
     if (state.lastDay === today() || state.lastDay === yesterday()) {
@@ -4184,7 +4186,8 @@ function saveProgress() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
       done: state.done,
       streak: state.streak,
-      lastDay: state.lastDay
+      lastDay: state.lastDay,
+      level: state.level
     }));
   } catch (e) {
     /* не сохранилось — не страшно, урок всё равно засчитан в этой сессии */
@@ -4513,11 +4516,46 @@ function goToPath() {
 
 /* ---------- Главный экран ---------- */
 
+function bindLevelTabs() {
+  Object.keys(LEVELS).forEach(lv => {
+    const btn = screens.home.querySelector(`#level-${lv.toLowerCase()}`);
+    if (btn) btn.onclick = () => {
+      if (state.level === lv) return;
+      state.level = lv;
+      saveProgress();
+      renderHome();
+    };
+  });
+}
+
 function renderHome() {
-  // Переключателя уровней ещё нет — пока всегда A1, но именно из-за
-  // этой константы, а не из захардкоженных текстов ниже: A2 подключится
-  // добавлением записи в LEVELS без переделки этой функции.
-  const level = "A1";
+  const level = state.level;
+  const levelTabs = `
+    <div class="tabs" role="tablist">
+      ${Object.keys(LEVELS).map(lv => `
+        <button class="tab" id="level-${lv.toLowerCase()}" role="tab" aria-selected="${level === lv}">${lv}</button>
+      `).join("")}
+    </div>
+  `;
+
+  // Уровень пока без построенных юнитов (A2 и дальше) — показываем
+  // переключатель и заглушку, ничего больше не считаем и не рисуем.
+  if (LEVELS[level].totalUnits === 0) {
+    screens.home.innerHTML = `
+      <div class="head">
+        <h1 class="ro">Româna</h1>
+        <span class="streak">${state.streak > 0
+          ? state.streak + " " + dayWord(state.streak) + " подряд"
+          : "Начните сегодня"}</span>
+      </div>
+      ${MOTIF}
+      ${levelTabs}
+      <p class="empty">${LEVELS[level].title} в работе</p>
+    `;
+    bindLevelTabs();
+    return;
+  }
+
   // «История» (unit.isStory) — не юнит, в счёт «N из 40» не входит,
   // но всё равно идёт на пути внутри своей секции (см. ниже).
   const levelUnits = COURSE.units.filter(u => u.level === level && !u.isStory);
@@ -4540,10 +4578,13 @@ function renderHome() {
         : "Начните сегодня"}</span>
     </div>
     ${MOTIF}
+    ${levelTabs}
     <p class="section-title" style="margin-top:0">${LEVELS[level].title} · ${levelDone} из ${LEVELS[level].totalUnits}</p>
     <div id="unit-list"></div>
     ${levelDone ? '<button class="back" id="reset" style="margin-top:6px">Сбросить прогресс</button>' : ""}
   `;
+
+  bindLevelTabs();
 
   const reset = screens.home.querySelector("#reset");
   if (reset) reset.onclick = () => {
@@ -5668,11 +5709,31 @@ function startMistakes() {
 /* ---------- Прогресс ---------- */
 
 function renderProgress() {
-  const level = "A1";
-  const levelUnits = COURSE.units.filter(u => u.level === level && !u.isStory);
-  const doneUnits = levelUnits.filter(u => state.done.includes(u.id));
-  const wordsLearned = doneUnits.flatMap(u => u.words)
-    .filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i).length;
+  // Прогресс считается отдельно по каждому уровню, а не одним числом
+  // на весь курс — у каждого уровня своя цель по юнитам и свои слова.
+  const levelBlocks = Object.keys(LEVELS).map(level => {
+    if (LEVELS[level].totalUnits === 0) {
+      return `
+        <p class="section-title">${LEVELS[level].title}</p>
+        <p class="empty">В работе</p>
+      `;
+    }
+    const levelUnits = COURSE.units.filter(u => u.level === level && !u.isStory);
+    const doneUnits = levelUnits.filter(u => state.done.includes(u.id));
+    const wordsLearned = doneUnits.flatMap(u => u.words)
+      .filter((w, i, arr) => arr.findIndex(x => x.ro === w.ro) === i).length;
+    return `
+      <p class="section-title">${LEVELS[level].title}</p>
+      <div class="card" style="padding:20px; margin-bottom:14px;">
+        <p class="section-title" style="margin-top:0">Юниты курса</p>
+        <p style="font-size:32px; font-weight:900; margin:0;">${doneUnits.length} из ${LEVELS[level].totalUnits}</p>
+      </div>
+      <div class="card" style="padding:20px; margin-bottom:14px;">
+        <p class="section-title" style="margin-top:0">Слова курса</p>
+        <p style="font-size:32px; font-weight:900; margin:0;">${wordCount(wordsLearned)}</p>
+      </div>
+    `;
+  }).join("");
 
   screens.progress.innerHTML = `
     <div class="head"><h1 class="ro">Мой прогресс</h1></div>
@@ -5680,14 +5741,7 @@ function renderProgress() {
       <p class="section-title" style="margin-top:0">Стрик</p>
       <p style="font-size:32px; font-weight:900; margin:0;">${state.streak > 0 ? state.streak + " " + dayWord(state.streak) : "0 дней"}</p>
     </div>
-    <div class="card" style="padding:20px; margin-bottom:14px;">
-      <p class="section-title" style="margin-top:0">Юниты курса</p>
-      <p style="font-size:32px; font-weight:900; margin:0;">${doneUnits.length} из ${LEVELS[level].totalUnits}</p>
-    </div>
-    <div class="card" style="padding:20px;">
-      <p class="section-title" style="margin-top:0">Слова курса</p>
-      <p style="font-size:32px; font-weight:900; margin:0;">${wordCount(wordsLearned)}</p>
-    </div>
+    ${levelBlocks}
   `;
 }
 
