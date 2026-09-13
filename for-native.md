@@ -368,6 +368,57 @@
 
 ---
 
+## Секция 1 уровня A2. Снова за румынский
+
+1. **Регистр dumneata против dumneavoastră** — самое сомнительное
+   место секции. Написано: dumneavoastră — для незнакомых, врача,
+   начальства, официально; dumneata — теплее, для знакомого соседа
+   или пожилого родственника, но «бывает ироничный оттенок». Верно
+   ли это разделение, и не устарело ли dumneata в живой речи —
+   стоит ли вообще давать его как рабочий регистр, а не музейное
+   слово?
+2. **Dumitale** дано как косвенный падеж dumneata («тебе», «твой»):
+   `Îi dau cartea dumitale.` Насколько это живая форма, не звучит ли
+   архаично?
+3. **Dânsul / dânsa / dânșii / dânsele** описаны как «нейтрально-
+   вежливые», взаимозаменимые с el/ea/ei/ele. Так ли это сейчас, или
+   dânsul воспринимается как канцелярское/устаревшее и в разговоре
+   почти не используется?
+4. Сокращения **dlui** (domnului) и **dnei** (doamnei) — действительно
+   ли так сокращают на письме, или это не общепринятая практика?
+5. Противопоставление **voi (письменное/официальное) — o să
+   (разговорное)** для будущего времени — верная ли это рамка, или
+   граница проходит не совсем так?
+6. Список особых форм третьего лица конъюнктива после `o să` (să fie,
+   să aibă, să meargă, să vină, să dea, să stea, să știe, să poată) —
+   стандартная грамматика, риск невысокий, но стоит сверить целиком
+   одним взглядом.
+
+## Секция 2 уровня A2. На работе
+
+1. **Объяснение имперфект/перфект через русский вид** («lucram» —
+   «работал», «am lucrat» — «поработал, проработал») — главная
+   методическая ставка секции. Помогает ли это объяснение
+   русскоязычному, или вводит в заблуждение в каких-то случаях?
+   Самое важное, что стоит проверить в этой секции.
+2. Полные таблицы имперфекта восьми глаголов (a lucra, a învăța,
+   a merge, a vedea, a citi, a vorbi, a fi, a avea) и трёх возвратных
+   (a se trezi, a se spăla, a se îmbrăca) — были даны автором задачи
+   целиком, не выводились самостоятельно, но стоит сверить, нет ли
+   опечатки при переносе в приложение.
+3. **Avans в середине месяца, salariu в конце** — культурная строка
+   про зарплату в два транша, дана автором задания как факт. Стоит
+   уточнить у носителя точность формулировки (всегда ли именно
+   «середина» и «конец», или сроки варьируются).
+4. **Un termen limită** для «дедлайн, срок сдачи» — естественный ли
+   это оборот, или в разговоре чаще звучит заимствованное «deadline»
+   или просто «termen»?
+5. Остальная офисная лексика (un proiect, o sarcină, o echipă,
+   un raport, un formular и так далее) — общеизвестные интернационализмы
+   и стандартные слова, риск невысокий.
+
+---
+
 ## Придумано в сессии, не сверено
 
 Сеть в среде Claude Code не даёт доступа к `mec.gov.md` и
@@ -390,6 +441,38 @@
   iunie.`, `Mâine este cincisprezece iunie.` (`s2-5`). Все — из уже
   известных слов и стандартной грамматики, но как целые фразы
   составлены заново, сверить не с чем.
+- **2026-09-13 (сессия «секции 1 и 2 уровня A2»):** новые фразы для
+  упражнения «собери фразу» во всех восьми юнитах — целиком составлены
+  заново, сверить не с чем.
+  - `a2-s1-1`: `Vreau să continuăm cursul împreună.`, `Sunt deja la
+    nivelul doi.`, `Lecția este ușoară, dar exercițiul este greu.`,
+    `Exersăm împreună în fiecare zi.`, `Aproape am înțeles totul.`
+  - `a2-s1-2`: `Dumneavoastră lucrați aici?`, `Dumneata lucrezi aici?`,
+    `Dumnealui este vecinul meu.`, `Dânsa este doamna Popescu.`,
+    `Dacă nu sunteți sigur, spuneți dumneavoastră.`
+  - `a2-s1-3`: `Care carte este a ta?`, `Ce fel de muzică asculți?`,
+    `De cât timp lucrezi aici?`, `De câte ori pe săptămână exersezi?`,
+    `Lucrez aici de mult.`
+  - `a2-s1-4`: `Voi lucra mâine.`, `O să lucrez mâine.`, `Vom merge la
+    piață.`, `O să mergem la piață.`, `El va veni mâine.`, `El o să
+    vină mâine.`
+  - `a2-s2-1`: `Înainte lucram la o firmă mică.`, `Aveam un șef bun.`,
+    `Colegii mei erau simpatici.`, `Mergeam la birou pe jos.`
+  - `a2-s2-2`: `De obicei începeam lucrul la ora opt.`, `Pe atunci
+    terminam lucrul la ora cinci.`, `Aveam mereu o pauză de masă la
+    prânz.`, `Când eram mic, voiam să fiu doctor.`
+  - `a2-s2-3`: `Ai citit cartea asta?`, `Da, am citit cartea.`, `Ieri
+    am semnat contractul.`, `Înainte lucram la o firmă mică, apoi am
+    început la o firmă mare.`, `De obicei terminam lucrul la ora
+    cinci, dar ieri am terminat la ora șapte.`
+  - `a2-s2-4`: `Mă trezeam devreme când lucram la firmă.`, `Ne
+    trezeam și ne îmbrăcam repede dimineața.`, `Șeful era ocupat, iar
+    eu eram liber.`, `Aveam experiență, dar salariul era mic.`
+
+  Кроме этого списка, все тексты заданий «вставь слово» (`gaps`) в
+  этих восьми юнитах — тоже целые составленные предложения на той же
+  лексике и грамматике, их около 65 штук на все юниты; отдельно не
+  перечислены из-за объёма, смотреть прямо в `index.html`.
 
 ## Как этим пользоваться
 
