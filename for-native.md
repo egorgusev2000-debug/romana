@@ -417,6 +417,55 @@
    un raport, un formular и так далее) — общеизвестные интернационализмы
    и стандартные слова, риск невысокий.
 
+## Секция 3 уровня A2. Услуги
+
+1. **Форма «ты» глагола a scrie в повелительном** — самое сомнительное
+   место секции. По правилу юнита `a2-s3-1` («у остальных глаголов
+   форма «ты!» совпадает с формой «ты» настоящего времени») должно
+   получиться `scrii` (как `tu scrii`), а не `scrie` — при этом
+   отрицательная форма `nu scrie` (юнит `a2-s3-3`, инфинитив без «a»)
+   получается ровно тем же словом `scrie`. Логика правила проверена
+   на нескольких других глаголах и сходится, но сам факт, что
+   утвердительное «пиши!» = `scrii`, а отрицательное «не пиши!» =
+   `scrie` — не показался ли этот конкретный глагол исключением,
+   которое ведёт себя иначе?
+2. **Serviciul** переведено как «услуга, сервис» — то же слово в
+   румынском очень часто означает «работа, служба» (`a merge la
+   serviciu` — «идти на работу»). В контексте секции про мастеров и
+   ремонт нет ли риска, что это слово прочитают именно как «работа»
+   и запутаются с секцией 2?
+3. Список особых глаголов повелительного (`a2-s3-2`: vino, fă, zi,
+   du, adu, fii, dă) и их отрицательных форм (`a2-s3-3`: nu veni, nu
+   face, nu zice, nu duce, nu fi) — стандартная грамматика, но список
+   большой и рисует полную картину только вместе, стоит сверить
+   целиком одним взглядом.
+4. **Hai/haideți** описаны как дружеское, не для незнакомых людей —
+   верно ли это ограничение, или это общеупотребимое приглашение,
+   уместное практически везде?
+5. Порядковые числительные (`a2-s3-4`) даны без утверждения о счёте
+   этажей (открытый вопрос про parter/etajul всё ещё не решён, здесь
+   он не затрагивается — пример «Locuiesc la etajul al treilea» не
+   переводится на русский номер этажа). Остальная лексика секции
+   (maistrul, reparația, aparatul) — общеизвестная, риск невысокий.
+
+## Секция 4 уровня A2. Счета и банк
+
+1. **Al cui/a cui/ai cui** и согласование артикля с обладаемым, а не
+   с обладателем (`un coleg al meu`, но `colegi ai mei`) — стандартная
+   грамматика, но стоит сверить все восемь примеров в заметке юнита
+   `a2-s4-1` одним взглядом на естественность подобранных фраз.
+2. **Achit/a achita** дано как более официальный синоним уже
+   известного `a plăti` — действительно ли `a achita` used именно в
+   банковском/официальном контексте, или это не самое частое слово в
+   разговоре о счетах?
+3. Культурная строка про счета за газ и свет от разных компаний и
+   оплату через Poșta Moldovei — дана автором задания как факт, но
+   стоит уточнить, актуальна ли она (не поменялась ли схема оплаты).
+4. Остальная банковская и почтовая лексика (chitanța, suma, datoria,
+   transfer, comision, credit, rată, dobândă и так далее) — в основном
+   интернационализмы и общеизвестные слова из уже существующего
+   набора словаря «Банк и деньги», риск невысокий.
+
 ---
 
 ## Придумано в сессии, не сверено
@@ -472,6 +521,39 @@
   Кроме этого списка, все тексты заданий «вставь слово» (`gaps`) в
   этих восьми юнитах — тоже целые составленные предложения на той же
   лексике и грамматике, их около 65 штук на все юниты; отдельно не
+  перечислены из-за объёма, смотреть прямо в `index.html`.
+- **2026-09-13 (сессия «секции 3 и 4 уровня A2»):** новые фразы для
+  упражнения «собери фразу» во всех восьми юнитах — целиком составлены
+  заново, сверить не с чем.
+  - `a2-s3-1`: `Chemați un maistru, vă rog!`, `Aparatul este stricat
+    și nu funcționează.`, `Ascultă bine și scrie adresa!`, `Am nevoie
+    de un serviciu de reparații.`, `Comand o reparație urgentă.`
+  - `a2-s3-2`: `Fă curat în cameră!`, `Zi adresa, te rog!`, `Du coletul
+    la poștă!`, `Adu maistrul mâine!`, `Hai să chemăm un maistru!`,
+    `Fii atent la preț!`
+  - `a2-s3-3`: `Nu asculta muzică la serviciu!`, `Nu merge acolo!`,
+    `Nu scrie cu pixul meu!`, `Nu face zgomot, copiii dorm!`, `Nu veni
+    fără programare!`, `Nu fi nervos, maistrul vine mâine!`
+  - `a2-s3-4`: `Locuiesc la etajul al treilea.`, `Ea este prima în
+    rând.`, `Al câtelea ești în rând?`, `Aceasta este a doua reparație
+    luna asta.`, `Astăzi este a cincea zi de muncă.`
+  - `a2-s4-1`: `Acest cont este al meu.`, `Această factură este a
+    mea.`, `Aceste carduri sunt ale mele.`, `Acești bani sunt ai mei.`,
+    `Al cui este acest cont?`
+  - `a2-s4-2`: `Unul este liber, altul este ocupat.`, `Una este nouă,
+    alta este veche.`, `Unii lucrează la bancă, alții la poștă.`,
+    `Unele facturi sunt plătite, altele nu.`, `Certificatul este
+    eliberat de primărie.`
+  - `a2-s4-3`: `Lucrez la bancă de luni.`, `Programul este de la ora
+    opt până la ora cinci.`, `De când lucrezi aici?`, `Până când este
+    deschis ghișeul?`, `Bancomatul funcționează non-stop.`
+  - `a2-s4-4`: `Achit factura la bancă.`, `Care este suma datoriei?`,
+    `Am plătit gazul și lumina luna trecută.`, `Puteți achita la
+    oficiul poștal.`, `Chitanța este a mea.`
+
+  Кроме этого списка, все тексты заданий «вставь слово» (`gaps`) в
+  этих восьми юнитах — тоже целые составленные предложения на той же
+  лексике и грамматике, их около 64 штук на все юниты; отдельно не
   перечислены из-за объёма, смотреть прямо в `index.html`.
 
 ## Как этим пользоваться

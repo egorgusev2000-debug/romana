@@ -479,7 +479,7 @@
 // показывает только заглушку «Уровень N в работе».
 const LEVELS = {
   A1: { title: "Уровень A1", totalUnits: 40 },
-  A2: { title: "Уровень A2", totalUnits: 8 }
+  A2: { title: "Уровень A2", totalUnits: 16 }
 };
 
 // Названия секций по уровням: SECTION_TITLES[level][номер секции].
@@ -501,7 +501,9 @@ const SECTION_TITLES = {
   },
   A2: {
     1: "Снова за румынский",
-    2: "На работе"
+    2: "На работе",
+    3: "Услуги",
+    4: "Счета и банк"
   }
 };
 
@@ -3581,6 +3583,493 @@ const COURSE = {
         { text: "Ei ___ devreme când erau mici.",                answer: "se trezeau",   options: ["se trezeau", "se trezea", "ne trezeam"] },
         { text: "Tu ___ cu săpun în fiecare dimineață.",         answer: "te spălai",    options: ["te spălai", "mă spălam", "se spăla"] },
         { text: "Copiii ___ singuri dimineața.",                 answer: "se îmbrăcau",  options: ["se îmbrăcau", "se îmbrăca", "ne îmbrăcam"] }
+      ]
+    },
+
+    {
+      id: "a2-s3-1",
+      section: 3,
+      level: "A2",
+      verified: false,
+      name: "Повелительное: правило",
+      sub: "Как получить форму «ты!» и «вы!» из настоящего времени",
+      grammar: {
+        title: "Повелительное наклонение — правило, а не готовые пары",
+        body: [
+          "В A1 повелительное давали готовыми парами «ты — вы» без общего правила (секция 8: vino — veniți, mergi — mergeți, mănâncă — mâncați). Теперь — правило.",
+          "У глаголов на <b>-a</b> и <b>-i</b> форма «ты!» совпадает с формой <b>«он/она»</b> настоящего времени: <b>ascultă!</b> (a asculta), <b>lucrează!</b> (a lucra), <b>citește!</b> (a citi), <b>vorbește!</b> (a vorbi).",
+          "У остальных глаголов форма «ты!» совпадает с формой <b>«ты»</b> настоящего времени: <b>mergi!</b> (a merge, как «tu mergi»), <b>scrii!</b> (a scrie, как «tu scrii»).",
+          "Форма «вы!» — всегда как настоящее время «вы», для любых глаголов: <b>ascultați!, mergeți!, scrieți!</b>. Это уже знакомое правило из A1 (та же форма, что и вежливое dumneavoastră).",
+          "Культура: <b>112</b> — единый номер экстренных служб (скорая, полиция, пожарные). Звонок бесплатный с любого телефона, отвечают и по-русски."
+        ],
+        table: [
+          ["ascultă!",   "слушай! (a asculta, как «он слушает»)"],
+          ["lucrează!",  "работай! (a lucra)"],
+          ["citește!",   "читай! (a citi)"],
+          ["vorbește!",  "говори! (a vorbi)"],
+          ["mergi!",     "иди! (a merge, как «ты идёшь»)"],
+          ["scrii!",     "пиши! (a scrie, как «ты пишешь»)"],
+          ["ascultați!", "слушайте!"],
+          ["mergeți!",   "идите!"],
+          ["scrieți!",   "пишите!"]
+        ]
+      },
+      words: [
+        { ro: "serviciul", ru: "услуга, сервис" },
+        { ro: "maistrul",  ru: "мастер (по ремонту)" },
+        { ro: "a repara",  ru: "чинить, ремонтировать" },
+        { ro: "reparația", ru: "ремонт" },
+        { ro: "un aparat", ru: "прибор (бытовая техника)" },
+        { ro: "stricat", roF: "stricată", ru: "сломанный", ruF: "сломанная" },
+        { ro: "a funcționa", ru: "работать, функционировать (о технике)" },
+        { ro: "a chema",   ru: "вызывать (мастера, врача)" },
+        { ro: "a comanda", ru: "заказывать" },
+        { ro: "urgent", roF: "urgentă", ru: "срочный", ruF: "срочная" },
+        { ro: "o scrisoare", ru: "письмо" },
+        { ro: "a scrie",   ru: "писать" },
+        { ro: "ascultă",   ru: "слушай!" },
+        { ro: "lucrează",  ru: "работай!" },
+        { ro: "citește",   ru: "читай!" },
+        { ro: "vorbește",  ru: "говори!" },
+        { ro: "mergi",     ru: "иди!" },
+        { ro: "scrii",     ru: "пиши!" },
+        { ro: "ascultați", ru: "слушайте!" },
+        { ro: "mergeți",   ru: "идите!" },
+        { ro: "scrieți",   ru: "пишите!" },
+        { ro: "112",       ru: "единый номер экстренных служб" }
+      ],
+      phrases: [
+        { ro: "Chemați un maistru, vă rog!",              ru: "Вызовите мастера, пожалуйста!" },
+        { ro: "Aparatul este stricat și nu funcționează.",ru: "Прибор сломан и не работает." },
+        { ro: "Ascultă bine și scrie adresa!",            ru: "Слушай внимательно и запиши адрес!" },
+        { ro: "Am nevoie de un serviciu de reparații.",   ru: "Мне нужна услуга по ремонту." },
+        { ro: "Comand o reparație urgentă.",              ru: "Я заказываю срочный ремонт." }
+      ],
+      gaps: [
+        { text: "Tu asculți muzică. ___!",   answer: "Ascultă",   options: ["Ascultă", "Asculți", "Ascultați"] },
+        { text: "Tu lucrezi mult. ___!",     answer: "Lucrează",  options: ["Lucrează", "Lucrezi", "Lucrați"] },
+        { text: "Tu citești o carte. ___!",  answer: "Citește",   options: ["Citește", "Citesc", "Citiți"] },
+        { text: "Tu vorbești frumos. ___!",  answer: "Vorbește",  options: ["Vorbește", "Vorbesc", "Vorbiți"] },
+        { text: "Tu mergi acasă. ___!",      answer: "Mergi",     options: ["Mergi", "Merge", "Mergeți"] },
+        { text: "Tu scrii o scrisoare. ___!",answer: "Scrii",     options: ["Scrii", "Scrie", "Scrieți"] },
+        { text: "Voi ascultați radio. ___!", answer: "Ascultați", options: ["Ascultați", "Ascultă", "Ascultăm"] },
+        { text: "Voi mergeți acasă. ___!",   answer: "Mergeți",   options: ["Mergeți", "Mergi", "Mergem"] }
+      ]
+    },
+
+    {
+      id: "a2-s3-2",
+      section: 3,
+      level: "A2",
+      verified: false,
+      name: "Повелительное: особые глаголы",
+      sub: "vino, fă, zi, du, adu, fii, dă — не по правилу",
+      grammar: {
+        title: "Особые глаголы в повелительном",
+        body: [
+          "Эти глаголы не подчиняются правилу из прошлого юнита — формы нужно просто запомнить.",
+          "<b>a veni</b> — vino / veniți (уже знакомо из A1, секция 8).",
+          "<b>a face</b> — fă / faceți. <b>a zice</b> — zi / ziceți. <b>a duce</b> — du / duceți. <b>a aduce</b> — adu / aduceți. <b>a fi</b> — fii / fiți. <b>a da</b> — dă / dați.",
+          "Плюс <b>hai</b> и <b>haideți</b> — «пошли, давай». Это дружеское обращение: незнакомому человеку так не говорят, там — dumneavoastră и обычная форма «вы»."
+        ],
+        table: [
+          ["vino! / veniți!", "приходи! / приходите! (a veni, знакомо из A1)"],
+          ["fă! / faceți!",   "делай! / делайте! (a face)"],
+          ["zi! / ziceți!",   "скажи! / скажите! (a zice)"],
+          ["du! / duceți!",   "неси! / несите! (a duce)"],
+          ["adu! / aduceți!", "принеси! / принесите! (a aduce)"],
+          ["fii! / fiți!",    "будь! / будьте! (a fi)"],
+          ["dă! / dați!",     "дай! / дайте! (a da)"],
+          ["hai! / haideți!", "пошли!, давай! / пошли!, давайте! (дружеское)"]
+        ]
+      },
+      words: [
+        { ro: "fă",       ru: "делай!" },
+        { ro: "faceți",   ru: "делайте!" },
+        { ro: "zi",       ru: "скажи!" },
+        { ro: "ziceți",   ru: "скажите!" },
+        { ro: "du",       ru: "неси!, отнеси!" },
+        { ro: "duceți",   ru: "несите!, отнесите!" },
+        { ro: "adu",      ru: "принеси!" },
+        { ro: "aduceți",  ru: "принесите!" },
+        { ro: "fii",      ru: "будь!" },
+        { ro: "fiți",     ru: "будьте!" },
+        { ro: "dă",       ru: "дай!" },
+        { ro: "dați",     ru: "дайте!" },
+        { ro: "hai",      ru: "пошли!, давай! (дружеское)" },
+        { ro: "haideți",  ru: "пошли!, давайте! (дружеское)" }
+      ],
+      phrases: [
+        { ro: "Fă curat în cameră!",         ru: "Убери в комнате!" },
+        { ro: "Zi adresa, te rog!",          ru: "Скажи адрес, пожалуйста!" },
+        { ro: "Du coletul la poștă!",        ru: "Отнеси посылку на почту!" },
+        { ro: "Adu maistrul mâine!",         ru: "Приведи мастера завтра!" },
+        { ro: "Hai să chemăm un maistru!",   ru: "Давай вызовем мастера!" },
+        { ro: "Fii atent la preț!",          ru: "Будь внимателен к цене!" }
+      ],
+      gaps: [
+        { text: "___ curat în cameră!",       answer: "Fă",       options: ["Fă", "Faci", "Faceți"] },
+        { text: "___ adresa, te rog!",        answer: "Zi",       options: ["Zi", "Zici", "Ziceți"] },
+        { text: "___ coletul la poștă!",      answer: "Du",       options: ["Du", "Duci", "Duceți"] },
+        { text: "___ maistrul mâine!",        answer: "Adu",      options: ["Adu", "Aduci", "Aduceți"] },
+        { text: "___ atent la preț!",         answer: "Fii",      options: ["Fii", "Ești", "Fiți"] },
+        { text: "___ banii, te rog!",         answer: "Dă",       options: ["Dă", "Dai", "Dați"] },
+        { text: "Copii, ___ curat!",          answer: "faceți",   options: ["faceți", "fă", "facem"] },
+        { text: "___ să chemăm un maistru!",  answer: "Hai",      options: ["Hai", "Haideți", "Vino"] }
+      ]
+    },
+
+    {
+      id: "a2-s3-3",
+      section: 3,
+      level: "A2",
+      verified: false,
+      name: "Не делай",
+      sub: "Отрицательное повелительное — не та же форма, что утверждение",
+      extraGaps: 6,
+      grammar: {
+        title: "Отрицательное повелительное: не «не + делай»",
+        body: [
+          "По-русски «делай» и «не делай» — одна и та же форма глагола с частицей «не». По-румынски — нет, и это главная ловушка для русскоязычного.",
+          "Форма «вы»: отрицание такое же, как утверждение, просто с <b>nu</b> впереди — <b>nu ascultați, nu mergeți, nu faceți</b>.",
+          "Форма «ты»: берётся <b>инфинитив без «a»</b> — <b>nu asculta, nu merge, nu face, nu veni, nu zice, nu duce, nu fi</b>. То есть <b>fă</b>, но <b>nu face</b>; <b>vino</b>, но <b>nu veni</b>; <b>scrii</b>, но <b>nu scrie</b>."
+        ],
+        table: [
+          ["ascultă / nu asculta",   "слушай / не слушай"],
+          ["lucrează / nu lucra",    "работай / не работай"],
+          ["mergi / nu merge",       "иди / не иди"],
+          ["scrii / nu scrie",       "пиши / не пиши"],
+          ["vino / nu veni",         "приходи / не приходи"],
+          ["fă / nu face",           "делай / не делай"],
+          ["zi / nu zice",           "скажи / не скажи"],
+          ["du / nu duce",           "неси / не неси"],
+          ["fii / nu fi",            "будь / не будь"],
+          ["ascultați / nu ascultați","слушайте / не слушайте"]
+        ]
+      },
+      words: [
+        { ro: "nu asculta",   ru: "не слушай" },
+        { ro: "nu lucra",     ru: "не работай" },
+        { ro: "nu merge",     ru: "не иди" },
+        { ro: "nu scrie",     ru: "не пиши" },
+        { ro: "nu veni",      ru: "не приходи" },
+        { ro: "nu face",      ru: "не делай" },
+        { ro: "nu zice",      ru: "не говори" },
+        { ro: "nu duce",      ru: "не неси" },
+        { ro: "nu fi",        ru: "не будь" },
+        { ro: "nu ascultați", ru: "не слушайте" },
+        { ro: "nervos", roF: "nervoasă", ru: "нервный", ruF: "нервная" }
+      ],
+      phrases: [
+        { ro: "Nu asculta muzică la serviciu!",   ru: "Не слушай музыку на работе!" },
+        { ro: "Nu merge acolo!",                  ru: "Не ходи туда!" },
+        { ro: "Nu scrie cu pixul meu!",           ru: "Не пиши моей ручкой!" },
+        { ro: "Nu face zgomot, copiii dorm!",     ru: "Не шуми, дети спят!" },
+        { ro: "Nu veni fără programare!",         ru: "Не приходи без записи!" },
+        { ro: "Nu fi nervos, maistrul vine mâine!",ru: "Не нервничай, мастер придёт завтра!" }
+      ],
+      gaps: [
+        { text: "Ascultă! → Nu ___!",         answer: "asculta",    options: ["asculta", "ascultă", "ascultați"] },
+        { text: "Lucrează! → Nu ___!",        answer: "lucra",      options: ["lucra", "lucrează", "lucrați"] },
+        { text: "Mergi! → Nu ___!",           answer: "merge",      options: ["merge", "mergi", "mergeți"] },
+        { text: "Scrii! → Nu ___!",           answer: "scrie",      options: ["scrie", "scrii", "scrieți"] },
+        { text: "Vino! → Nu ___!",            answer: "veni",       options: ["veni", "vino", "veniți"] },
+        { text: "Fă asta! → Nu ___ asta!",    answer: "face",       options: ["face", "fă", "faceți"] },
+        { text: "Zi adresa! → Nu ___ nimic!", answer: "zice",       options: ["zice", "zi", "ziceți"] },
+        { text: "Du coletul! → Nu ___ nimic!",answer: "duce",       options: ["duce", "du", "duceți"] },
+        { text: "Fii atent! → Nu ___ obosit!",answer: "fi",         options: ["fi", "fii", "fiți"] },
+        { text: "Ascultați! → Nu ___!",       answer: "ascultați",  options: ["ascultați", "asculta", "ascultă"] }
+      ]
+    },
+
+    {
+      id: "a2-s3-4",
+      section: 3,
+      level: "A2",
+      verified: false,
+      name: "По порядку",
+      sub: "Порядковые числительные: primul, prima, al doilea, a doua…",
+      grammar: {
+        title: "Порядковые числительные",
+        body: [
+          "Мужской род образуется словом <b>al</b> перед числом, женский — словом <b>a</b> (кроме «первый/первая» — там особые слова <b>primul/prima</b>).",
+          "Применение: этажи, очередь, даты, порядок действий.",
+          "Вопрос «который по счёту»: <b>al câtelea?</b> (муж.), <b>a câta?</b> (жен.)."
+        ],
+        table: [
+          ["primul",     "первый"],       ["prima",     "первая"],
+          ["al doilea",  "второй"],       ["a doua",    "вторая"],
+          ["al treilea", "третий"],       ["a treia",   "третья"],
+          ["al patrulea","четвёртый"],    ["a patra",   "четвёртая"],
+          ["al cincilea","пятый"],        ["a cincea",  "пятая"],
+          ["al șaselea", "шестой"],       ["a șasea",   "шестая"],
+          ["al șaptelea","седьмой"],      ["a șaptea",  "седьмая"],
+          ["al optulea", "восьмой"],      ["a opta",    "восьмая"],
+          ["al nouălea", "девятый"],      ["a noua",    "девятая"],
+          ["al zecelea", "десятый"],      ["a zecea",   "десятая"],
+          ["al câtelea?","который по счёту? (муж.)"],
+          ["a câta?",    "которая по счёту? (жен.)"]
+        ]
+      },
+      words: [
+        { ro: "primul", ru: "первый" }, { ro: "prima", ru: "первая" },
+        { ro: "al doilea", ru: "второй" }, { ro: "a doua", ru: "вторая" },
+        { ro: "al treilea", ru: "третий" }, { ro: "a treia", ru: "третья" },
+        { ro: "al patrulea", ru: "четвёртый" }, { ro: "a patra", ru: "четвёртая" },
+        { ro: "al cincilea", ru: "пятый" }, { ro: "a cincea", ru: "пятая" },
+        { ro: "al șaselea", ru: "шестой" }, { ro: "a șasea", ru: "шестая" },
+        { ro: "al șaptelea", ru: "седьмой" }, { ro: "a șaptea", ru: "седьмая" },
+        { ro: "al optulea", ru: "восьмой" }, { ro: "a opta", ru: "восьмая" },
+        { ro: "al nouălea", ru: "девятый" }, { ro: "a noua", ru: "девятая" },
+        { ro: "al zecelea", ru: "десятый" }, { ro: "a zecea", ru: "десятая" },
+        { ro: "al câtelea", ru: "который по счёту? (муж.)" },
+        { ro: "a câta", ru: "которая по счёту? (жен.)" },
+        { ro: "etajul", ru: "этаж" },
+        { ro: "rândul", ru: "очередь" }
+      ],
+      phrases: [
+        { ro: "Locuiesc la etajul al treilea.",           ru: "Я живу на третьем этаже." },
+        { ro: "Ea este prima în rând.",                   ru: "Она первая в очереди." },
+        { ro: "Al câtelea ești în rând?",                 ru: "Который ты по счёту в очереди?" },
+        { ro: "Aceasta este a doua reparație luna asta.", ru: "Это второй ремонт в этом месяце." },
+        { ro: "Astăzi este a cincea zi de muncă.",        ru: "Сегодня пятый рабочий день." }
+      ],
+      gaps: [
+        { text: "Este ___ etaj.",              answer: "primul",     options: ["primul", "prima", "primii"] },
+        { text: "Este ___ carte.",              answer: "prima",      options: ["prima", "primul", "primele"] },
+        { text: "El este ___ în rând.",         answer: "al doilea",  options: ["al doilea", "a doua", "al treilea"] },
+        { text: "Ea este ___ în rând.",         answer: "a doua",     options: ["a doua", "al doilea", "a treia"] },
+        { text: "Locuiesc la ___ etaj.",        answer: "al treilea", options: ["al treilea", "a treia", "al patrulea"] },
+        { text: "___ ești în rând?",            answer: "Al câtelea", options: ["Al câtelea", "A câta", "Care"] },
+        { text: "___ este reparația asta?",     answer: "A câta",     options: ["A câta", "Al câtelea", "Ce fel de"] },
+        { text: "Este ___ zi de muncă.",        answer: "a cincea",   options: ["a cincea", "al cincilea", "a șasea"] }
+      ]
+    },
+
+    {
+      id: "a2-s4-1",
+      section: 4,
+      level: "A2",
+      verified: false,
+      name: "Чей",
+      sub: "Притяжательный артикль a / al / ai / ale",
+      extraGaps: 6,
+      grammar: {
+        title: "Притяжательный артикль: al / a / ai / ale",
+        body: [
+          "Артикль согласуется с тем, <b>что</b> принадлежит, а не с владельцем.",
+          "<b>al</b> — один предмет мужского рода: <b>un coleg al meu</b>. <b>a</b> — один предмет женского рода: <b>o carte a mea</b>. <b>ai</b> — много мужского рода: <b>colegi ai mei</b>. <b>ale</b> — много женского рода: <b>cărți ale mele</b>.",
+          "Вопрос: <b>al cui?</b>, <b>a cui?</b>, <b>ai cui?</b>, <b>ale cui?</b>"
+        ],
+        table: [
+          ["al — один предмет м.р.", "un coleg al meu — один мой коллега"],
+          ["a — один предмет ж.р.",  "o carte a mea — одна моя книга"],
+          ["ai — много м.р.",        "colegi ai mei — несколько моих коллег"],
+          ["ale — много ж.р.",       "cărți ale mele — несколько моих книг"],
+          ["al cui?", "чей? (м.р. ед.)"], ["a cui?", "чья? (ж.р. ед.)"],
+          ["ai cui?", "чьи? (м.р. мн.)"], ["ale cui?", "чьи? (ж.р. мн.)"]
+        ]
+      },
+      words: [
+        { ro: "un coleg al meu",  ru: "один мой коллега" },
+        { ro: "o carte a mea",    ru: "одна моя книга" },
+        { ro: "colegi ai mei",    ru: "несколько моих коллег" },
+        { ro: "cărți ale mele",   ru: "несколько моих книг" },
+        { ro: "al cui",  ru: "чей (м.р. ед.)" },
+        { ro: "a cui",   ru: "чья (ж.р. ед.)" },
+        { ro: "ai cui",  ru: "чьи (м.р. мн.)" },
+        { ro: "ale cui", ru: "чьи (ж.р. мн.)" },
+        { ro: "propriu", roF: "proprie", ru: "собственный", ruF: "собственная" },
+        { ro: "personal", roF: "personală", ru: "личный", ruF: "личная" },
+        { ro: "act", ru: "документ" },
+        { ro: "buletin de identitate", ru: "удостоверение личности" },
+        { ro: "semnătură", ru: "подпись" },
+        { ro: "ștampilă", ru: "печать" },
+        { ro: "cerere", ru: "заявление" },
+        { ro: "a depune", ru: "подать (заявление)" },
+        { ro: "adeverință", ru: "справка (с места работы)" }
+      ],
+      phrases: [
+        { ro: "Acest cont este al meu.",       ru: "Этот счёт мой." },
+        { ro: "Această factură este a mea.",   ru: "Эта квитанция моя." },
+        { ro: "Aceste carduri sunt ale mele.",  ru: "Эти карты мои." },
+        { ro: "Acești bani sunt ai mei.",       ru: "Эти деньги мои." },
+        { ro: "Al cui este acest cont?",        ru: "Чей это счёт?" }
+      ],
+      gaps: [
+        { text: "Acest cont este ___ meu.",         answer: "al",     options: ["al", "a", "ai"] },
+        { text: "Această factură este ___ mea.",    answer: "a",      options: ["a", "al", "ale"] },
+        { text: "Acești bani sunt ___ mei.",        answer: "ai",     options: ["ai", "ale", "al"] },
+        { text: "Aceste carduri sunt ___ mele.",    answer: "ale",    options: ["ale", "ai", "a"] },
+        { text: "___ este acest cont?",             answer: "Al cui", options: ["Al cui", "A cui", "Ai cui"] },
+        { text: "___ este această factură?",        answer: "A cui",  options: ["A cui", "Al cui", "Ale cui"] },
+        { text: "Colegul acesta este ___ meu.",     answer: "al",     options: ["al", "a", "ale"] },
+        { text: "Prietenele acestea sunt ___ mele.",answer: "ale",    options: ["ale", "ai", "a"] }
+      ]
+    },
+
+    {
+      id: "a2-s4-2",
+      section: 4,
+      level: "A2",
+      verified: false,
+      name: "Один и другой",
+      sub: "unul / altul, una / alta, unii / alții, unele / altele",
+      grammar: {
+        title: "unul / altul — один из нескольких и другой из тех же",
+        body: [
+          "Четыре пары по роду и числу: <b>unul — altul</b> (м.р. ед.), <b>una — alta</b> (ж.р. ед.), <b>unii — alții</b> (м.р. мн.), <b>unele — altele</b> (ж.р. мн.).",
+          "Смысл: один из нескольких предметов/людей и другой из тех же."
+        ],
+        table: [
+          ["unul — altul",   "один — другой (м.р. ед.)"],
+          ["una — alta",     "одна — другая (ж.р. ед.)"],
+          ["unii — alții",   "один из... — другие (м.р. мн.)"],
+          ["unele — altele", "одни — другие (ж.р. мн.)"]
+        ]
+      },
+      words: [
+        { ro: "unul",  ru: "один (м.р. ед.)" },
+        { ro: "altul", ru: "другой (м.р. ед.)" },
+        { ro: "una",   ru: "одна (ж.р. ед.)" },
+        { ro: "alta",  ru: "другая (ж.р. ед.)" },
+        { ro: "unii",  ru: "один из... (м.р. мн.)" },
+        { ro: "alții", ru: "другие (м.р. мн.)" },
+        { ro: "unele", ru: "одни (ж.р. мн.)" },
+        { ro: "altele",ru: "другие (ж.р. мн.)" },
+        { ro: "pașaport",   ru: "паспорт" },
+        { ro: "certificat", ru: "справка, свидетельство" },
+        { ro: "copie",      ru: "копия" },
+        { ro: "taxă",       ru: "пошлина" },
+        { ro: "extras de cont", ru: "выписка со счёта" },
+        { ro: "eliberat", roF: "eliberată", ru: "выдан", ruF: "выдана" }
+      ],
+      phrases: [
+        { ro: "Unul este liber, altul este ocupat.",     ru: "Один свободен, другой занят." },
+        { ro: "Una este nouă, alta este veche.",         ru: "Одна новая, другая старая." },
+        { ro: "Unii lucrează la bancă, alții la poștă.", ru: "Одни работают в банке, другие на почте." },
+        { ro: "Unele facturi sunt plătite, altele nu.",  ru: "Одни счета оплачены, другие нет." },
+        { ro: "Certificatul este eliberat de primărie.", ru: "Справка выдана примэрией." }
+      ],
+      gaps: [
+        { text: "___ este liber, altul este ocupat.",  answer: "Unul",  options: ["Unul", "Una", "Unii"] },
+        { text: "Unul este liber, ___ este ocupat.",   answer: "altul", options: ["altul", "alta", "alții"] },
+        { text: "___ este nouă, alta este veche.",     answer: "Una",   options: ["Una", "Unul", "Unele"] },
+        { text: "Una este nouă, ___ este veche.",      answer: "alta",  options: ["alta", "altul", "altele"] },
+        { text: "___ lucrează la bancă, alții la poștă.", answer: "Unii", options: ["Unii", "Unele", "Unul"] },
+        { text: "Unele facturi sunt plătite, ___ nu.", answer: "altele",options: ["altele", "alții", "altul"] }
+      ]
+    },
+
+    {
+      id: "a2-s4-3",
+      section: 4,
+      level: "A2",
+      verified: false,
+      name: "С каких пор и до каких пор",
+      sub: "de când / până când, de la / până la, din / până în",
+      grammar: {
+        title: "de când, până când — с каких пор, до каких пор",
+        body: [
+          "<b>de la</b> и <b>până la</b> — с часами и минутами: <b>de la ora opt până la ora cinci</b> («с восьми до пяти»).",
+          "<b>din</b> и <b>până în</b> — с месяцами и годами: <b>din octombrie</b>, <b>până în decembrie</b>.",
+          "Просто <b>de</b> — с относительным днём: <b>de ieri</b>, <b>de luni</b>. Просто <b>până</b> — до относительного дня: <b>până mâine</b>, <b>până vineri</b>.",
+          "Рабочий день целиком: <b>de la opt până la cinci</b>."
+        ],
+        table: [
+          ["de când?", "с каких пор?"], ["până când?", "до каких пор?"],
+          ["de ieri", "со вчерашнего дня"], ["de luni", "с понедельника"],
+          ["de la ora opt", "с восьми часов"],
+          ["din octombrie", "с октября"], ["din 2020", "с 2020 года"],
+          ["până mâine", "до завтра"], ["până vineri", "до пятницы"],
+          ["până la ora cinci", "до пяти часов"],
+          ["până în decembrie", "до декабря"]
+        ]
+      },
+      words: [
+        { ro: "de când",   ru: "с каких пор" },
+        { ro: "până când", ru: "до каких пор" },
+        { ro: "de ieri",   ru: "со вчерашнего дня" },
+        { ro: "de luni",   ru: "с понедельника" },
+        { ro: "de la ora opt", ru: "с восьми часов" },
+        { ro: "din octombrie", ru: "с октября" },
+        { ro: "din 2020",  ru: "с 2020 года" },
+        { ro: "până mâine",ru: "до завтра" },
+        { ro: "până vineri", ru: "до пятницы" },
+        { ro: "până la ora cinci", ru: "до пяти часов" },
+        { ro: "până în decembrie", ru: "до декабря" },
+        { ro: "deschis", roF: "deschisă", ru: "открытый", ruF: "открытая" },
+        { ro: "închis", roF: "închisă", ru: "закрытый", ruF: "закрытая" },
+        { ro: "ghișeu", ru: "окошко (в учреждении)" },
+        { ro: "de dimineață", ru: "с утра" },
+        { ro: "de seară", ru: "с вечера" },
+        { ro: "bancomat", ru: "банкомат" },
+        { ro: "non-stop", ru: "круглосуточно" }
+      ],
+      phrases: [
+        { ro: "Lucrez la bancă de luni.",                          ru: "Я работаю в банке с понедельника." },
+        { ro: "Programul este de la ora opt până la ora cinci.",   ru: "График с восьми до пяти." },
+        { ro: "De când lucrezi aici?",                             ru: "С каких пор ты здесь работаешь?" },
+        { ro: "Până când este deschis ghișeul?",                   ru: "До которого часа открыто окошко?" },
+        { ro: "Bancomatul funcționează non-stop.",                 ru: "Банкомат работает круглосуточно." }
+      ],
+      gaps: [
+        { text: "Lucrez aici ___ luni.",                answer: "de",      options: ["de", "din", "de la"] },
+        { text: "Banca este deschisă ___ ora opt.",     answer: "de la",   options: ["de la", "din", "de"] },
+        { text: "Banca este deschisă până ___ ora cinci.", answer: "la",   options: ["la", "în", "când"] },
+        { text: "Lucrez aici ___ 2020.",                answer: "din",     options: ["din", "de la", "de"] },
+        { text: "___ lucrezi aici?",                    answer: "De când", options: ["De când", "Până când", "De cât timp"] },
+        { text: "___ este deschis ghișeul?",            answer: "Până când", options: ["Până când", "De când", "De cât timp"] },
+        { text: "Sunt ocupat ___ mâine.",               answer: "până",    options: ["până", "de la", "din"] },
+        { text: "Oficiul poștal este închis ___ octombrie.", answer: "din", options: ["din", "de la", "de"] }
+      ]
+    },
+
+    {
+      id: "a2-s4-4",
+      section: 4,
+      level: "A2",
+      verified: false,
+      name: "В банке и на почте",
+      sub: "Оплатить счёт, заполнить бланк — повторение на практике",
+      words: [
+        { ro: "chitanța",  ru: "квитанция" },
+        { ro: "plata",     ru: "платёж" },
+        { ro: "a achita",  ru: "оплатить (официально; синоним a plăti)" },
+        { ro: "suma",      ru: "сумма" },
+        { ro: "datoria",   ru: "долг" },
+        { ro: "banca",     ru: "банк" },
+        { ro: "oficiul poștal", ru: "почтовое отделение" },
+        { ro: "luna trecută",  ru: "в прошлом месяце" },
+        { ro: "transfer",  ru: "перевод" },
+        { ro: "comision",  ru: "комиссия" },
+        { ro: "credit",    ru: "кредит" },
+        { ro: "rată",      ru: "платёж по кредиту" },
+        { ro: "dobândă",   ru: "процент" },
+        { ro: "a verifica",ru: "проверять" },
+        { ro: "soldul",    ru: "остаток на счёте" },
+        { ro: "gratuit",   ru: "бесплатно" },
+        { ro: "o eroare",  ru: "ошибка" },
+        { ro: "a corecta", ru: "исправлять" },
+        { ro: "a returna", ru: "вернуть, возместить" },
+        { ro: "valabil", roF: "valabilă", ru: "действительный", ruF: "действительная" }
+      ],
+      phrases: [
+        { ro: "Achit factura la bancă.",                    ru: "Я оплачиваю счёт в банке." },
+        { ro: "Care este suma datoriei?",                   ru: "Какая сумма долга?" },
+        { ro: "Am plătit gazul și lumina luna trecută.",    ru: "Я оплатил(а) газ и свет в прошлом месяце." },
+        { ro: "Puteți achita la oficiul poștal.",           ru: "Можно оплатить на почте." },
+        { ro: "Chitanța este a mea.",                       ru: "Квитанция моя." }
+      ],
+      gaps: [
+        { text: "___ factura la bancă, nu acasă.",   answer: "Achit",   options: ["Achit", "Achiți", "Achită"] },
+        { text: "Care este ___ datoriei?",           answer: "suma",    options: ["suma", "plata", "chitanța"] },
+        { text: "Am plătit ___ și lumina.",          answer: "gazul",   options: ["gazul", "contul", "cardul"] },
+        { text: "Puteți achita la ___.",             answer: "oficiul poștal", options: ["oficiul poștal", "bancă", "primărie"] },
+        { text: "___ este a mea.",                   answer: "Chitanța",options: ["Chitanța", "Factura", "Suma"] },
+        { text: "Am plătit gazul ___.",              answer: "luna trecută", options: ["luna trecută", "anul trecut", "ieri"] },
+        { text: "Datoria este mare — trebuie să ___ repede.", answer: "achit", options: ["achit", "achiți", "achită"] },
+        { text: "Termenul de plată este ___.",       answer: "mâine",   options: ["mâine", "ieri", "acum"] }
       ]
     }
   ]
