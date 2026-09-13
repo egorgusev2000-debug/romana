@@ -479,7 +479,7 @@
 // показывает только заглушку «Уровень N в работе».
 const LEVELS = {
   A1: { title: "Уровень A1", totalUnits: 40 },
-  A2: { title: "Уровень A2", totalUnits: 0 }
+  A2: { title: "Уровень A2", totalUnits: 8 }
 };
 
 // Названия секций по уровням: SECTION_TITLES[level][номер секции].
@@ -498,6 +498,10 @@ const SECTION_TITLES = {
     8: "Еда",
     9: "У врача",
     10: "Город и дорога"
+  },
+  A2: {
+    1: "Снова за румынский",
+    2: "На работе"
   }
 };
 
@@ -3063,6 +3067,521 @@ const COURSE = {
         { text: "El ___ acasă devreme.",answer: "vrea să vină",    options: ["vrea să vină", "poate să vină", "trebuie să vină"] },
         { text: "Eu ___ un bilet.",     answer: "am nevoie de",    options: ["am nevoie de", "vreau să", "trebuie să"] }
       ]
+    },
+
+    /* ---------- Уровень A2 ---------- */
+
+    {
+      id: "a2-s1-1",
+      section: 1,
+      level: "A2",
+      verified: false,
+      name: "Снова здравствуйте",
+      sub: "Возвращение к языку: курсы, занятия",
+      words: [
+        { ro: "cursul",       ru: "курс (учебный)" },
+        { ro: "lecția",       ru: "урок, занятие" },
+        { ro: "nivelul",      ru: "уровень" },
+        { ro: "grupa",        ru: "группа" },
+        { ro: "a repeta",     ru: "повторять" },
+        { ro: "a exersa",     ru: "упражняться, практиковаться" },
+        { ro: "a înțelege",   ru: "понимать" },
+        { ro: "greu",  roF: "grea",    ru: "трудный", ruF: "трудная" },
+        { ro: "ușor",  roF: "ușoară",  ru: "лёгкий",  ruF: "лёгкая" },
+        { ro: "deja",         ru: "уже" },
+        { ro: "încă",         ru: "ещё" },
+        { ro: "aproape",      ru: "почти" },
+        { ro: "împreună",     ru: "вместе" },
+        { ro: "din nou",      ru: "снова, заново" },
+        { ro: "un progres",   ru: "прогресс" },
+        { ro: "o pauză",      ru: "перерыв" },
+        { ro: "a continua",   ru: "продолжать" },
+        { ro: "un exercițiu", ru: "упражнение" },
+        { ro: "o temă",       ru: "домашнее задание" },
+        { ro: "a nota",       ru: "записывать, отмечать" }
+      ],
+      phrases: [
+        { ro: "Vreau să continuăm cursul împreună.",       ru: "Я хочу, чтобы мы продолжили курс вместе." },
+        { ro: "Sunt deja la nivelul doi.",                 ru: "Я уже на втором уровне." },
+        { ro: "Lecția este ușoară, dar exercițiul este greu.", ru: "Урок лёгкий, но упражнение трудное." },
+        { ro: "Exersăm împreună în fiecare zi.",           ru: "Мы практикуемся вместе каждый день." },
+        { ro: "Aproape am înțeles totul.",                 ru: "Я почти всё понял(а)." }
+      ],
+      gaps: [
+        { text: "Eu ___ cuvintele noi.",   answer: "repet",        options: ["repet", "repeți", "repetă"] },
+        { text: "Tu ___ des?",             answer: "exersezi",     options: ["exersezi", "exersez", "exersează"] },
+        { text: "Noi ___ împreună.",       answer: "exersăm",      options: ["exersăm", "exersați", "exersează"] },
+        { text: "El nu ___ bine.",         answer: "înțelege",     options: ["înțelege", "înțeleg", "înțelegem"] },
+        { text: "Voi ___ lecția?",         answer: "înțelegeți",   options: ["înțelegeți", "înțelegem", "înțeleg"] },
+        { text: "Ei ___ cursul mâine.",    answer: "continuă",     options: ["continuă", "continuăm", "continui"] }
+      ]
+    },
+
+    {
+      id: "a2-s1-2",
+      section: 1,
+      level: "A2",
+      verified: false,
+      name: "Вежливо о человеке",
+      sub: "dumneata, dumnealui — вежливые местоимения",
+      extraGaps: 6,
+      grammar: {
+        title: "Dumneavoastră и dumneata — не одно и то же",
+        body: [
+          "<b>Dumneavoastră</b> требует глагол во <b>множественном</b> числе, даже когда обращаешься к одному человеку — как уже знакомое из секции 1 A1 <b>sunteți</b>: <b>dumneavoastră lucrați, dumneavoastră sunteți</b>.",
+          "<b>Dumneata</b> — глагол в <b>единственном</b> числе: <b>dumneata lucrezi, dumneata ești</b>. Это главная ошибка — dumneata часто путают с dumneavoastră и по привычке ставят множественное число.",
+          "Вежливое третье лицо: <b>dumnealui</b> (он), <b>dumneaei</b> (она), <b>dumnealor</b> (они) — глагол как обычно, в 3-м лице: <b>dumnealui lucrează</b>.",
+          "<b>Dânsul / dânsa / dânșii / dânsele</b> — тоже «он/она/они», нейтрально-вежливые, живые в разговорной речи, взаимозаменимы с el/ea/ei/ele в вежливом регистре.",
+          "Косвенный падеж dumneata — <b>dumitale</b> («тебе», «твой»): <b>Îi dau cartea dumitale.</b>",
+          "Смысл по-русски: <b>dumneavoastră</b> — для незнакомых, врача, начальства, любого официального разговора. <b>Dumneata</b> — теплее и ближе, к знакомому соседу, к пожилому родственнику. Если сомневаешься — бери dumneavoastră, ошибки не будет.",
+          "Сокращения на письме: <b>dvs.</b> (dumneavoastră), <b>d-ta</b> (dumneata), <b>dlui</b> (domnului), <b>dnei</b> (doamnei).",
+          "Культура: dumneata — не просто «ты» повежливее. В Молдове это тёплое обращение к знакомому или к старшему в семье, но у него бывает ироничный оттенок, и тогда лучше уйти в dumneavoastră."
+        ],
+        table: [
+          ["dumneavoastră lucrați", "вы работаете (офиц., глагол во мн.ч.)"],
+          ["dumneata lucrezi",      "ты работаешь (тепло, глагол в ед.ч.)"],
+          ["dumneavoastră sunteți", "вы (есть) (офиц.)"],
+          ["dumneata ești",         "ты (есть) (тепло)"],
+          ["dumnealui / dânsul",    "он (вежливо)"],
+          ["dumneaei / dânsa",      "она (вежливо)"],
+          ["dumnealor / dânșii, dânsele", "они (вежливо)"],
+          ["dumitale",              "тебе, твой (косвенный падеж dumneata)"]
+        ]
+      },
+      words: [
+        { ro: "dumneata",  ru: "ты (тёплое вежливое, глагол в ед.ч.)" },
+        { ro: "dumitale",  ru: "тебе, твой (dumneata, косвенный падеж)" },
+        { ro: "dumnealui", ru: "он (вежливо)" },
+        { ro: "dumneaei",  ru: "она (вежливо)" },
+        { ro: "dumnealor", ru: "они (вежливо)" },
+        { ro: "dânsul",    ru: "он (нейтрально-вежливо)" },
+        { ro: "dânsa",     ru: "она (нейтрально-вежливо)" },
+        { ro: "dânșii",    ru: "они, м.р. (нейтрально-вежливо)" },
+        { ro: "dânsele",   ru: "они, ж.р. (нейтрально-вежливо)" },
+        { ro: "dvs.",      ru: "сокращение: dumneavoastră" },
+        { ro: "d-ta",      ru: "сокращение: dumneata" },
+        { ro: "dlui",      ru: "сокращение: domnului (ему, господину)" },
+        { ro: "dnei",      ru: "сокращение: doamnei (ей, госпоже)" },
+        { ro: "un vecin",  ru: "сосед" },
+        { ro: "o rudă",    ru: "родственник, родственница" },
+        { ro: "politicos", roF: "politicoasă", ru: "вежливый", ruF: "вежливая" }
+      ],
+      phrases: [
+        { ro: "Dumneavoastră lucrați aici?",      ru: "Вы работаете здесь? (официально)" },
+        { ro: "Dumneata lucrezi aici?",           ru: "Ты работаешь здесь? (тепло)" },
+        { ro: "Dumnealui este vecinul meu.",      ru: "Он — мой сосед (вежливо)." },
+        { ro: "Dânsa este doamna Popescu.",       ru: "Она — госпожа Попеску." },
+        { ro: "Dacă nu sunteți sigur, spuneți dumneavoastră.", ru: "Если не уверены — говорите «вы» (dumneavoastră)." }
+      ],
+      gaps: [
+        { text: "Dumneavoastră ___ mult.",        answer: "lucrați",   options: ["lucrați", "lucrezi", "lucrează"] },
+        { text: "Dumneata ___ mult.",              answer: "lucrezi",   options: ["lucrezi", "lucrați", "lucrează"] },
+        { text: "Dumneavoastră ___ din Comrat?",   answer: "sunteți",   options: ["sunteți", "ești", "este"] },
+        { text: "Dumneata ___ din Comrat?",        answer: "ești",      options: ["ești", "sunteți", "este"] },
+        { text: "Dumnealui ___ acasă.",            answer: "lucrează",  options: ["lucrează", "lucrați", "lucrezi"] },
+        { text: "Dumneavoastră ___ vecinul meu?",  answer: "sunteți",   options: ["sunteți", "ești", "e"] },
+        { text: "Dumneata ___ obosit azi.",        answer: "ești",      options: ["ești", "sunteți", "e"] },
+        { text: "___ lucrați până la ora cinci?",  answer: "Dumneavoastră", options: ["Dumneavoastră", "Dumneata", "Dumnealui"] }
+      ]
+    },
+
+    {
+      id: "a2-s1-3",
+      section: 1,
+      level: "A2",
+      verified: false,
+      name: "Какой именно",
+      sub: "care, ce fel de, de cât timp, de câte ori",
+      grammar: {
+        title: "Вопросительные слова: care, ce fel de, de cât timp, de câte ori",
+        body: [
+          "<b>Care</b> — «который, какой из» — когда выбираешь из известного набора: <b>Care carte este a ta?</b> («Какая из книг твоя?»). Отличие от <b>ce</b> (секция 3 A1) — то спрашивает вообще «что», без выбора.",
+          "<b>Ce fel de</b> — «какой по качеству/типу»: <b>Ce fel de muzică asculți?</b> («Какую музыку ты слушаешь?»).",
+          "<b>De cât timp</b> — «как давно» (сколько времени длится с начала): <b>De cât timp lucrezi aici?</b>",
+          "<b>De câte ori</b> — «сколько раз»: <b>De câte ori pe săptămână exersezi?</b>",
+          "Уже знакомое из секции 3 A1: <b>ce</b> (что), <b>cine</b> (кто), <b>când</b> (когда), <b>unde</b> (где), <b>cât</b> (сколько)."
+        ],
+        table: [
+          ["care",           "который, какой (из известных)"],
+          ["ce fel de",      "какой по качеству/типу"],
+          ["de cât timp",    "как давно"],
+          ["de câte ori",    "сколько раз"],
+          ["ce (повтор A1)",   "что"],
+          ["cine (повтор A1)", "кто"],
+          ["când (повтор A1)", "когда"],
+          ["unde (повтор A1)", "где"],
+          ["cât (повтор A1)",  "сколько"]
+        ]
+      },
+      words: [
+        { ro: "care",        ru: "который, какой (из известных)" },
+        { ro: "ce fel de",   ru: "какой по качеству" },
+        { ro: "de cât timp", ru: "как давно" },
+        { ro: "de câte ori", ru: "сколько раз" },
+        { ro: "un tip",      ru: "тип, вид" },
+        { ro: "o dată",      ru: "один раз" },
+        { ro: "de două ori", ru: "два раза" },
+        { ro: "muzică",      ru: "музыка" },
+        { ro: "a asculta",   ru: "слушать" },
+        { ro: "pe săptămână",ru: "в неделю" },
+        { ro: "pe lună",     ru: "в месяц" },
+        { ro: "de mult",     ru: "давно" }
+      ],
+      phrases: [
+        { ro: "Care carte este a ta?",              ru: "Какая из книг твоя?" },
+        { ro: "Ce fel de muzică asculți?",          ru: "Какую музыку ты слушаешь?" },
+        { ro: "De cât timp lucrezi aici?",          ru: "Как давно ты здесь работаешь?" },
+        { ro: "De câte ori pe săptămână exersezi?", ru: "Сколько раз в неделю ты занимаешься?" },
+        { ro: "Lucrez aici de mult.",                ru: "Я работаю здесь уже давно." }
+      ],
+      gaps: [
+        { text: "___ carte este a ta?",         answer: "Care",       options: ["Care", "Ce", "Cine"] },
+        { text: "___ muzică asculți?",          answer: "Ce fel de",  options: ["Ce fel de", "Care", "Cât"] },
+        { text: "___ lucrezi aici?",            answer: "De cât timp",options: ["De cât timp", "De câte ori", "Când"] },
+        { text: "___ pe săptămână exersezi?",   answer: "De câte ori",options: ["De câte ori", "De cât timp", "Cât"] },
+        { text: "___ este ora?",                answer: "Cât",        options: ["Cât", "Care", "Ce fel de"] },
+        { text: "___ locuiești?",               answer: "Unde",       options: ["Unde", "Care", "De cât timp"] },
+        { text: "___ este colegul tău nou?",    answer: "Cine",       options: ["Cine", "Ce fel de", "Care"] },
+        { text: "Lucrez aici ___ trei ani.",    answer: "de",         options: ["de", "din", "la"] }
+      ]
+    },
+
+    {
+      id: "a2-s1-4",
+      section: 1,
+      level: "A2",
+      verified: false,
+      name: "Будущее в разговоре",
+      sub: "o să — разговорное будущее",
+      extraGaps: 6,
+      grammar: {
+        title: "o să — разговорное будущее время",
+        body: [
+          "В A1 будущее давали только формой <b>voi + инфинитив</b> (voi lucra, vom merge) — она письменная и официальная. В разговоре чаще звучит <b>o să</b> — это то будущее, которое человек услышит на улице, по радио, от соседа.",
+          "<b>O să</b> не меняется — меняется только глагол после него, в форме конъюнктива (как после să в секции 10 A1): <b>o să lucrez, o să lucrezi, o să lucreze, o să lucrăm, o să lucrați, o să lucreze</b>.",
+          "Третье лицо (el/ea, ei/ele) — одна и та же форма конъюнктива и для единственного, и для множественного: <b>o să lucreze</b> подходит обоим.",
+          "Особые формы третьего лица конъюнктива, которые не выводятся по общему правилу — список: <b>să fie</b> (a fi), <b>să aibă</b> (a avea), <b>să meargă</b> (a merge), <b>să vină</b> (a veni), <b>să dea</b> (a da), <b>să stea</b> (a sta), <b>să știe</b> (a ști), <b>să poată</b> (a putea).",
+          "<b>Voi lucra</b> и <b>o să lucrez</b> — это одно и то же будущее, сказанное двумя способами: voi — для документа или объявления, o să — для разговора с соседом."
+        ],
+        table: [
+          ["o să lucrez",  "я буду работать (разг.)"],
+          ["o să lucrezi", "ты будешь работать"],
+          ["o să lucreze", "он/она/они будут работать"],
+          ["o să lucrăm",  "мы будем работать"],
+          ["o să lucrați", "вы будете работать"],
+          ["să fie",   "будет (a fi)"],
+          ["să aibă",  "будет иметь (a avea)"],
+          ["să meargă","пойдёт (a merge)"],
+          ["să vină",  "придёт (a veni)"],
+          ["să dea",   "даст (a da)"],
+          ["să stea",  "останется, посидит (a sta)"],
+          ["să știe",  "будет знать (a ști)"],
+          ["să poată", "сможет (a putea)"]
+        ]
+      },
+      words: [
+        { ro: "o să lucrez",  ru: "я буду работать (разг.)" },
+        { ro: "o să lucrezi", ru: "ты будешь работать" },
+        { ro: "o să lucreze", ru: "он/она/они будут работать" },
+        { ro: "o să lucrăm",  ru: "мы будем работать" },
+        { ro: "o să lucrați", ru: "вы будете работать" },
+        { ro: "să fie",   ru: "будет (a fi)" },
+        { ro: "să aibă",  ru: "будет иметь (a avea)" },
+        { ro: "să meargă",ru: "пойдёт (a merge)" },
+        { ro: "să vină",  ru: "придёт (a veni)" },
+        { ro: "să dea",   ru: "даст (a da)" },
+        { ro: "să stea",  ru: "останется (a sta)" },
+        { ro: "să știe",  ru: "будет знать (a ști)" },
+        { ro: "să poată", ru: "сможет (a putea)" },
+        { ro: "un plan",  ru: "план" },
+        { ro: "o dorință",ru: "желание" },
+        { ro: "mâine-poimâine", ru: "не сегодня-завтра, скоро" }
+      ],
+      phrases: [
+        { ro: "Voi lucra mâine.",         ru: "Я буду работать завтра. (офиц.)" },
+        { ro: "O să lucrez mâine.",       ru: "Я буду работать завтра. (разг.)" },
+        { ro: "Vom merge la piață.",      ru: "Мы пойдём на рынок. (офиц.)" },
+        { ro: "O să mergem la piață.",    ru: "Мы пойдём на рынок. (разг.)" },
+        { ro: "El va veni mâine.",        ru: "Он придёт завтра. (офиц.)" },
+        { ro: "El o să vină mâine.",      ru: "Он придёт завтра. (разг.)" }
+      ],
+      gaps: [
+        { text: "El nu ___ timp mâine.",           answer: "o să aibă",   options: ["o să aibă", "o să are", "o să avem"] },
+        { text: "Ei ___ acasă devreme.",           answer: "o să vină",   options: ["o să vină", "o să vine", "o să vin"] },
+        { text: "Mama ___ acolo tot weekendul.",   answer: "o să stea",   options: ["o să stea", "o să stă", "o să stau"] },
+        { text: "Totul ___ bine.",                 answer: "o să fie",    options: ["o să fie", "o să este", "o să fi"] },
+        { text: "El ___ răspunsul mâine.",         answer: "o să știe",   options: ["o să știe", "o să știu", "o să știm"] },
+        { text: "Copilul ___ să mă ajute.",        answer: "o să poată",  options: ["o să poată", "o să pot", "o să poate"] },
+        { text: "Voi lucra mâine. Adică: ___ lucrez mâine.", answer: "o să", options: ["o să", "voi", "vom"] },
+        { text: "Vom merge la piață. Adică: O ___ mergem la piață.", answer: "să", options: ["să", "voi", "va"] }
+      ]
+    },
+
+    {
+      id: "a2-s2-1",
+      section: 2,
+      level: "A2",
+      verified: false,
+      name: "Imperfect: формы",
+      sub: "Прошедшее время привычки — окончания -am, -ai, -a, -am, -ați, -au",
+      grammar: {
+        title: "Imperfect: одни окончания для всех глаголов",
+        body: [
+          "Окончания одни для всех глаголов, независимо от спряжения: <b>-am, -ai, -a, -am, -ați, -au</b>. Они просто добавляются к основе глагола.",
+          "Форма «я» и форма «мы» совпадают: <b>eu lucram, noi lucram</b> — различает только местоимение, глагол один и тот же.",
+          "Полные таблицы восьми глаголов — ниже, взяты как есть, не выводить самому."
+        ],
+        table: [
+          ["eu lucram",   "я работал(а)"], ["tu lucrai", "ты работал(а)"], ["el/ea lucra", "он/она работал(а)"],
+          ["noi lucram",  "мы работали"],  ["voi lucrați","вы работали"],  ["ei/ele lucrau","они работали"],
+          ["eu învățam",  "я учился(лась)"], ["tu învățai","ты учился(лась)"], ["el/ea învăța","он/она учился(лась)"],
+          ["noi învățam", "мы учились"],     ["voi învățați","вы учились"],   ["ei/ele învățau","они учились"],
+          ["eu mergeam",  "я ходил(а)"], ["tu mergeai","ты ходил(а)"], ["el/ea mergea","он/она ходил(а)"],
+          ["noi mergeam", "мы ходили"],  ["voi mergeați","вы ходили"], ["ei/ele mergeau","они ходили"],
+          ["eu vedeam",   "я видел(а)"], ["tu vedeai","ты видел(а)"], ["el/ea vedea","он/она видел(а)"],
+          ["noi vedeam",  "мы видели"],  ["voi vedeați","вы видели"], ["ei/ele vedeau","они видели"],
+          ["eu citeam",   "я читал(а)"], ["tu citeai","ты читал(а)"], ["el/ea citea","он/она читал(а)"],
+          ["noi citeam",  "мы читали"],  ["voi citeați","вы читали"], ["ei/ele citeau","они читали"],
+          ["eu vorbeam",  "я говорил(а)"], ["tu vorbeai","ты говорил(а)"], ["el/ea vorbea","он/она говорил(а)"],
+          ["noi vorbeam", "мы говорили"],  ["voi vorbeați","вы говорили"], ["ei/ele vorbeau","они говорили"],
+          ["eu eram",     "я был(а)"], ["tu erai","ты был(а)"], ["el/ea era","он/она был(а)"],
+          ["noi eram",    "мы были"],  ["voi erați","вы были"], ["ei/ele erau","они были"],
+          ["eu aveam",    "я имел(а)"], ["tu aveai","ты имел(а)"], ["el/ea avea","он/она имел(а)"],
+          ["noi aveam",   "мы имели"],  ["voi aveați","вы имели"], ["ei/ele aveau","они имели"]
+        ]
+      },
+      words: [
+        { ro: "lucram",   ru: "я работал(а) (раньше, обычно)" },
+        { ro: "lucra",    ru: "он/она работал(а) (раньше, обычно)" },
+        { ro: "învățam",  ru: "я учился(лась)" },
+        { ro: "învăța",   ru: "он/она учился(лась)" },
+        { ro: "mergeam",  ru: "я ходил(а)" },
+        { ro: "mergea",   ru: "он/она ходил(а)" },
+        { ro: "vedeam",   ru: "я видел(а)" },
+        { ro: "vedea",    ru: "он/она видел(а)" },
+        { ro: "citeam",   ru: "я читал(а)" },
+        { ro: "citea",    ru: "он/она читал(а)" },
+        { ro: "vorbeam",  ru: "я говорил(а)" },
+        { ro: "vorbea",   ru: "он/она говорил(а)" },
+        { ro: "eram",     ru: "я был(а)" },
+        { ro: "era",      ru: "он/она был(а)" },
+        { ro: "aveam",    ru: "я имел(а)" },
+        { ro: "avea",     ru: "он/она имел(а)" },
+        { ro: "profesia",           ru: "профессия" },
+        { ro: "locul de muncă",     ru: "место работы" },
+        { ro: "biroul",             ru: "офис" },
+        { ro: "șeful",              ru: "начальник" },
+        { ro: "programul de lucru",ru: "рабочий график" },
+        { ro: "un proiect", ru: "проект" },
+        { ro: "o sarcină",  ru: "задача" },
+        { ro: "o echipă",   ru: "команда (рабочая)" },
+        { ro: "un director",ru: "директор" },
+        { ro: "o secretară",ru: "секретарь (ж)" },
+        { ro: "o discuție", ru: "обсуждение" },
+        { ro: "un scop",    ru: "цель" },
+        { ro: "a discuta",  ru: "обсуждать" }
+      ],
+      phrases: [
+        { ro: "Înainte lucram la o firmă mică.",  ru: "Раньше я работал(а) на маленькой фирме." },
+        { ro: "Aveam un șef bun.",                ru: "У меня был хороший начальник." },
+        { ro: "Colegii mei erau simpatici.",      ru: "Мои коллеги были приятными." },
+        { ro: "Mergeam la birou pe jos.",         ru: "Я ходил(а) на работу пешком." }
+      ],
+      gaps: [
+        { text: "Eu ___ la birou până la ora cinci.",  answer: "lucram",  options: ["lucram", "lucrai", "lucra"] },
+        { text: "Noi ___ la birou până la ora cinci.", answer: "lucram",  options: ["lucram", "lucrați", "lucrau"] },
+        { text: "Tu ___ multe cărți pe atunci.",       answer: "citeai",  options: ["citeai", "citeam", "citea"] },
+        { text: "El ___ la Chișinău în fiecare zi.",   answer: "mergea",  options: ["mergea", "mergeam", "mergeai"] },
+        { text: "Voi ___ mereu ocupați.",              answer: "erați",   options: ["erați", "eram", "erau"] },
+        { text: "Ei ___ un birou mic.",                answer: "aveau",   options: ["aveau", "aveam", "avea"] },
+        { text: "Noi ___ limba română la cursuri.",    answer: "învățam", options: ["învățam", "învățau", "învăța"] },
+        { text: "Ea ___ mult despre muncă.",           answer: "vorbea",  options: ["vorbea", "vorbeam", "vorbeai"] },
+        { text: "Eu ___ un coleg bun pe atunci.",      answer: "aveam",   options: ["aveam", "aveau", "avea"] },
+        { text: "Copiii ___ filme seara.",             answer: "vedeau",  options: ["vedeau", "vedeam", "vedea"] }
+      ]
+    },
+
+    {
+      id: "a2-s2-2",
+      section: 2,
+      level: "A2",
+      verified: false,
+      name: "Раньше и обычно",
+      sub: "Когда нужен имперфект: привычка, повтор, фон",
+      grammar: {
+        title: "Когда нужен имперфект",
+        body: [
+          "Имперфект — для привычки, повторяющегося действия, состояния или фона: того, что было «обычно», «раньше», «всегда», а не одного законченного факта.",
+          "Слова-подсказки, которые почти всегда требуют имперфект: <b>de obicei</b> (обычно), <b>în fiecare zi</b> (повтор A1: каждый день), <b>pe atunci</b> (в то время), <b>mereu</b> (всегда), <b>adesea</b> (повтор A1: часто), <b>când eram mic</b> (когда я был маленьким)."
+        ],
+        table: [
+          ["de obicei",       "обычно"],
+          ["pe atunci",       "в то время, тогда"],
+          ["mereu",           "всегда, постоянно"],
+          ["când eram mic",   "когда я был маленьким"]
+        ]
+      },
+      words: [
+        { ro: "de obicei",      ru: "обычно" },
+        { ro: "pe atunci",      ru: "в то время, тогда" },
+        { ro: "mereu",          ru: "всегда, постоянно" },
+        { ro: "când eram mic",  ru: "когда я был маленьким" },
+        { ro: "un obicei",      ru: "привычка" },
+        { ro: "o rutină",       ru: "рутина, распорядок" },
+        { ro: "a începe",       ru: "начинать" },
+        { ro: "a termina",      ru: "заканчивать" },
+        { ro: "un angajat", roF: "o angajată", ru: "сотрудник", ruF: "сотрудница" },
+        { ro: "un client",      ru: "клиент" },
+        { ro: "o întâlnire",    ru: "встреча" },
+        { ro: "o pauză de masă",ru: "обеденный перерыв" },
+        { ro: "un email",       ru: "имейл, электронное письмо" },
+        { ro: "un mesaj",       ru: "сообщение" },
+        { ro: "a trimite",      ru: "отправлять" },
+        { ro: "a primi",        ru: "получать" },
+        { ro: "a suna",         ru: "звонить (по телефону)" },
+        { ro: "a răspunde",     ru: "отвечать" }
+      ],
+      phrases: [
+        { ro: "De obicei începeam lucrul la ora opt.",       ru: "Обычно я начинал(а) работу в восемь." },
+        { ro: "Pe atunci terminam lucrul la ora cinci.",     ru: "Тогда я заканчивал(а) работу в пять." },
+        { ro: "Aveam mereu o pauză de masă la prânz.",       ru: "У меня всегда был обеденный перерыв в полдень." },
+        { ro: "Când eram mic, voiam să fiu doctor.",         ru: "Когда я был маленьким, я хотел быть врачом." }
+      ],
+      gaps: [
+        { text: "___ mergeam la birou cu autobuzul.",       answer: "De obicei", options: ["De obicei", "Pe atunci", "Mereu"] },
+        { text: "Eu ___ lucrul la ora opt, de obicei.",     answer: "începeam",  options: ["începeam", "am început", "încep"] },
+        { text: "Noi ___ lucrul la ora cinci, pe atunci.",  answer: "terminam",  options: ["terminam", "am terminat", "terminăm"] },
+        { text: "Șeful ___ mesaje în fiecare zi.",          answer: "trimitea",  options: ["trimitea", "trimit", "am trimis"] },
+        { text: "Eu ___ mesajul de la coleg în fiecare dimineață.", answer: "primeam", options: ["primeam", "primesc", "am primit"] },
+        { text: "Colega mea ___ mereu clienți.",            answer: "suna",      options: ["suna", "sun", "am sunat"] },
+        { text: "___ eram foarte ocupați la birou.",        answer: "Pe atunci", options: ["Pe atunci", "Acum", "Mâine"] }
+      ]
+    },
+
+    {
+      id: "a2-s2-3",
+      section: 2,
+      level: "A2",
+      verified: false,
+      name: "Было и случилось",
+      sub: "Имперфект против перфекта",
+      extraGaps: 6,
+      grammar: {
+        title: "Имперфект против перфекта: было ли действие фактом",
+        body: [
+          "По-русски легко перепутать: и <b>«работал»</b>, и <b>«поработал»</b> звучат как прошедшее время одного вида. В румынском это разные формы: <b>lucram</b> — «работал» (процесс, привычка, фон), <b>am lucrat</b> — «поработал, проработал» (законченный факт).",
+          "Главная ловушка для русскоязычного: если вопрос про факт — был он или нет — по-русски часто звучит несовершенным видом («ты <b>читал</b> эту книгу?»), но по-румынски это перфект, а не имперфект: <b>Ai citit cartea asta?</b> — «Ты читал эту книгу?» (спрашивают о факте, не о процессе).",
+          "Сравни: <b>Citeam mult când eram mic</b> («Я много читал, когда был маленьким» — привычка, имперфект) и <b>Am citit cartea asta anul acesta</b> («Я прочитал эту книгу в этом году» — факт, перфект)."
+        ],
+        table: [
+          ["lucram",              "работал (процесс, привычка)"],
+          ["am lucrat",           "поработал (законченный факт)"],
+          ["citeam",              "читал (процесс)"],
+          ["am citit",            "прочитал / читал (факт: было или нет)"],
+          ["Ai citit cartea asta?","Ты читал эту книгу? (факт)"],
+          ["Citeam mult când eram mic.", "Я много читал, когда был маленьким (привычка)"]
+        ]
+      },
+      words: [
+        { ro: "a angaja",     ru: "нанимать (на работу)" },
+        { ro: "am angajat",   ru: "я нанял(а) (факт)" },
+        { ro: "a semna",      ru: "подписывать" },
+        { ro: "am semnat",    ru: "я подписал(а) (факт)" },
+        { ro: "am început",   ru: "я начал(а) (факт)" },
+        { ro: "am terminat",  ru: "я закончил(а) (факт)" },
+        { ro: "a câștiga",    ru: "зарабатывать, выигрывать" },
+        { ro: "am câștigat",  ru: "я заработал(а) (факт)" },
+        { ro: "ieri",         ru: "вчера" },
+        { ro: "atunci",       ru: "тогда" },
+        { ro: "un moment",    ru: "момент" },
+        { ro: "un eveniment", ru: "событие" },
+        { ro: "un raport",    ru: "отчёт" },
+        { ro: "un formular",  ru: "бланк, форма (документ)" },
+        { ro: "a completa",   ru: "заполнять (документ)" },
+        { ro: "a organiza",   ru: "организовывать" },
+        { ro: "a rezolva",    ru: "решать (проблему)" },
+        { ro: "o problemă",   ru: "проблема" },
+        { ro: "un partener",  ru: "партнёр (по работе)" },
+        { ro: "un termen limită", ru: "срок сдачи, дедлайн" }
+      ],
+      phrases: [
+        { ro: "Ai citit cartea asta?",                                          ru: "Ты читал эту книгу?" },
+        { ro: "Da, am citit cartea.",                                           ru: "Да, я читал книгу." },
+        { ro: "Ieri am semnat contractul.",                                     ru: "Вчера я подписал(а) контракт." },
+        { ro: "Înainte lucram la o firmă mică, apoi am început la o firmă mare.",ru: "Раньше я работал(а) на маленькой фирме, потом начал(а) работать на большой." },
+        { ro: "De obicei terminam lucrul la ora cinci, dar ieri am terminat la ora șapte.", ru: "Обычно я заканчивал(а) работу в пять, но вчера закончил(а) в семь." }
+      ],
+      gaps: [
+        { text: "Ieri ___ contractul.",                       answer: "am semnat",  options: ["am semnat", "semnam", "semnez"] },
+        { text: "De obicei ___ lucrul la ora cinci.",         answer: "terminam",   options: ["terminam", "am terminat", "termin"] },
+        { text: "___ cartea asta?",                           answer: "Ai citit",   options: ["Ai citit", "Citeai", "Citești"] },
+        { text: "Când eram mic, ___ mult.",                   answer: "citeam",     options: ["citeam", "am citit", "citesc"] },
+        { text: "Anul acesta șeful ___ trei angajați noi.",   answer: "a angajat",  options: ["a angajat", "angaja", "angajează"] },
+        { text: "Pe atunci firma ___ mulți angajați.",        answer: "angaja",     options: ["angaja", "a angajat", "angajează"] },
+        { text: "Luni ___ lucrul la ora opt.",                answer: "am început", options: ["am început", "începeam", "încep"] },
+        { text: "În fiecare zi ___ lucrul la ora opt.",       answer: "începeam",   options: ["începeam", "am început", "încep"] },
+        { text: "Anul trecut ___ mai puțin decât acum.",      answer: "câștigam",   options: ["câștigam", "am câștigat", "câștig"] }
+      ]
+    },
+
+    {
+      id: "a2-s2-4",
+      section: 2,
+      level: "A2",
+      verified: false,
+      name: "Возвратные в имперфекте",
+      sub: "a se trezi, a se spăla, a se îmbrăca в имперфекте",
+      grammar: {
+        title: "Возвратные глаголы в имперфекте",
+        body: [
+          "Частица <b>mă/te/se/ne/vă/se</b> ведёт себя так же, как в настоящем времени (секция 6 A1) — стоит перед глаголом. Меняется только окончание глагола, по тому же правилу имперфекта.",
+          "Полные таблицы трёх уже знакомых возвратных глаголов — ниже, взяты как есть.",
+          "Культура: зарплату в Молдове часто платят двумя частями — <b>avans</b> в середине месяца и <b>salariu</b> в конце."
+        ],
+        table: [
+          ["mă trezeam",   "я просыпался(лась)"], ["te trezeai","ты просыпался(лась)"], ["se trezea","он/она просыпался(лась)"],
+          ["ne trezeam",   "мы просыпались"],     ["vă trezeați","вы просыпались"],     ["se trezeau","они просыпались"],
+          ["mă spălam",    "я мылся(лась)"], ["te spălai","ты мылся(лась)"], ["se spăla","он/она мылся(лась)"],
+          ["ne spălam",    "мы мылись"],     ["vă spălați","вы мылись"],    ["se spălau","они мылись"],
+          ["mă îmbrăcam",  "я одевался(лась)"], ["te îmbrăcai","ты одевался(лась)"], ["se îmbrăca","он/она одевался(лась)"],
+          ["ne îmbrăcam",  "мы одевались"],     ["vă îmbrăcați","вы одевались"],     ["se îmbrăcau","они одевались"]
+        ]
+      },
+      words: [
+        { ro: "mă trezeam",   ru: "я просыпался(лась) (раньше, обычно)" },
+        { ro: "ne trezeam",   ru: "мы просыпались" },
+        { ro: "se trezea",    ru: "он/она просыпался(лась)" },
+        { ro: "mă spălam",    ru: "я мылся(лась)" },
+        { ro: "ne spălam",    ru: "мы мылись" },
+        { ro: "se spăla",     ru: "он/она мылся(лась)" },
+        { ro: "mă îmbrăcam",  ru: "я одевался(лась)" },
+        { ro: "ne îmbrăcam",  ru: "мы одевались" },
+        { ro: "se îmbrăca",   ru: "он/она одевался(лась)" },
+        { ro: "liber",  roF: "liberă",  ru: "свободный", ruF: "свободная" },
+        { ro: "ocupat", roF: "ocupată", ru: "занятый",   ruF: "занятая" },
+        { ro: "experiența", ru: "опыт" },
+        { ro: "avansul",     ru: "аванс" },
+        { ro: "punctual", roF: "punctuală", ru: "пунктуальный", ruF: "пунктуальная" },
+        { ro: "productiv", roF: "productivă", ru: "продуктивный", ruF: "продуктивная" },
+        { ro: "un calculator", ru: "компьютер" },
+        { ro: "o imprimantă",  ru: "принтер" }
+      ],
+      phrases: [
+        { ro: "Mă trezeam devreme când lucram la firmă.",     ru: "Я просыпался(лась) рано, когда работал(а) на фирме." },
+        { ro: "Ne trezeam și ne îmbrăcam repede dimineața.",  ru: "Мы просыпались и быстро одевались утром." },
+        { ro: "Șeful era ocupat, iar eu eram liber.",         ru: "Начальник был занят, а я был свободен." },
+        { ro: "Aveam experiență, dar salariul era mic.",      ru: "У меня был опыт, но зарплата была маленькой." }
+      ],
+      gaps: [
+        { text: "Eu ___ la ora șase când lucram acolo.",         answer: "mă trezeam",   options: ["mă trezeam", "te trezeai", "se trezea"] },
+        { text: "Noi ___ repede dimineața.",                     answer: "ne trezeam",   options: ["ne trezeam", "vă trezeați", "se trezeau"] },
+        { text: "Copilul ___ devreme pe atunci.",                answer: "se trezea",    options: ["se trezea", "mă trezeam", "ne trezeam"] },
+        { text: "Eu ___ cu apă rece dimineața.",                 answer: "mă spălam",    options: ["mă spălam", "te spălai", "se spăla"] },
+        { text: "Voi ___ repede înainte de birou, pe atunci.",   answer: "vă îmbrăcați", options: ["vă îmbrăcați", "mă îmbrăcam", "se îmbrăcau"] },
+        { text: "Ei ___ devreme când erau mici.",                answer: "se trezeau",   options: ["se trezeau", "se trezea", "ne trezeam"] },
+        { text: "Tu ___ cu săpun în fiecare dimineață.",         answer: "te spălai",    options: ["te spălai", "mă spălam", "se spăla"] },
+        { text: "Copiii ___ singuri dimineața.",                 answer: "se îmbrăcau",  options: ["se îmbrăcau", "se îmbrăca", "ne îmbrăcam"] }
+      ]
     }
   ]
 };
@@ -4123,6 +4642,66 @@ const SETS = [
       { ro: "șosete",     ru: "носки" }
     ],
     phrases: []
+  },
+
+  {
+    id: "office",
+    group: "topic",
+    level: "A2",
+    verified: false,
+    icon: "🏢",
+    name: "Работа и офис",
+    sub: "Из секции 2 уровня A2",
+    words: [
+      { ro: "profesia",           ru: "профессия" },
+      { ro: "locul de muncă",     ru: "место работы" },
+      { ro: "biroul",             ru: "офис" },
+      { ro: "șeful",              ru: "начальник" },
+      { ro: "programul de lucru", ru: "рабочий график" },
+      { ro: "un proiect",   ru: "проект" },
+      { ro: "o sarcină",    ru: "задача" },
+      { ro: "o echipă",     ru: "команда (рабочая)" },
+      { ro: "un director",  ru: "директор" },
+      { ro: "o secretară",  ru: "секретарь (ж)" },
+      { ro: "o discuție",   ru: "обсуждение" },
+      { ro: "un scop",      ru: "цель" },
+      { ro: "a discuta",    ru: "обсуждать" },
+      { ro: "un obicei",    ru: "привычка" },
+      { ro: "o rutină",     ru: "рутина, распорядок" },
+      { ro: "a începe",     ru: "начинать" },
+      { ro: "a termina",    ru: "заканчивать" },
+      { ro: "un angajat", roF: "o angajată", ru: "сотрудник", ruF: "сотрудница" },
+      { ro: "un client",    ru: "клиент" },
+      { ro: "o întâlnire",  ru: "встреча" },
+      { ro: "o pauză de masă", ru: "обеденный перерыв" },
+      { ro: "un email",     ru: "имейл, электронное письмо" },
+      { ro: "un mesaj",     ru: "сообщение" },
+      { ro: "a trimite",    ru: "отправлять" },
+      { ro: "a primi",      ru: "получать" },
+      { ro: "a suna",       ru: "звонить (по телефону)" },
+      { ro: "a răspunde",   ru: "отвечать" },
+      { ro: "a angaja",     ru: "нанимать (на работу)" },
+      { ro: "a semna",      ru: "подписывать" },
+      { ro: "a câștiga",    ru: "зарабатывать, выигрывать" },
+      { ro: "un eveniment", ru: "событие" },
+      { ro: "un raport",    ru: "отчёт" },
+      { ro: "un formular",  ru: "бланк, форма (документ)" },
+      { ro: "a completa",   ru: "заполнять (документ)" },
+      { ro: "a organiza",   ru: "организовывать" },
+      { ro: "a rezolva",    ru: "решать (проблему)" },
+      { ro: "o problemă",   ru: "проблема" },
+      { ro: "un partener",  ru: "партнёр (по работе)" },
+      { ro: "un termen limită", ru: "срок сдачи, дедлайн" },
+      { ro: "liber",  roF: "liberă",  ru: "свободный", ruF: "свободная" },
+      { ro: "ocupat", roF: "ocupată", ru: "занятый",   ruF: "занятая" },
+      { ro: "experiența",   ru: "опыт" },
+      { ro: "avansul",      ru: "аванс" },
+      { ro: "punctual", roF: "punctuală", ru: "пунктуальный", ruF: "пунктуальная" },
+      { ro: "productiv", roF: "productivă", ru: "продуктивный", ruF: "продуктивная" },
+      { ro: "un calculator", ru: "компьютер" },
+      { ro: "o imprimantă",  ru: "принтер" }
+    ],
+    phrases: []
   }
 ];
 
@@ -4618,12 +5197,18 @@ function renderHome() {
       const i = unitIndex(unit.id);
       const unlocked = isUnlocked(i);
       const finished = state.done.includes(unit.id);
+      // Кружок показывает номер юнита внутри уровня (1, 2, 3…), а не
+      // сквозной индекс по всему COURSE.units — иначе у A2 первый
+      // юнит показывал бы число вроде 42 (после всех 40 юнитов и
+      // истории A1). isUnlocked всё равно проверяется по сквозному
+      // индексу — уровни по-прежнему открываются по порядку.
+      const levelPos = levelUnits.findIndex(u => u.id === unit.id) + 1;
       const btn = document.createElement("button");
       btn.className = "path-item" + (i % 2 ? " side-right" : "");
       btn.dataset.state = finished ? "done" : unlocked ? "open" : "locked";
       btn.disabled = !unlocked;
       const nodeContent = unit.isStory ? (unlocked ? "📖" : "🔒")
-        : finished ? "✓" : unlocked ? String(i + 1) : "🔒";
+        : finished ? "✓" : unlocked ? String(levelPos) : "🔒";
       btn.innerHTML = `
         <span class="path-node">${nodeContent}</span>
         <span class="path-card">
